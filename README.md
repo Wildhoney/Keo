@@ -12,3 +12,12 @@
 * **npm:** `npm install keo`
 
 ---
+
+## Advantages
+
+* Steer away from `class` sugaring, inheritance, and `super` calls;
+* Create referentially transparent functions without `this`;
+* Gain `memoize`, `compose`, et cetera... for gratis;
+* Reduce boilerplate by getting rid of `extends React.Component`;
+* Simple composing of functions for [*mixin* support](https://github.com/dekujs/deku/issues/174);
+* :bulb: Future &mdash; In-built support for [Redux](https://github.com/rackt/redux);
