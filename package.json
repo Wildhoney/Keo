@@ -1,7 +1,7 @@
 {
   "name": "keo",
   "version": "0.1.0",
-  "description": "Plain functions for a more functional approach to creating React components, using function goodies such as compose, memoize, etc...",
+  "description": "Plain functions for a more functional approach to creating React components, with functional goodies such as compose, memoize, etc... for free.",
   "main": "src/keo.js",
   "scripts": {
     "test": "gulp test"
