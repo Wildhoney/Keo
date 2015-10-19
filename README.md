@@ -1,6 +1,6 @@
 <img src="media/logo.png" alt="Keo" width="250" />
 
-> <sub><sup>*<u>["Keo"]</u>(https://vi.wikipedia.org/wiki/Keo) is the Vietnamese translation for <u>glue</u>.*</sup></sub><br />
+> <sub><sup>*["Keo"](https://vi.wikipedia.org/wiki/Keo) is the Vietnamese translation for glue.*</sup></sub><br />
 > Plain functions for a more functional approach to creating React components, with functional goodies such as compose, memoize, etc... for free.
 
 ![Travis](http://img.shields.io/travis/Wildhoney/Keo.svg?style=flat-square)
@@ -16,8 +16,8 @@
 ## Advantages
 
 * Steer away from `class` sugaring, inheritance, and `super` calls;
-* Create referentially transparent functions without `this`;
-* Gain `memoize`, `compose`, et cetera... for gratis;
+* Create referentially transparent, pure functions without `this`;
+* Gain `memoize`, `compose`, et cetera... for gratis with previous;
 * Reduce boilerplate by getting rid of `extends React.Component`;
 * Simple composing of functions for [*mixin* support](https://github.com/dekujs/deku/issues/174);
 * :bulb: Future &mdash; In-built support for [Redux](https://github.com/rackt/redux);
