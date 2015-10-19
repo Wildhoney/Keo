@@ -1,2 +1,2 @@
-<img src="media/logo.png" alt="Keo" width="300" />
+<img src="media/logo.png" alt="Keo" width="250" />
 > Plain functions for a more functional approach to creating React components, using function goodies such as compose, memoize, etc...

@@ -1,0 +1,27 @@
+{
+  "name": "keo",
+  "version": "0.1.0",
+  "description": "Plain functions for a more functional approach to creating React components, using function goodies such as compose, memoize, etc...",
+  "main": "src/keo.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wildhoney/Keo.git"
+  },
+  "keywords": [
+    "functional",
+    "react",
+    "components",
+    "functions",
+    "memoize",
+    "curry"
+  ],
+  "author": "Adam Timberlake <adam.timberlake@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Wildhoney/Keo/issues"
+  },
+  "homepage": "https://github.com/Wildhoney/Keo#readme"
+}
