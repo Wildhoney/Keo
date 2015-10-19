@@ -1,0 +1,8 @@
+# os
+.DS_Store
+
+# npm
+node_modules
+
+# ide
+.idea

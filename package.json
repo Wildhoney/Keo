@@ -23,5 +23,9 @@
   "bugs": {
     "url": "https://github.com/Wildhoney/Keo/issues"
   },
-  "homepage": "https://github.com/Wildhoney/Keo#readme"
+  "homepage": "https://github.com/Wildhoney/Keo#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "react": "^0.14.0"
+  }
 }
