@@ -1,5 +1,5 @@
 import keo from '../src/Keo';
-import * as gremlin from '../example/Gremlin';
+import * as gremlin from './components/Gremlin';
 
 describe('Keo', () => {
 

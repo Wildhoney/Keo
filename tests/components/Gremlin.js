@@ -4,7 +4,7 @@
  */
 export const findHuman = () => {
     const human = { name: 'Adam', age: 30 };
-    return (Math.random() > 0.5) ? { human } : false;
+    return (Math.random() > 0.5) ? { human }     : false;
 };
 
 /**
@@ -27,7 +27,7 @@ export const eatBrain = human => {
  * @param {Function} setState
  * @return {XML}
  */
-export function render({ props, state, setState }) => {
+export function render({ props, state, setState }) {
 
     return (
         <article>
