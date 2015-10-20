@@ -17,23 +17,47 @@ const cache = new Map();
  * @param {Object} component
  * @return {Object}
  */
-export const create = component => {
+const createWithCompose = component => {
+
+    /**
+     * @property args
+     * @type {Object}
+     */
+    const args = {};
+
+    /**
+     * @method passArguments
+     * @return {Object}
+     */
+    function passArguments() {
+        return args;
+    }
+
+    /**
+     * @method collectArguments
+     * @return {Object}
+     */
+    function collectArguments() {
+        args.props    = this.props;
+        args.state    = this.state;
+        args.setState = this.setState;
+        args.dispatch = () => {};
+        return args;
+    }
 
     return createClass(Object.assign({}, component, {
+
+        /**
+         * @method componentWillMount
+         * @return {Object}
+         */
+        componentWillMount: compose(collectArguments),
 
         /**
          * @method render
          * @return {XML}
          */
-        render: function render() {
-
-            const setState = this.setState;
-            const props    = this.props;
-            const state    = this.state;
-
-            return component.render({ setState, props, state });
-
-        }
+        render: compose(passArguments, component.render)
 
     }));
 
@@ -51,11 +75,11 @@ export const stitch = component => {
     return cached ? cached : (() => {
 
         // Compose the component and the base for an improved UX.
-        const component = create(component);
+        const reactComponent = createWithCompose(component);
 
         // Store in cache and then return.
-        cache.set(component, component);
-        return component;
+        cache.set(component, reactComponent);
+        return reactComponent;
 
     })();
 
@@ -67,5 +91,11 @@ export const stitch = component => {
  * @return {Function}
  */
 export const compose = (...fns) => {
+
+    return function (a) {
+        return fns.reduce(function(acc, fn) {
+            return fn.call(this, acc);
+        }.bind(this), a);
+    };
 
 };

@@ -1,3 +1,4 @@
+import React from 'react';
 import {stitch} from '../../src/Keo';
 
 /**
@@ -27,8 +28,9 @@ export const eatBrain = human => {
  * @param {Object} dispatch
  * @return {void}
  */
-const componentDidMount = ({ dispatch }) => {
-    dispatch(eatBrain({ name: 'Gizmo' }));
+const componentDidMount = () => {
+    console.log('x');
+    //dispatch(eatBrain({ name: 'Gizmo' }));
 };
 
 /**
@@ -50,4 +52,4 @@ const render = ({ props, state, setState }) => {
 
 };
 
-export default stitch({ render, componentDidMount });
+export default stitch({ render });
