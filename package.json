@@ -27,5 +27,8 @@
   "devDependencies": {
     "gulp": "^3.9.0",
     "react": "^0.14.0"
+  },
+  "dependencies": {
+    "object-assign": "^4.0.1"
   }
 }

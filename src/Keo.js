@@ -3,6 +3,8 @@
  * @link https://github.com/Wildhoney/Keo
  * @author Adam Timberlake
  */
+import objectAssign from 'object-assign';
+import {createClass} from 'react';
 
 /**
  * @constant cache
@@ -17,7 +19,7 @@ const cache = new Map();
  */
 const createComponent = fns => {
 
-    return Object.assign({}, fns, {
+    return objectAssign({}, fns, {
 
         /**
          * @method render
@@ -46,7 +48,7 @@ export default (fns) => {
 
     const cached = cache.get(fns);
     return cached ? cached : (() => {
-        const component = React.createClass(createComponent(fns));
+        const component = createClass(createComponent(fns));
         cache.set(fns, component);
         return component;
     })();
