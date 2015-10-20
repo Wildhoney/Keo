@@ -13,13 +13,13 @@ import {createClass} from 'react';
 const cache = new Map();
 
 /**
- * @method createComponent
- * @param {Object} fns
+ * @method create
+ * @param {Object} component
  * @return {Object}
  */
-const createComponent = fns => {
+export const create = component => {
 
-    return objectAssign({}, fns, {
+    return createClass(Object.assign({}, component, {
 
         /**
          * @method render
@@ -31,26 +31,41 @@ const createComponent = fns => {
             const props    = this.props;
             const state    = this.state;
 
-            return fns.render({ setState, props, state });
+            return component.render({ setState, props, state });
 
         }
 
-    });
+    }));
 
 };
 
 /**
- * @method keo
- * @param {Object} fns
+ * @method stitch
+ * @param {Object} component
  * @return {React.createClass}
  */
-export default (fns) => {
+export const stitch = component => {
 
-    const cached = cache.get(fns);
+    const cached = cache.get(component);
+
     return cached ? cached : (() => {
-        const component = createClass(createComponent(fns));
-        cache.set(fns, component);
+
+        // Compose the component and the base for an improved UX.
+        const component = create(component);
+
+        // Store in cache and then return.
+        cache.set(component, component);
         return component;
+
     })();
 
-}
+};
+
+/**
+ * @method compose
+ * @param {Function[]} fns
+ * @return {Function}
+ */
+export const compose = (...fns) => {
+
+};

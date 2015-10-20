@@ -1,3 +1,5 @@
+import {stitch} from '../../src/Keo';
+
 /**
  * @method findHuman
  * @return {Object|Boolean}
@@ -21,13 +23,22 @@ export const eatBrain = human => {
 };
 
 /**
+ * @method componentDidMount
+ * @param {Object} dispatch
+ * @return {void}
+ */
+const componentDidMount = ({ dispatch }) => {
+    dispatch(eatBrain({ name: 'Gizmo' }));
+};
+
+/**
  * @method render
  * @param {Object} props
  * @param {Object} state
  * @param {Function} setState
  * @return {XML}
  */
-export function render({ props, state, setState }) {
+const render = ({ props, state, setState }) => {
 
     return (
         <article>
@@ -37,4 +48,6 @@ export function render({ props, state, setState }) {
         </article>
     );
 
-}
+};
+
+export default stitch({ render, componentDidMount });

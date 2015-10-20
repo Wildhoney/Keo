@@ -19,5 +19,6 @@
 * Create referentially transparent, pure functions without `this`;
 * Gain `memoize`, `compose`, et cetera... for gratis with previous;
 * Reduce boilerplate by getting rid of `extends React.Component`;
+* Use `export` to export plain functions for simpler unit-testing;
 * Simple composing of functions for [*mixin* support](https://github.com/dekujs/deku/issues/174);
 * :bulb: Future &mdash; In-built support for [Redux](https://github.com/rackt/redux);
