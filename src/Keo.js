@@ -43,7 +43,7 @@ const createWithCompose = component => {
         return (typeof fn === 'function') ? fn : () => {};
     }
 
-    return createClass(Object.assign({}, component, {
+    return createClass(objectAssign({}, component, {
 
         /**
          * @method componentWillMount
