@@ -28,9 +28,11 @@ const createWithCompose = component => {
         const props    = this.props || {};
         const dispatch = props.dispatch;
         const state    = this.state || {};
+        const refs     = this.refs || {};
+        const context  = this.context || {};
         const setState = this.setState.bind(this);
 
-        return { props, state, setState, dispatch };
+        return { props, state, setState, dispatch, refs, context };
 
     }
 
