@@ -25,11 +25,8 @@ const createWithCompose = component => {
      */
     function passArguments() {
 
-        const props    = this.props || {};
+        const {refs = {}, context = {}, props = {}, state = {}} = this;
         const dispatch = props.dispatch;
-        const state    = this.state || {};
-        const refs     = this.refs || {};
-        const context  = this.context || {};
         const setState = this.setState.bind(this);
 
         return { props, state, setState, dispatch, refs, context };
