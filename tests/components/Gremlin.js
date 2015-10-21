@@ -3,22 +3,22 @@ import {stitch} from '../../src/Keo';
 
 /**
  * @method findHuman
- * @return {Object|Boolean}
+ * @return {Object}
  */
 export const findHuman = () => {
-    const human = { name: 'Adam', age: 30 };
-    return (Math.random() > 0.5) ? { human }     : false;
+    const name = 'Jeremiah';
+    return { name, current: `We have ${name} in our grips, but he is resisting our advances.` };
 };
 
 /**
  * @method eatBrain
- * @param {Object} human
- * @return {void}
+ * @param {Object} name
+ * @return {Object}
  */
-export const eatBrain = human => {
+export const eatBrain = name => {
 
-    if (human) {
-        console.log(`Eating brain of ${human.name}. Nom, nom, nom!`);
+    if (name) {
+        return { current: `${name} is now tiring. Eating brain... Nom, nom, nom!` };
     }
 
 };
@@ -45,7 +45,7 @@ const render = ({ props, state, setState }) => {
         <article>
             <h1>{props.name}</h1>
             <button onClick={() => setState(findHuman())}>Find Human</button>
-            <button onClick={() => eatBrain(state.human)}>Eat Brain</button>
+            <button onClick={() => setState(eatBrain(state.name))}>Eat Brain</button>
         </article>
     );
 
