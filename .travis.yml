@@ -1,0 +1,7 @@
+deploy:
+  provider: heroku
+  api_key:
+    secure: rB8pQfQ45vq+Pe/r5HYv8nPnzSMa2EYHYmI0Nfphf21Yhr3E7aF+bE+r2c0TvgoSMfcvfMC1k7YIaMjmJ5fGsfaQ+jPuf/QsnV+fplHdTTMstae3eMK8/PbBEVPeCoReo3O2Yzt67adOZPXz7NUlEF3wP4HR1RJk5cRN2RrGtZUkb8Z3cXh98iNGUw4Kiou3IdRzTdnJzxNy2vBoXdZvS5ZKI1YI49QRtNUglY/3YRADOQo5if/Y/kl8AKqrWVB0dlnyum1OKHCksKB0QkY2pUwr7z7NXg+9UrcD9sW4150bmjaRfsji8Vg+xpAbkbyR7gCbQ57oxkPa+6jMWnfl9kL94hP3+T+5/qHwq6b45JTyuBjyWqHfjnOfJwSP0piqHcMo5dnJwPuoao4CiXZ+CU/Z+lbf+nMlvVczsUOh4Byb3VrVleuBs0ET6etHpYXaHJ4CR+D1X+pZvjVPdqQ1TjnkWtWngMF4ossWqfQt16H06/iGbU89hZ2bOWLnhgMsE0RcnEBKXkJ7JKVip/vQ529Xce76naH8f+c+4+UrckB03bYPdxeStmethMoDib8CaDk/XEPSsaFFNJQXPl/xE3FzdFBlQWPUfbTqfUye16+bxEsH5OJ6jpiPz6h4tOX3SJrylXeH9CFc3eT/TI4B1HG2MRe5IHSxDwuse9iiw0Q=
+  app: keo-app
+  on:
+    repo: Wildhoney/Keo

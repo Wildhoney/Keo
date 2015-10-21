@@ -71,7 +71,7 @@ As such, your exported component will now be a valid `React.createClass` compone
 
 With the [demise of mixins](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750#.dfr92o4yg) in React, and the gradual trend towards favouring composition, Keo makes it simple to compose the lifecycle functions to add additional behaviour.
 
-As an example, let's suppose you have a `hasBrain` component that you wish to use in numerous React components &mdash; all that your `hasBrain` component is required to do is to pass on the arguments that were passed to it &ndash; the `hasBrain` component should also be pure &mdash; without side effects &mdash; and most importantly, **not** mutate those arguments that were entrusted to it by Keo.
+As an example, let's suppose you have a `hasBrain` component that you wish to use in numerous React components &mdash; all that your `hasBrain` component is required to do is to pass on the arguments that were passed to it! Additionally, the `hasBrain` component should be pure &mdash; without side effects &mdash; and most importantly, **not** mutate those arguments that were entrusted to it by Keo.
 
 If you're familiar with [Redux](https://github.com/rackt/redux) then the function may seem familiar.
 
