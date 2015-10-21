@@ -39,6 +39,7 @@
     "react-dom": "^0.14.0"
   },
   "dependencies": {
+    "funkel": "^0.1.9",
     "object-assign": "^4.0.1"
   }
 }

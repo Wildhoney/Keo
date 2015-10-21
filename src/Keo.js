@@ -5,6 +5,7 @@
  */
 import objectAssign from 'object-assign';
 import {createClass} from 'react';
+import * as f from 'funkel';
 
 /**
  * @constant cache
@@ -100,9 +101,5 @@ export const stitch = component => {
  * @return {Function}
  */
 export const compose = (...fns) => {
-
-    return function(a) {
-        return fns.reduce((acc, fn) => fn.call(this, acc), a);
-    };
-
+    return f.compose(...fns.reverse());
 };
