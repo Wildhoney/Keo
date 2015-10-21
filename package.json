@@ -25,7 +25,8 @@
   },
   "homepage": "https://github.com/Wildhoney/Keo#readme",
   "devDependencies": {
-    "babelify": "^6.3.0",
+    "babelify": "^6.4.0",
+    "browserify": "^11.2.0",
     "gulp": "^3.9.0",
     "gulp-karma": "0.0.5",
     "jasmine-core": "^2.3.4",
@@ -41,5 +42,10 @@
   "dependencies": {
     "funkel": "^0.1.9",
     "object-assign": "^4.0.1"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
   }
 }
