@@ -45,13 +45,22 @@ const createWithCompose = component => {
         return args;
     }
 
+    /**
+     * @method orNoop
+     * @param {Function} fn
+     * @return {Function}
+     */
+    function orNoop(fn) {
+        return (typeof fn === 'function') ? fn : () => {};
+    }
+
     return createClass(Object.assign({}, component, {
 
         /**
          * @method componentWillMount
          * @return {Object}
          */
-        componentWillMount: compose(collectArguments),
+        componentWillMount: compose(collectArguments, orNoop(component.componentWillMount)),
 
         /**
          * @method render
