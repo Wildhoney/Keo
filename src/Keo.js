@@ -105,9 +105,7 @@ export const stitch = component => {
 export const compose = (...fns) => {
 
     return function (a) {
-        return fns.reduce(function(acc, fn) {
-            return fn.call(this, acc);
-        }.bind(this), a);
+        return fns.reduce((acc, fn) => fn.call(this, acc), a);
     };
 
 };
