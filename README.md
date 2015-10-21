@@ -23,6 +23,8 @@
 * Simple composing of functions for [*mixin* support](https://github.com/dekujs/deku/issues/174);
 * :bulb: Future &mdash; In-built support for [Redux](https://github.com/rackt/redux);
 
+<img src="media/screenshot.png" />
+
 ## Destructuring
 
 At the core of Keo's philosophies is the notion that you **shouldn't** have to deal with the `this` keyword &mdash; and while in ES2015 the `this` keyword has become easier to manage, it seems wholly unnecessary in a React component. As such, Keo takes a more [Deku](https://github.com/dekujs/deku) approach in that items such as `props`, `state`, `setState`, etc... are passed in to *some* React [lifecycle methods](https://facebook.github.io/react/docs/component-specs.html).
