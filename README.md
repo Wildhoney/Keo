@@ -60,7 +60,7 @@ Whilst there's nothing to prevent you from passing `setState` into the `eatBrain
 Once you have created your component, Keo encourages you to `export` **all** functions so that you can test each one individually, but **demands** that you `export` the lifecycle functions by invoking `keo.stitch`.
 
 ```javascript
-import {stitch} from '../../src/Keo';
+import {stitch} from 'keo';
 // ...
 export default stitch({ componentDidMount, render });
 ```
