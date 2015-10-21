@@ -14,7 +14,7 @@ describe('Keo', () => {
         const h2      = TestUtils.findRenderedDOMComponentWithTag(instance, 'h2');
         const buttons = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'button');
 
-        expect(findDOMNode(h1).textContent).toBe(`Señorita Zombie ${name}`);
+        expect(findDOMNode(h1).textContent).toBe(`Señorita Zombie ${name.toUpperCase()}`);
         expect(findDOMNode(h2).textContent).toBe('Brain Intact: Kinda!');
 
         expect(instance.state).toEqual({

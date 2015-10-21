@@ -1,5 +1,5 @@
 import React from 'react';
-import {stitch, compose} from '../../src/Keo';
+import {stitch, compose, memoize} from '../../src/Keo';
 
 /**
  * @method findHuman
@@ -35,6 +35,15 @@ const hasBrain = args => {
 };
 
 /**
+ * @method capitaliseName
+ * @param {String} name
+ * @return {String}
+ */
+export const capitaliseName = memoize(name => {
+    return name.toUpperCase();
+});
+
+/**
  * @method componentWillMount
  * @param {Function} setState
  * @return {void}
@@ -54,7 +63,7 @@ const render = compose(hasBrain, ({ props, state, setState }) => {
 
     return (
         <article>
-            <h1>Señorita Zombie {props.name}</h1>
+            <h1>Señorita Zombie {capitaliseName(props.name)}</h1>
             <h2>Brain Intact: { state.brainIntact ? 'Kinda!' : 'Auf Wiedersehen, Brain.' }</h2>
             <button onClick={() => setState(findHuman())}>Find Human</button>
             <button onClick={() => setState(eatBrain(state.name))}>Eat Brain</button>

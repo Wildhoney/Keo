@@ -71,7 +71,7 @@ As such, your exported component will now be a valid `React.createClass` compone
 
 With the [demise of mixins](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750#.dfr92o4yg) in React, and the gradual trend towards favouring composition, Keo makes it simple to compose the lifecycle functions to add additional behaviour.
 
-As an example, let's suppose you have a `hasBrain` component that you wish to use in numerous React components &mdash; all that your `hasBrain` component is required to do is to pass on the arguments that were passed to it! Additionally, the `hasBrain` component should be pure &mdash; without side effects &mdash; and most importantly, **not** mutate those arguments that were entrusted to it by Keo.
+As an example, suppose you have a `hasBrain` component that you wish to use in numerous React components &mdash; all that your `hasBrain` component is required to do is to pass on the arguments that were passed to it! Additionally, the `hasBrain` component should be pure &mdash; without side effects &mdash; and most importantly, **not** mutate those arguments that were entrusted to it by Keo.
 
 If you're familiar with [Redux](https://github.com/rackt/redux) then the function may seem familiar.
 
@@ -103,3 +103,15 @@ const render = compose(hasBrain, ({ state }) => {
 ```
 
 An important aspect to note is that the Keo `compose` function composes from left-to-right, because this allows you to have your **actual** lifecycle function as the final argument, making it much more readable &mdash; in Keo's opinion.
+
+## Memoize
+
+By creating pure functions you are able to optimise your code &ndash; in this case by using the `memoize` method which is part of Keo. Given a function that **always** returns the same when given the same parameters &mdash; a pure function &mdash; `memoize` is able to cache the return value to prevent further invocations of the function &mdash; this is especially useful when the function is quite expensive &mdash; unlike the following example.
+
+```javascript
+export const capitaliseName = memoize(name => {
+    return name.toUpperCase();
+});
+```
+
+As the `capitaliseName` function returns the same value when given the same `name`, we can cache its result making future invocations quicker. With `memoize` we see performance gains at the expense of memory allocation.
