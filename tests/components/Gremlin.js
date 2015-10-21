@@ -20,11 +20,11 @@ export const eatBrain = name => {
 };
 
 /**
- * @method validate
+ * @method hasBrain
  * @param {Object} args
  * @return {Object}
  */
-const validate = args => {
+const hasBrain = args => {
 
     const brainIntact = args.state.lifeRemaining > 0;
 
@@ -50,7 +50,7 @@ const componentWillMount = ({ setState }) => {
  * @param {Function} setState
  * @return {XML}
  */
-const render = compose(validate, ({ props, state, setState }) => {
+const render = compose(hasBrain, ({ props, state, setState }) => {
 
     return (
         <article>
