@@ -25,12 +25,11 @@ export const eatBrain = human => {
 
 /**
  * @method componentDidMount
- * @param {Object} dispatch
+ * @param {Object} setState
  * @return {void}
  */
-const componentDidMount = () => {
-    console.log('x');
-    //dispatch(eatBrain({ name: 'Gizmo' }));
+const componentDidMount = ({ setState }) => {
+    //setState({ x: 'xxx' });
 };
 
 /**
@@ -52,4 +51,4 @@ const render = ({ props, state, setState }) => {
 
 };
 
-export default stitch({ render });
+export default stitch({ componentDidMount, render });

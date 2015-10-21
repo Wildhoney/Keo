@@ -20,29 +20,18 @@ const cache = new Map();
 const createWithCompose = component => {
 
     /**
-     * @property args
-     * @type {Object}
-     */
-    const args = {};
-
-    /**
      * @method passArguments
      * @return {Object}
      */
     function passArguments() {
-        return args;
-    }
 
-    /**
-     * @method collectArguments
-     * @return {Object}
-     */
-    function collectArguments() {
-        args.props    = this.props;
-        args.state    = this.state;
-        args.setState = this.setState;
-        args.dispatch = () => {};
-        return args;
+        const props    = this.props;
+        const state    = this.state || {};
+        const setState = this.setState.bind(this);
+        const dispatch = () => {};
+
+        return { props, state, setState, dispatch };
+
     }
 
     /**
@@ -60,7 +49,19 @@ const createWithCompose = component => {
          * @method componentWillMount
          * @return {Object}
          */
-        componentWillMount: compose(collectArguments, orNoop(component.componentWillMount)),
+        componentWillMount: compose(passArguments, orNoop(component.componentWillMount)),
+
+        /**
+         * @method componentDidMount
+         * @return {Object}
+         */
+        componentDidMount: compose(passArguments, orNoop(component.componentDidMount)),
+
+        /**
+         * @method componentWillUnmount
+         * @return {Object}
+         */
+        componentWillUnmount: compose(passArguments, orNoop(component.componentWillUnmount)),
 
         /**
          * @method render
@@ -96,7 +97,7 @@ export const stitch = component => {
 
 /**
  * @method compose
- * @param {Function[]} fns
+ * @param {Function} fns
  * @return {Function}
  */
 export const compose = (...fns) => {
