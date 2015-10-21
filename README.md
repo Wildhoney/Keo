@@ -66,3 +66,40 @@ export default stitch({ componentDidMount, render });
 ```
 
 As such, your exported component will now be a valid `React.createClass` component that you can pass around, such as importing it for [React router](https://github.com/rackt/react-router).
+
+## Lifecycle Composing
+
+With the [demise of mixins](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750#.dfr92o4yg) in React, and the gradual trend towards favouring composition, Keo makes it simple to compose the lifecycle functions to add additional behaviour.
+
+As an example, let's suppose you have a `validation` component that you wish to use in numerous React components &mdash; all that your `validation` component is required to do is to pass on the arguments that were passed to it &ndash; the `validation` component should also be pure &mdash; without side effects &mdash; and most importantly, **not** mutate those arguments that were entrusted to it by Keo.
+
+If you're familiar with [Redux](https://github.com/rackt/redux) then the function may seem familiar.
+
+```javascript
+const validate = args => {
+
+    const brainIntact = args.state.lifeRemaining > 0;
+
+    return Object.assign({}, args, {
+        state: { ...args.state, brainIntact }
+    });
+
+};
+```
+
+By using the `validate` above in the `compose` function in conjunction with our component's `render` function, we can pass in `brainIntact` as part of the `state` object.
+
+```javascript
+const render = compose(validate, ({ state }) => {
+
+    return (
+        <h1>
+            Brain Intact?
+            {state.brainIntact ? 'Probably' : 'Doubtful'}!
+        </h1>
+    );
+
+});
+```
+
+An important aspect to note is that the Keo `compose` function composes from left-to-right, because this allows you to have your **actual** lifecycle function as the final argument, making it much more readable &mdash; in Keo's opinion.
