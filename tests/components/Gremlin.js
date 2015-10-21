@@ -1,5 +1,5 @@
 import React from 'react';
-import {stitch} from '../../src/Keo';
+import {stitch, compose} from '../../src/Keo';
 
 /**
  * @method findHuman
@@ -16,11 +16,7 @@ export const findHuman = () => {
  * @return {Object}
  */
 export const eatBrain = name => {
-
-    if (name) {
-        return { current: `${name} is now tiring. Eating brain... Nom, nom, nom!` };
-    }
-
+    return { current: `${name} is now tiring. Eating brain... Nom, nom, nom!` };
 };
 
 /**
@@ -33,13 +29,26 @@ const componentDidMount = ({ setState }) => {
 };
 
 /**
+ * @method validate
+ * @param {Object} args
+ * @return {Object}
+ */
+const validate = args => {
+
+    return Object.assign({}, args, {
+        state: { ...args.state, valid: true }
+    });
+
+};
+
+/**
  * @method render
  * @param {Object} props
  * @param {Object} state
  * @param {Function} setState
  * @return {XML}
  */
-const render = ({ props, state, setState }) => {
+const render = compose(validate, ({ props, state, setState }) => {
 
     return (
         <article>
@@ -49,6 +58,6 @@ const render = ({ props, state, setState }) => {
         </article>
     );
 
-};
+});
 
 export default stitch({ componentDidMount, render });
