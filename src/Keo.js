@@ -8,9 +8,9 @@ import {createClass} from 'react';
 
 /**
  * @constant cache
- * @type {Map}
+ * @type {WeakMap}
  */
-const cache = new Map();
+const cache = new WeakMap();
 
 /**
  * @method create
@@ -104,7 +104,7 @@ export const stitch = component => {
  */
 export const compose = (...fns) => {
 
-    return function (a) {
+    return function(a) {
         return fns.reduce((acc, fn) => fn.call(this, acc), a);
     };
 
