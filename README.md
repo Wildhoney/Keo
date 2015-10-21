@@ -57,6 +57,16 @@ Whilst there's nothing to prevent you from passing `setState` into the `eatBrain
 </button>
 ```
 
+It's worth noting that Keo wraps the `setState` function to prevent you from setting the state `null` which would otherwise throw an error in React &ndash; this allows you to return `undefined/null` and **still** use `setState` on your actions.
+
+```javascript
+export const eatBrain = name => {
+    return name ? { current: `${name} is now tiring. Eating brain... Nom, nom, nom!` } : null;
+};
+```
+
+In the above example returning `null` when there's no `name` will prevent `setState` from being invoked.
+
 ## Exporting
 
 Once you have created your component, Keo encourages you to `export` **all** functions so that you can test each one individually, but **demands** that you `export` the lifecycle functions by invoking `keo.stitch`.
