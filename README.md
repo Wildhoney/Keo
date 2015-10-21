@@ -25,7 +25,9 @@
 
 ## Destructuring
 
-At the core of Keo's philosophies is the notion that you **shouldn't** have to deal with the `this` keyword &mdash; and while in ES2015 the `this` keyword has become easier to manage, it seems wholly unncessary in a React component. As such, Keo takes a more [Deku](https://github.com/dekujs/deku) approach in that items such as `props`, `state`, `setState`, etc... are passed in to *some* React [lifecycle function](https://facebook.github.io/react/docs/component-specs.html) methods. With that approach, you can easily destructure the arguments.
+At the core of Keo's philosophies is the notion that you **shouldn't** have to deal with the `this` keyword &mdash; and while in ES2015 the `this` keyword has become easier to manage, it seems wholly unnecessary in a React component. As such, Keo takes a more [Deku](https://github.com/dekujs/deku) approach in that items such as `props`, `state`, `setState`, etc... are passed in to *some* React [lifecycle methods](https://facebook.github.io/react/docs/component-specs.html).
+
+With this approach, you can easily destructure the arguments you require.
 
 ```javascript
 const componentDidMount = ({ setState }) => {
@@ -35,7 +37,7 @@ const componentDidMount = ({ setState }) => {
 
 ## Setting State
 
-Ideally your methods that aren't React-specific should be pure functions that you pass arguments to &ndash; this makes them a whole lot easier to test.
+Ideally your methods that aren't directly related to React should be pure functions that you pass arguments to &ndash; this makes them a whole lot easier to test, and techniques such as `memoize` come along for free.
 
 ```javascript
 export const eatBrain = name => {
@@ -43,7 +45,9 @@ export const eatBrain = name => {
 };
 ```
 
-Given the `eatBrain` method, we can easily test it in isolation using `import {eatBrain} ...` without having to worry about React, because we're not invoking React functions &ndash; such as `setState`. Whilst there's nothing to prevent you from passing `setState` into the `eatBrains` method, in Keo we *recommend* that you return an object from `eatBrains` and then invoke `setState` from within the `render` method &ndash; a method which **is** directly coupled to the React infrastructure.
+Given the `eatBrain` method, we can easily test in isolation using `import {eatBrain} ...` without having to worry about React, because we're not invoking React functions &ndash; such as `setState`.
+
+Whilst there's nothing to prevent you from passing `setState` into the `eatBrains` method, in Keo we *recommend* that you return an object from `eatBrains` and then invoke `setState` from within the `render` method &ndash; a method which **is** directly coupled to the React infrastructure.
 
 ```javascript
 <button onClick={() => setState(eatBrain('Jacob'))}>
@@ -51,9 +55,9 @@ Given the `eatBrain` method, we can easily test it in isolation using `import {e
 </button>
 ```
 
-## Component Exporting
+## Exporting
 
-Once you have created your component, Keo encourages that you `export` **all** functions so that you can test each one individually, but **demands** that you `export` the lifecycle functions by invoking `keo.stitch`.
+Once you have created your component, Keo encourages you to `export` **all** functions so that you can test each one individually, but **demands** that you `export` the lifecycle functions by invoking `keo.stitch`.
 
 ```javascript
 import {stitch} from '../../src/Keo';
@@ -61,4 +65,4 @@ import {stitch} from '../../src/Keo';
 export default stitch({ componentDidMount, render });
 ```
 
-As such your exporting component will now be a valid `React.createClass` component that you can pass around, such as importing it for [React router](https://github.com/rackt/react-router).
+As such, your exported component will now be a valid `React.createClass` component that you can pass around, such as importing it for [React router](https://github.com/rackt/react-router).
