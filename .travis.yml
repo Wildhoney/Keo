@@ -9,6 +9,9 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 
+addons:
+  firefox: 39.0
+
 deploy:
   provider: heroku
   api_key:
