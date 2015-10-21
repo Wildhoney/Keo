@@ -26,10 +26,10 @@ export const eatBrain = name => {
  */
 const validate = args => {
 
-    const humanStillBreathing = args.state.lifeRemaining > 0;
+    const brainIntact = args.state.lifeRemaining > 0;
 
     return Object.assign({}, args, {
-        state: { ...args.state, humanStillBreathing }
+        state: { ...args.state, brainIntact }
     });
 
 };
@@ -54,7 +54,8 @@ const render = compose(validate, ({ props, state, setState }) => {
 
     return (
         <article>
-            <h1>{props.name}</h1>
+            <h1>Señorita Zombie {props.name}</h1>
+            <h2>Brain Intact: { state.brainIntact ? 'Kinda!' : 'Auf Wiedersehen, Brain.' }</h2>
             <button onClick={() => setState(findHuman())}>Find Human</button>
             <button onClick={() => setState(eatBrain(state.name))}>Eat Brain</button>
         </article>

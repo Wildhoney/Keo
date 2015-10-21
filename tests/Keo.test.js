@@ -7,13 +7,15 @@ describe('Keo', () => {
 
     it('Should be able to render and interact with the component;', () => {
 
-        const name     = 'We will find humans to consume!';
+        const name     = 'Matilda';
         const instance = TestUtils.renderIntoDocument(<Gremlin name={name} />);
 
-        const header   = TestUtils.findRenderedDOMComponentWithTag(instance, 'h1');
+        const h1      = TestUtils.findRenderedDOMComponentWithTag(instance, 'h1');
+        const h2      = TestUtils.findRenderedDOMComponentWithTag(instance, 'h2');
         const buttons = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'button');
 
-        expect(findDOMNode(header).textContent).toBe(name);
+        expect(findDOMNode(h1).textContent).toBe(`Señorita Zombie ${name}`);
+        expect(findDOMNode(h2).textContent).toBe('Brain Intact: Kinda!');
 
         expect(instance.state).toEqual({
             lifeRemaining: jasmine.any(Number)
@@ -29,6 +31,7 @@ describe('Keo', () => {
 
         TestUtils.Simulate.click(findDOMNode(buttons[1]));
 
+        expect(findDOMNode(h2).textContent).toBe('Brain Intact: Auf Wiedersehen, Brain.');
         expect(instance.state).toEqual({
             name: 'Jeremiah',
             lifeRemaining: 0,
