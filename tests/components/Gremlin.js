@@ -16,16 +16,7 @@ export const findHuman = () => {
  * @return {Object}
  */
 export const eatBrain = name => {
-    return { current: `${name} is now tiring. Eating brain... Nom, nom, nom!` };
-};
-
-/**
- * @method componentDidMount
- * @param {Object} setState
- * @return {void}
- */
-const componentDidMount = ({ setState }) => {
-    //setState({ x: 'xxx' });
+    return { current: `${name} is now tiring. Eating brain... Nom, nom, nom!`, lifeRemaining: 0 };
 };
 
 /**
@@ -35,10 +26,21 @@ const componentDidMount = ({ setState }) => {
  */
 const validate = args => {
 
+    const humanStillBreathing = args.state.lifeRemaining > 0;
+
     return Object.assign({}, args, {
-        state: { ...args.state, valid: true }
+        state: { ...args.state, humanStillBreathing }
     });
 
+};
+
+/**
+ * @method componentWillMount
+ * @param {Function} setState
+ * @return {void}
+ */
+const componentWillMount = ({ setState }) => {
+    setState({ lifeRemaining: Math.floor(Math.random() * 10) + 1 });
 };
 
 /**
@@ -60,4 +62,4 @@ const render = compose(validate, ({ props, state, setState }) => {
 
 });
 
-export default stitch({ componentDidMount, render });
+export default stitch({ componentWillMount, render });

@@ -14,11 +14,26 @@ describe('Keo', () => {
         const buttons = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'button');
 
         expect(findDOMNode(header).textContent).toBe(name);
-        expect(instance.state).toBeNull();
+
+        expect(instance.state).toEqual({
+            lifeRemaining: jasmine.any(Number)
+        });
+
         TestUtils.Simulate.click(findDOMNode(buttons[0]));
-        expect(instance.state).toEqual({ name: 'Jeremiah', current: 'We have Jeremiah in our grips, but he is resisting our advances.'});
+
+        expect(instance.state).toEqual({
+            name: 'Jeremiah',
+            lifeRemaining: jasmine.any(Number),
+            current: 'We have Jeremiah in our grips, but he is resisting our advances.'
+        });
+
         TestUtils.Simulate.click(findDOMNode(buttons[1]));
-        expect(instance.state).toEqual({ name: 'Jeremiah', current: 'Jeremiah is now tiring. Eating brain... Nom, nom, nom!'});
+
+        expect(instance.state).toEqual({
+            name: 'Jeremiah',
+            lifeRemaining: 0,
+            current: 'Jeremiah is now tiring. Eating brain... Nom, nom, nom!'
+        });
 
     });
 
