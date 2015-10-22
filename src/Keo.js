@@ -7,7 +7,7 @@ import objectAssign from 'object-assign';
 import {createClass} from 'react';
 import {compose as composeRight} from 'funkel';
 import {connect} from 'react-redux';
-export {memoize, trace} from 'funkel';
+export {memoize, trace, partial} from 'funkel';
 export {objectAssign};
 
 /**
@@ -27,7 +27,7 @@ const createWithCompose = component => {
         const props    = this.props || {};
         const state    = this.state || {};
         const context  = this.context || {};
-        const dispatch = props.dispatch;
+        const dispatch = props.dispatch || (() => {});
 
         /**
          * @method setState
@@ -38,7 +38,18 @@ const createWithCompose = component => {
             state != null && this.setState(state);
         };
 
-        return { props, state, setState, dispatch, refs, context };
+        /**
+         * @method setStateDispatch
+         * @param {Object} stateProps
+         * @param {Object} dispatchProps
+         * @return {void}
+         */
+        const setStateDispatch = ([stateProps, dispatchProps]) => {
+            setState(stateProps);
+            dispatch(dispatchProps);
+        };
+
+        return { props, state, setState, dispatch, refs, context, setStateDispatch };
 
     }
 

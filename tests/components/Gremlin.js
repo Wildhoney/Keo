@@ -1,5 +1,5 @@
 import React from 'react';
-import {stitch, compose, memoize, objectAssign} from '../../src/Keo';
+import {stitch, compose, memoize, stateDispatch, objectAssign} from '../../src/Keo';
 
 /**
  * @method findHuman
@@ -16,7 +16,10 @@ export const findHuman = () => {
  * @return {Object}
  */
 export const eatBrain = name => {
-    return { current: `${name} is now tiring. Eating brain... Nom, nom, nom!`, lifeRemaining: 0 };
+    return [
+        { current: `${name} is now tiring. Eating brain... Nom, nom, nom!`, lifeRemaining: 0 },
+        { name: '' }
+    ];
 };
 
 /**
@@ -57,16 +60,17 @@ const componentWillMount = ({ setState }) => {
  * @param {Object} props
  * @param {Object} state
  * @param {Function} setState
+ * @param {Function} setStateDispatch
  * @return {XML}
  */
-const render = compose(hasBrain, ({ props, state, setState }) => {
+const render = compose(hasBrain, ({ props, state, setState, setStateDispatch }) => {
 
     return (
         <article>
             <h1>Señorita Zombie {capitaliseName(props.name)}</h1>
             <h2>Human Brain Intact: { state.brainIntact ? 'Kinda!' : 'Auf Wiedersehen, Brain.' }</h2>
             <button onClick={() => setState(findHuman())}>Find Human</button>
-            <button onClick={() => setState(eatBrain(state.name))} disabled={!state.name}>Eat Brain</button>
+            <button onClick={() => setStateDispatch(eatBrain(state.name))} disabled={!state.name}>Eat Brain</button>
         </article>
     );
 
