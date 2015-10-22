@@ -36,4 +36,8 @@
     gulp.task('build', ['compile']);
     gulp.task('default', ['test', 'build']);
 
+    gulp.task('watch', function watch() {
+        return gulp.watch(['example/js/app.js', 'src/Keo.js'. 'tests/components/Gremlin.js'], ['build']);
+    });
+
 })();
