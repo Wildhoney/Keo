@@ -87,9 +87,23 @@ const createWithCompose = component => {
  */
 export const stitch = component => {
 
-    const connector = component.reduxMap || () => {};
+    const noopMapper = () => component => component;
+    const mapper     = component.reduxMapper || noopMapper;
 
-    return createWithCompose(component);
+    return (reactComponent => {
+
+        if (component.reduxMapper) {
+
+            // Bind to React Redux.
+            return connect(component.reduxMapper)(reactComponent);
+
+        }
+
+        return reactComponent;
+
+    })(createWithCompose(component));
+
+
 
 };
 
