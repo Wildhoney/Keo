@@ -15,7 +15,7 @@ describe('Keo', () => {
         const buttons = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'button');
 
         expect(findDOMNode(h1).textContent).toBe(`Señorita Zombie ${name.toUpperCase()}`);
-        expect(findDOMNode(h2).textContent).toBe('Brain Intact: Kinda!');
+        expect(findDOMNode(h2).textContent).toBe('Human Brain Intact: Kinda!');
 
         expect(instance.state).toEqual({
             lifeRemaining: jasmine.any(Number)
@@ -31,7 +31,7 @@ describe('Keo', () => {
 
         TestUtils.Simulate.click(findDOMNode(buttons[1]));
 
-        expect(findDOMNode(h2).textContent).toBe('Brain Intact: Auf Wiedersehen, Brain.');
+        expect(findDOMNode(h2).textContent).toBe('Human Brain Intact: Auf Wiedersehen, Brain.');
         expect(instance.state).toEqual({
             name: 'Jeremiah',
             lifeRemaining: 0,

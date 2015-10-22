@@ -64,9 +64,9 @@ const render = compose(hasBrain, ({ props, state, setState }) => {
     return (
         <article>
             <h1>Señorita Zombie {capitaliseName(props.name)}</h1>
-            <h2>Brain Intact: { state.brainIntact ? 'Kinda!' : 'Auf Wiedersehen, Brain.' }</h2>
+            <h2>Human Brain Intact: { state.brainIntact ? 'Kinda!' : 'Auf Wiedersehen, Brain.' }</h2>
             <button onClick={() => setState(findHuman())}>Find Human</button>
-            <button onClick={() => setState(eatBrain(state.name))}>Eat Brain</button>
+            <button onClick={() => setState(eatBrain(state.name))} disabled={!state.name}>Eat Brain</button>
         </article>
     );
 

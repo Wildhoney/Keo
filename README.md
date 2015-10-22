@@ -1,7 +1,7 @@
 <img src="media/logo.png" alt="Keo" width="250" />
 
 > <sub><sup>*["Keo"](https://vi.wikipedia.org/wiki/Keo) is the Vietnamese translation for glue.*</sup></sub><br />
-> Plain functions for a more functional approach to creating React components, with functional goodies such as compose, memoize, etc... for free.
+> Plain functions for a more functional [Deku](https://github.com/dekujs/deku) approach to creating React components, with functional goodies such as compose, memoize, etc... for free.
 
 ![Travis](http://img.shields.io/travis/Wildhoney/Keo.svg?style=flat-square)
 &nbsp;
@@ -9,7 +9,7 @@
 &nbsp;
 ![License MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat-square)
 
-* **npm:** `npm install keo`
+* **npm:** `npm install keo --save`
 
 ---
 
@@ -27,7 +27,7 @@
 
 ## Destructuring
 
-At the core of Keo's philosophies is the notion that you **shouldn't** have to deal with the `this` keyword &mdash; and while in ES2015 the `this` keyword has become easier to manage, it seems wholly unnecessary in a React component. As such, Keo takes a more [Deku](https://github.com/dekujs/deku) approach in that items such as `props`, `state`, `setState`, etc... are passed in to *some* React [lifecycle methods](https://facebook.github.io/react/docs/component-specs.html).
+At the core of Keo's philosophies is the notion that you **shouldn't** have to deal with the `this` keyword &mdash; and while in ES2015 the `this` keyword has become easier to manage, it seems wholly unnecessary in a React component. As such, Keo takes a more [Deku](https://github.com/dekujs/deku) approach in that items such as `props`, `state`, `setState`, etc... are passed in to *some* React [lifecycle functions](https://facebook.github.io/react/docs/component-specs.html).
 
 With this approach, you can easily destructure the arguments you require.
 
@@ -57,11 +57,11 @@ Whilst there's nothing to prevent you from passing `setState` into the `eatBrain
 </button>
 ```
 
-It's worth noting that Keo wraps the `setState` function to prevent you from setting the state `null` which would otherwise throw an error in React &ndash; this allows you to return `undefined/null` and **still** use `setState` on your actions.
+It's worth noting that Keo wraps the `setState` function to prevent you from setting the state to `null` which would otherwise throw an error in React &ndash; this allows you to return `undefined/null` and **still** use `setState` on your actions.
 
 ```javascript
 export const eatBrain = name => {
-    return name ? { current: `${name} is now tiring. Eating brain... Nom, nom, nom!` } : null;
+    return name ? { current: `Eating ${name}'s brain... Nom, nom, nom!` } : null;
 };
 ```
 

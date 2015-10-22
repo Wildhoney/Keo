@@ -1,10 +1,11 @@
 {
   "name": "keo",
   "version": "0.1.2",
-  "description": "Plain functions for a more functional approach to creating React components, with functional goodies such as compose, memoize, etc... for free.",
+  "description": "Plain functions for a more functional Deku approach to creating React components, with functional goodies such as compose, memoize, etc... for free.",
   "main": "src/Keo.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "start": "node example/server/default.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "babelify": "^6.4.0",
     "browserify": "^11.2.0",
+    "express": "^4.13.3",
     "gulp": "^3.9.0",
     "gulp-karma": "0.0.5",
     "jasmine-core": "^2.3.4",
