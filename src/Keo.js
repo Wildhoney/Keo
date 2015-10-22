@@ -8,6 +8,7 @@ import {createClass} from 'react';
 import {compose as composeRight} from 'funkel';
 import {connect} from 'react-redux';
 export {memoize, trace} from 'funkel';
+export {objectAssign};
 
 /**
  * @method create

@@ -1,5 +1,5 @@
 import React from 'react';
-import {stitch, compose, memoize} from '../../src/Keo';
+import {stitch, compose, memoize, objectAssign} from '../../src/Keo';
 
 /**
  * @method findHuman
@@ -28,7 +28,7 @@ const hasBrain = args => {
 
     const brainIntact = args.state.lifeRemaining > 0;
 
-    return Object.assign({}, args, {
+    return objectAssign({}, args, {
         state: { ...args.state, brainIntact }
     });
 
