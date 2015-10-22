@@ -21,7 +21,6 @@
 * Reduce boilerplate by getting rid of `extends React.Component`;
 * Use `export` to export plain functions for simpler unit-testing;
 * Simple composing of functions for [*mixin* support](https://github.com/dekujs/deku/issues/174);
-* :bulb: Future &mdash; In-built support for [Redux](https://github.com/rackt/redux);
 
 <img src="media/screenshot.png" />
 
@@ -127,3 +126,15 @@ export const capitaliseName = memoize(name => {
 ```
 
 As the `capitaliseName` function returns the same value when given the same `name`, we can cache its result making future invocations quicker. With `memoize` we see performance gains at the expense of memory allocation.
+
+## Redux
+
+Using Refux with Keo is straightforward, and follows the same conventions as if you were using React directly. Simple use the `connect` function provided by [`react-redux`](https://github.com/rackt/react-redux) to invoke your component that's wrapped in Keo's `stitch` method.
+
+```javascript
+import {connect} from 'react-redux';
+// ...
+export default connect(state => state.zombies)(stitch({ componentWillMount, render }));
+```
+
+For further information on connecting to Redux, see [Redux's documentation](http://rackt.org/redux/docs/basics/UsageWithReact.html).
