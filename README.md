@@ -66,6 +66,27 @@ export const eatBrain = name => {
 
 In the above example returning `null` when there's no `name` will prevent `setState` from being invoked.
 
+### Setting State & Dispatching
+
+In certain circumstances you may wish to `setState` and `dispatch` within your function &mdash; for this you could `compose`, especially in more complex situations &mdash; however for a simple `setState` and `dispatch` Keo provides the `setStateDispatch` helper function. With the `setStateDispatch` function, you simply return a tuple from your function &ndash; the first parameter will be the state, and the second parameter will be what's dispatched.
+
+```javascript
+export const eatBrain = name => {
+    return [
+        { current: `${name} is now tiring. Eating brain... Nom, nom, nom!`, lifeRemaining: 0 },
+        { name: '' }
+    ];
+};
+```
+
+You can then destructure the `setStateDispatch` in your `render` function and use it instead of `setState`/`dispatch`.
+
+```javascript
+<button onClick={() => setStateDispatch(eatBrain(state.name))}>
+    Eat Brain
+</button>
+```
+
 ## Exporting
 
 Once you have created your component, Keo encourages you to `export` **all** functions so that you can test each one individually, but **demands** that you `export` the lifecycle functions by invoking `keo.stitch`.
