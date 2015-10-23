@@ -1,5 +1,5 @@
 import React from 'react';
-import {stitch, compose, memoize, stateDispatch, objectAssign} from '../../src/Keo';
+import {stitch, compose, memoize, objectAssign} from '../../src/Keo';
 
 /**
  * @method findHuman
@@ -7,7 +7,8 @@ import {stitch, compose, memoize, stateDispatch, objectAssign} from '../../src/K
  */
 export const findHuman = () => {
     const name = 'Jeremiah';
-    return { name, current: `We have ${name} in our grips, but he is resisting our advances.` };
+    return { name, lifeRemaining: randomLife(),
+             current: `We have ${name} in our grips, but he is resisting our advances.` };
 };
 
 /**
@@ -16,10 +17,7 @@ export const findHuman = () => {
  * @return {Object}
  */
 export const eatBrain = name => {
-    return [
-        { current: `${name} is now tiring. Eating brain... Nom, nom, nom!`, lifeRemaining: 0 },
-        { name: '' }
-    ];
+    return { name: '', current: `${name} is now tiring. Eating brain... Nom, nom, nom!`, lifeRemaining: 0 };
 };
 
 /**
@@ -52,7 +50,15 @@ export const capitaliseName = memoize(name => {
  * @return {void}
  */
 const componentWillMount = ({ setState }) => {
-    setState({ lifeRemaining: Math.floor(Math.random() * 10) + 1 });
+    setState({ lifeRemaining: randomLife() });
+};
+
+/**
+ * @method randomLife
+ * @return {Number}
+ */
+const randomLife = () => {
+    return Math.floor(Math.random() * 10) + 1;
 };
 
 /**
@@ -60,17 +66,16 @@ const componentWillMount = ({ setState }) => {
  * @param {Object} props
  * @param {Object} state
  * @param {Function} setState
- * @param {Function} setStateDispatch
  * @return {XML}
  */
-const render = compose(hasBrain, ({ props, state, setState, setStateDispatch }) => {
+const render = compose(hasBrain, ({ props, state, setState }) => {
 
     return (
         <article>
             <h1>Señorita Zombie {capitaliseName(props.name)}</h1>
             <h2>Human Brain Intact: { state.brainIntact ? 'Kinda!' : 'Auf Wiedersehen, Brain.' }</h2>
             <button onClick={() => setState(findHuman())}>Find Human</button>
-            <button onClick={() => setStateDispatch(eatBrain(state.name))} disabled={!state.name}>Eat Brain</button>
+            <button onClick={() => setState(eatBrain(state.name))} disabled={!state.name}>Eat Brain</button>
         </article>
     );
 
