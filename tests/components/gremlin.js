@@ -1,5 +1,5 @@
 import React from 'react';
-import {stitch, compose, memoize, objectAssign} from '../../src/Keo';
+import {stitch, compose, memoize, objectAssign} from '../../src/keo';
 
 /**
  * @method findHuman

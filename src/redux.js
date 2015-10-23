@@ -4,11 +4,11 @@
  * @link https://github.com/Wildhoney/Keo
  * @author Adam Timberlake
  */
-import {createWithCompose} from './Keo';
+import {createWithCompose} from './keo';
 import {connect} from 'react-redux';
 import {objectAssign} from 'object-assign';
 export {memoize, trace, partial} from 'funkel';
-export {compose} from './Keo';
+export {compose} from './keo';
 export {objectAssign};
 
 /**

@@ -1,7 +1,7 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import {findDOMNode} from 'react-dom';
-import Gremlin from './components/Gremlin';
+import Gremlin from './components/gremlin';
 
 describe('Keo', () => {
 
