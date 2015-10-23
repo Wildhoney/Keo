@@ -33,7 +33,7 @@ describe('Keo', () => {
 
         expect(findDOMNode(h2).textContent).toBe('Human Brain Intact: Auf Wiedersehen, Brain.');
         expect(instance.state).toEqual({
-            name: 'Jeremiah',
+            name: '',
             lifeRemaining: 0,
             current: 'Jeremiah is now tiring. Eating brain... Nom, nom, nom!'
         });

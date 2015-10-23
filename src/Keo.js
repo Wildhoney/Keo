@@ -6,7 +6,6 @@
 import objectAssign from 'object-assign';
 import {createClass} from 'react';
 import {compose as composeRight} from 'funkel';
-import {connect} from 'react-redux';
 export {memoize, trace, partial} from 'funkel';
 export {objectAssign};
 
@@ -15,7 +14,7 @@ export {objectAssign};
  * @param {Object} component
  * @return {React.createClass}
  */
-const createWithCompose = component => {
+export const createWithCompose = component => {
 
     /**
      * @method passArguments
