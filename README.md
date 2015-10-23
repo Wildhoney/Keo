@@ -150,12 +150,14 @@ As the `capitaliseName` function returns the same value when given the same `nam
 
 ## Redux
 
-Using Refux with Keo is straightforward, and follows the same conventions as if you were using React directly. Simple use the `connect` function provided by [`react-redux`](https://github.com/rackt/react-redux) to invoke your component that's wrapped in Keo's `stitch` function.
+Using Redux with Keo is straightforward &ndash; Keo provides a `keo/redux` adapter for handling Redux in a more succinct fashion &mdash; instead of importing `keo` you can instead import the `keo/redux` adapter and use the `stitch` function from there instead.
 
 ```javascript
-import {connect} from 'react-redux';
+import {stitch} from 'keo/redux';
 // ...
-export default connect(state => state.zombies)(stitch({ componentWillMount, render }));
+export default (stitch({ componentWillMount, render }), state => state.zombies);
 ```
+
+With the remaining arguments you can specify the options &mdash; [see `react-redux`'s documentation](https://github.com/rackt/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options) &mdash; anything passed into the remaining arguments are used in the invocation of [`react-redux`](https://github.com/rackt/react-redux)'s `connect` function.
 
 For further information on connecting to Redux, see [Redux's documentation](http://rackt.org/redux/docs/basics/UsageWithReact.html).
