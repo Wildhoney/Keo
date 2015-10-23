@@ -155,7 +155,7 @@ Using Redux with Keo is straightforward &ndash; Keo provides a `keo/redux` adapt
 ```javascript
 import {stitch} from 'keo/redux';
 // ...
-export default (stitch({ componentWillMount, render }), state => state.zombies);
+export default stitch({ componentWillMount, render }, state => state.zombies);
 ```
 
 With the remaining arguments you can specify the options &mdash; [see `react-redux`'s documentation](https://github.com/rackt/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options) &mdash; anything passed into the remaining arguments are used in the invocation of [`react-redux`](https://github.com/rackt/react-redux)'s `connect` function.
