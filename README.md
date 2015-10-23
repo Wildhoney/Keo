@@ -18,9 +18,9 @@
 * Steer away from `class` sugaring, inheritance, and `super` calls;
 * Create referentially transparent, pure functions without `this`;
 * Gain `memoize`, `compose`, et cetera... for gratis with previous;
-* Reduce boilerplate by getting rid of `extends React.Component`;
 * Use `export` to export plain functions for simpler unit-testing;
 * Simple composing of functions for [*mixin* support](https://github.com/dekujs/deku/issues/174);
+* Avoid functions being littered with React specific method calls;
 
 <img src="media/screenshot.png" />
 
@@ -56,7 +56,7 @@ Whilst there's nothing to prevent you from passing `setState` into the `eatBrain
 </button>
 ```
 
-It's worth noting that Keo wraps the `setState` function to prevent you from setting the state to `null` which would otherwise throw an error in React &ndash; this allows you to return `undefined/null` and **still** use `setState` on your actions.
+It's worth noting that Keo wraps the `setState` method to prevent you from setting the state to `null` which would otherwise throw an error in React &ndash; this allows you to return `undefined/null` and **still** use `setState` on your actions.
 
 ```javascript
 export const eatBrain = name => {
