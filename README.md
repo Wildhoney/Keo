@@ -38,7 +38,7 @@ const componentDidMount = ({ setState }) => {
 
 ## Setting State
 
-Ideally your methods that aren't directly related to React should be pure functions that you pass arguments to &ndash; this makes them a whole lot easier to test, and techniques such as `memoize` come along for free.
+Ideally your functions that aren't directly related to React should be pure functions that you pass arguments to &ndash; this makes them a whole lot easier to test, and techniques such as `memoize` come along for free.
 
 ```javascript
 export const eatBrain = name => {
@@ -46,9 +46,9 @@ export const eatBrain = name => {
 };
 ```
 
-Given the `eatBrain` method, we can easily test in isolation using `import {eatBrain} ...` without having to worry about React, because we're not invoking React functions &ndash; such as `setState`.
+Given the `eatBrain` function, we can easily test in isolation using `import {eatBrain} ...` without having to worry about React, because we're not invoking React functions &ndash; such as `setState`.
 
-Whilst there's nothing to prevent you from passing `setState` into the `eatBrains` method, in Keo we *recommend* that you return an object from `eatBrains` and then invoke `setState` from within the `render` method &ndash; a method which **is** directly coupled to the React infrastructure.
+Whilst there's nothing to prevent you from passing `setState` into the `eatBrains` function, in Keo we *recommend* that you return an object from `eatBrains` and then invoke `setState` from within the `render` function &ndash; a function which **is** directly coupled to the React infrastructure.
 
 ```javascript
 <button onClick={() => setState(eatBrain('Jacob'))}>
@@ -138,7 +138,7 @@ An important aspect to note is that the Keo `compose` function composes from lef
 
 ## Memoize
 
-By creating pure functions you are able to optimise your code &ndash; in this case by using the `memoize` method which is part of Keo. Given a function that **always** returns the same when given the same parameters &mdash; a pure function &mdash; `memoize` is able to cache the return value to prevent further invocations of the function &mdash; this is especially useful when the function is quite expensive &mdash; unlike the following example.
+By creating pure functions you are able to optimise your code &ndash; in this case by using the `memoize` function which is part of Keo. Given a function that **always** returns the same when given the same parameters &mdash; a pure function &mdash; `memoize` is able to cache the return value to prevent further invocations of the function &mdash; this is especially useful when the function is quite expensive &mdash; unlike the following example.
 
 ```javascript
 export const capitaliseName = memoize(name => {
@@ -150,7 +150,7 @@ As the `capitaliseName` function returns the same value when given the same `nam
 
 ## Redux
 
-Using Refux with Keo is straightforward, and follows the same conventions as if you were using React directly. Simple use the `connect` function provided by [`react-redux`](https://github.com/rackt/react-redux) to invoke your component that's wrapped in Keo's `stitch` method.
+Using Refux with Keo is straightforward, and follows the same conventions as if you were using React directly. Simple use the `connect` function provided by [`react-redux`](https://github.com/rackt/react-redux) to invoke your component that's wrapped in Keo's `stitch` function.
 
 ```javascript
 import {connect} from 'react-redux';
