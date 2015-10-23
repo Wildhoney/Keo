@@ -14,9 +14,12 @@ export {objectAssign};
 /**
  * @method stitch
  * @param {Object} component
- * @param {Function|Object} reducerOptions
+ * @param {Function} mapStateToProps
+ * @param {Object|Function} mapDispatchToProps
+ * @param {Function} mergeProps
+ * @param {Object} options
  * @return {React.createClass}
  */
-export const stitch = (component, reducerOptions) => {
-    return connect(reducerOptions)(createWithCompose(component));
+export const stitch = (component, mapStateToProps, mapDispatchToProps, mergeProps, options) => {
+    return connect(mapStateToProps, mapDispatchToProps, mergeProps, options)(createWithCompose(component));
 };
