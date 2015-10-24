@@ -21,6 +21,23 @@ export const eatBrain = name => {
 };
 
 /**
+ * @method capitaliseName
+ * @param {String} name
+ * @return {String}
+ */
+export const capitaliseName = memoize(name => {
+    return name.toUpperCase();
+});
+
+/**
+ * @method randomLife
+ * @return {Number}
+ */
+export const randomLife = () => {
+    return Math.floor(Math.random() * 10) + 1;
+};
+
+/**
  * @method hasBrain
  * @param {Object} args
  * @return {Object}
@@ -36,29 +53,12 @@ const hasBrain = args => {
 };
 
 /**
- * @method capitaliseName
- * @param {String} name
- * @return {String}
- */
-export const capitaliseName = memoize(name => {
-    return name.toUpperCase();
-});
-
-/**
  * @method componentWillMount
  * @param {Function} setState
  * @return {void}
  */
 const componentWillMount = ({ setState }) => {
     setState({ lifeRemaining: randomLife() });
-};
-
-/**
- * @method randomLife
- * @return {Number}
- */
-const randomLife = () => {
-    return Math.floor(Math.random() * 10) + 1;
 };
 
 /**

@@ -10,7 +10,7 @@ export {memoize, trace, partial} from 'funkel';
 export {objectAssign};
 
 /**
- * @method create
+ * @method createWithCompose
  * @param {Object} component
  * @return {React.createClass}
  */
@@ -39,13 +39,13 @@ export const createWithCompose = component => {
 
         /**
          * @method setStateDispatch
-         * @param {Object} stateProps
-         * @param {Object} dispatchProps
+         * @param {Object} state
+         * @param {Object} model
          * @return {void}
          */
-        const setStateDispatch = ([stateProps, dispatchProps]) => {
-            setState(stateProps);
-            dispatch(dispatchProps);
+        const setStateDispatch = ([state, model]) => {
+            setState(state);
+            dispatch(model);
         };
 
         return { props, state, setState, dispatch, refs, context, setStateDispatch };

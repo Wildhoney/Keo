@@ -6,7 +6,7 @@
  */
 import {createWithCompose} from './keo';
 import {connect} from 'react-redux';
-import {objectAssign} from 'object-assign';
+import objectAssign from 'object-assign';
 export {memoize, trace, partial} from 'funkel';
 export {compose} from './keo';
 export {objectAssign};
