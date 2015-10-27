@@ -24,12 +24,12 @@ export const createWithCompose = component => {
 
         /**
          * @method orObject
-         * @param {String} ref
+         * @param {Object} item
          * @return {Object}
          */
-        function orObject(ref) {
-            return this[ref] || {};
-        }
+        const orObject = item => {
+            return item || {};
+        };
 
         const refs     = orObject(this.refs);
         const props    = orObject(this.props);
@@ -66,9 +66,9 @@ export const createWithCompose = component => {
      * @param {Function} fn
      * @return {Function}
      */
-    function orFunction(fn) {
+    const orFunction = fn => {
         return typeof fn === 'function' ? fn : () => {};
-    }
+    };
 
     return createClass(objectAssign({}, component, {
 
@@ -111,7 +111,7 @@ export const stitch = component => {
 
 /**
  * @method compose
- * @param {Function[]} fns
+ * @param {Function} fns
  * @return {Function}
  */
 export const compose = (...fns) => {
