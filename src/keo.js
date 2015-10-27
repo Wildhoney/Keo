@@ -22,10 +22,19 @@ export const createWithCompose = component => {
      */
     function passArguments() {
 
-        const refs     = this.refs || {};
-        const props    = this.props || {};
-        const state    = this.state || {};
-        const context  = this.context || {};
+        /**
+         * @method orObject
+         * @param {String} ref
+         * @return {Object}
+         */
+        function orObject(ref) {
+            return this[ref] || {};
+        }
+
+        const refs     = orObject(this.refs);
+        const props    = orObject(this.props);
+        const state    = orObject(this.state);
+        const context  = orObject(this.context);
         const dispatch = props.dispatch || (() => {});
 
         /**
@@ -53,11 +62,11 @@ export const createWithCompose = component => {
     }
 
     /**
-     * @method orNoop
+     * @method orFunction
      * @param {Function} fn
      * @return {Function}
      */
-    function orNoop(fn) {
+    function orFunction(fn) {
         return typeof fn === 'function' ? fn : () => {};
     }
 
@@ -67,19 +76,19 @@ export const createWithCompose = component => {
          * @method componentWillMount
          * @return {Object}
          */
-        componentWillMount: compose(passArguments, orNoop(component.componentWillMount)),
+        componentWillMount: compose(passArguments, orFunction(component.componentWillMount)),
 
         /**
          * @method componentDidMount
          * @return {Object}
          */
-        componentDidMount: compose(passArguments, orNoop(component.componentDidMount)),
+        componentDidMount: compose(passArguments, orFunction(component.componentDidMount)),
 
         /**
          * @method componentWillUnmount
          * @return {Object}
          */
-        componentWillUnmount: compose(passArguments, orNoop(component.componentWillUnmount)),
+        componentWillUnmount: compose(passArguments, orFunction(component.componentWillUnmount)),
 
         /**
          * @method render
