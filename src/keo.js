@@ -111,7 +111,7 @@ export const stitch = component => {
 
 /**
  * @method compose
- * @param {Function} fns
+ * @param {Function[]} fns
  * @return {Function}
  */
 export const compose = (...fns) => {
