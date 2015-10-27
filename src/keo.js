@@ -5,8 +5,7 @@
  */
 import objectAssign from 'object-assign';
 import {createClass} from 'react';
-import {compose as composeRight} from 'funkel';
-export {memoize, trace, partial} from 'funkel';
+import {memoize, trace, partial, compose as composeRight} from 'funkel';
 export {objectAssign};
 
 /**
