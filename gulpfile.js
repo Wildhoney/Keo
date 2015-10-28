@@ -23,7 +23,7 @@
 
     gulp.task('karma', function() {
 
-        return gulp.src([].concat('src/funkel.js', 'tests/*.test.js'))
+        return gulp.src([].concat('src/keo.js', 'tests/*.test.js'))
             .pipe(karma({
                 configFile: 'karma.conf.js',
                 action: 'run'

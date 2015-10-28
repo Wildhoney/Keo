@@ -4,11 +4,11 @@ module.exports = function(config) {
 
         frameworks: ['jasmine', 'browserify'],
         files: [
-            'src/Keo.js',
+            'src/keo.js',
             'tests/*.js'
         ],
         preprocessors: {
-            'src/Keo.js': ['browserify'],
+            'src/keo.js': ['browserify'],
             'tests/*.js': ['browserify'],
             'tests/**/*.js': ['browserify']
         },
