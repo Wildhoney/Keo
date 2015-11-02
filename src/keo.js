@@ -31,19 +31,36 @@ export const createWithCompose = component => {
             return item || {};
         };
 
-        const refs     = orObject(this.refs);
-        const props    = orObject(this.props);
-        const state    = orObject(this.state);
-        const context  = orObject(this.context);
-        const dispatch = props.dispatch || (() => {});
+        const refs        = orObject(this.refs);
+        const props       = orObject(this.props);
+        const state       = orObject(this.state);
+        const context     = orObject(this.context);
+        const forceUpdate = this.forceUpdate;
+
+        /**
+         * @method dispatch
+         * @param {*} emit
+         * @type {*|Function}
+         */
+        const dispatch = (...emit) => {
+            props.dispatch && props.dispatch(...emit);
+            return emit;
+        };
 
         /**
          * @method setState
          * @param {Object} state
-         * @return {void}
+         * @return {Object}
          */
         const setState = state => {
-            state != null && this.setState(state);
+
+            if (state == null) {
+                return null;
+            }
+
+            this.setState(state);
+            return state;
+
         };
 
         /**
@@ -57,7 +74,7 @@ export const createWithCompose = component => {
             dispatch(model);
         };
 
-        return { props, state, setState, dispatch, refs, context, setStateDispatch };
+        return { props, state, setState, dispatch, refs, context, forceUpdate, setStateDispatch };
 
     }
 

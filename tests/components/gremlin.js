@@ -68,14 +68,19 @@ const componentWillMount = ({ setState }) => {
  * @param {Function} setState
  * @return {XML}
  */
-const render = compose(hasBrain, ({ props, state, setState }) => {
+const render = compose(hasBrain, ({ props, state, setState, dispatch }) => {
+
+    const setNameAndDispatch = compose(
+        state => setState(state),
+        emit  => dispatch(emit)
+    );
 
     return (
         <article>
             <h1>Señorita Zombie {capitaliseName(props.name)}</h1>
             <h2>Human Brain Intact: { state.brainIntact ? 'Kinda!' : 'Auf Wiedersehen, Brain.' }</h2>
             <button onClick={() => setState(findHuman())}>Find Human</button>
-            <button onClick={() => setState(eatBrain(state.name))} disabled={!state.name}>Eat Brain</button>
+            <button onClick={() => setNameAndDispatch(eatBrain(state.name))} disabled={!state.name}>Eat Brain</button>
         </article>
     );
 
