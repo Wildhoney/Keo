@@ -36,7 +36,7 @@ const componentDidMount = ({ setState }) => {
 };
 ```
 
-##### Lifecycle Functions
+#### Lifecycle Functions
 
 Following functions receive `props`, `state`, `setState`, `dispatch` etc... as an object which can be destructured:
 
