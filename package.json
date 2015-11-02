@@ -1,6 +1,6 @@
 {
   "name": "keo",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Plain functions for a more functional Deku approach to creating React components, with functional goodies such as compose, memoize, etc... for free.",
   "main": "src/keo.js",
   "scripts": {
