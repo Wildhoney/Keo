@@ -77,24 +77,24 @@ In the above example returning `null` when there's no `name` will prevent `setSt
 
 ### Setting State & Dispatching
 
-In certain circumstances you may wish to `setState` and `dispatch` within your function &mdash; for this you could `compose`, especially in more complex situations &mdash; however for a simple `setState` and `dispatch` Keo provides the `setStateDispatch` helper function. With the `setStateDispatch` function, you simply return a tuple from your function &ndash; the first parameter will be the state, and the second parameter will be what's dispatched.
+Oftentimes you'll require a function to both set the state and dispatch an event &mdash; in these cases you *may* be tempted to `setState` and `dispatch` in your function, which would move React specific functions into plain functions, rather than keeping them in your `render` function. In these cases we recommend using `compose` to create your own action:
 
 ```javascript
-export const eatBrain = name => {
-    return [
-        { current: `${name} is now tiring. Eating brain... Nom, nom, nom!`, lifeRemaining: 0 },
-        { name: '' }
-    ];
-};
+const setNameAndDispatch = compose(
+    state => setState(state),
+    event => dispatch(event)
+);
 ```
 
-You can then destructure the `setStateDispatch` in your `render` function and use it instead of `setState`/`dispatch`.
+Which you can use in your `render` method for an action:
 
 ```javascript
-<button onClick={() => setStateDispatch(eatBrain(state.name))}>
+<button onClick={() => setNameAndDispatch(eatBrain(state.name))}>
     Eat Brain
 </button>
 ```
+
+As both of Keo's `setState` and `dispatch` functions return the arguments passed to them, you can safely `compose`.
 
 ## Exporting
 
