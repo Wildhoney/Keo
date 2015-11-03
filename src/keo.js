@@ -63,18 +63,7 @@ export const createWithCompose = component => {
 
         };
 
-        /**
-         * @method setStateDispatch
-         * @param {Object} state
-         * @param {Object} model
-         * @return {void}
-         */
-        const setStateDispatch = ([state, model]) => {
-            setState(state);
-            dispatch(model);
-        };
-
-        return { props, state, setState, dispatch, refs, context, forceUpdate, setStateDispatch };
+        return { props, state, setState, dispatch, refs, context, forceUpdate };
 
     }
 
