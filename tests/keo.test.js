@@ -2,7 +2,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import {findDOMNode} from 'react-dom';
 import Gremlin from './components/gremlin';
-import {compose, stitch} from '../src/keo';
+import {compose, stitch, wrap} from '../src/keo';
 
 describe('Keo', () => {
 
@@ -45,6 +45,16 @@ describe('Keo', () => {
         const instance  = TestUtils.renderIntoDocument(<Component />);
         
         expect(TestUtils.isCompositeComponent(instance)).toBeTruthy();
+
+    });
+
+    it('Should be able to wrap a function in an object, otherwise return the object;', () => {
+
+        const mockObject   = { componentDidMount: () => {}, render: () => {} };
+        const mockFunction = () => {};
+
+        expect(wrap(mockObject)).toEqual(mockObject);
+        expect(wrap(mockFunction).render).toEqual(mockFunction);
 
     });
 
