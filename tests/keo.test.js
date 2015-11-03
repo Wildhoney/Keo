@@ -43,7 +43,7 @@ describe('Keo', () => {
         const render    = () => <h1>Daffodil</h1>;
         const Component = stitch(render);
         const instance  = TestUtils.renderIntoDocument(<Component />);
-        
+
         expect(TestUtils.isCompositeComponent(instance)).toBeTruthy();
 
     });
@@ -55,6 +55,17 @@ describe('Keo', () => {
 
         expect(wrap(mockObject)).toEqual(mockObject);
         expect(wrap(mockFunction).render).toEqual(mockFunction);
+
+    });
+
+    it('Should be able to compose from left-to-right;', () => {
+
+        const calculate = compose(
+            x => x + 1,
+            x => x * 2
+        );
+
+        expect(calculate(5)).toEqual(12);
 
     });
 

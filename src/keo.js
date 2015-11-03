@@ -109,7 +109,7 @@ export const createWithCompose = component => {
 
 /**
  * @method stitch
- * @param {Object} component
+ * @param {Object|Function} component
  * @return {React.createClass}
  */
 export const stitch = component => {
