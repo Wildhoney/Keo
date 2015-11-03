@@ -31,10 +31,10 @@ export const createWithCompose = component => {
             return item || {};
         };
 
-        const refs        = orObject(this.refs);
-        const props       = orObject(this.props);
-        const state       = orObject(this.state);
-        const context     = orObject(this.context);
+        const refs = orObject(this.refs);
+        const props = orObject(this.props);
+        const state = orObject(this.state);
+        const context = orObject(this.context);
         const forceUpdate = this.forceUpdate.bind(this);
 
         /**
