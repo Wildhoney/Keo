@@ -35,7 +35,7 @@ export const createWithCompose = component => {
         const props       = orObject(this.props);
         const state       = orObject(this.state);
         const context     = orObject(this.context);
-        const forceUpdate = this.forceUpdate;
+        const forceUpdate = this.forceUpdate.bind(this);
 
         /**
          * @method dispatch
@@ -53,14 +53,8 @@ export const createWithCompose = component => {
          * @return {Object}
          */
         const setState = state => {
-
-            if (state == null) {
-                return null;
-            }
-
-            this.setState(state);
+            state != null && this.setState(state);
             return state;
-
         };
 
         return { props, state, setState, dispatch, refs, context, forceUpdate };
