@@ -72,7 +72,7 @@ const render = compose(hasBrain, ({ props, state, setState, dispatch }) => {
 
     const setNameAndDispatch = compose(
         state => setState(state),
-        emit  => dispatch(emit)
+        event => dispatch(event)
     );
 
     return (
