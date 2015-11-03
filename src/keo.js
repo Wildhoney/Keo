@@ -66,9 +66,9 @@ export const createWithCompose = component => {
      * @param {Function} fn
      * @return {Function}
      */
-    const orFunction = fn => {
+    function orFunction(fn) {
         return typeof fn === 'function' ? fn : () => {};
-    };
+    }
 
     return createClass(objectAssign({}, component, {
 
@@ -106,7 +106,16 @@ export const createWithCompose = component => {
  * @return {React.createClass}
  */
 export const stitch = component => {
-    return createWithCompose(component);
+    return createWithCompose(wrap(component));
+};
+
+/**
+ * @method wrap
+ * @param {Object|Function} component
+ * @return {Object}
+ */
+export const wrap = component => {
+    return typeof component === 'function' ? { render: component } : component;
 };
 
 /**

@@ -4,7 +4,7 @@
  * @link https://github.com/Wildhoney/Keo
  * @author Adam Timberlake
  */
-import {createWithCompose} from './keo';
+import {createWithCompose, wrap} from './keo';
 import {connect} from 'react-redux';
 export {memoize, trace, partial} from 'funkel';
 export {default as objectAssign} from 'object-assign';
@@ -20,5 +20,5 @@ export {compose} from './keo';
  * @return {React.createClass}
  */
 export const stitch = (component, mapStateToProps, mapDispatchToProps, mergeProps, options) => {
-    return connect(mapStateToProps, mapDispatchToProps, mergeProps, options)(createWithCompose(component));
+    return connect(mapStateToProps, mapDispatchToProps, mergeProps, options)(createWithCompose(wrap(component)));
 };
