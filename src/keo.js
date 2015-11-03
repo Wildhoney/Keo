@@ -10,6 +10,13 @@ export {memoize, trace, partial} from 'funkel';
 export {objectAssign};
 
 /**
+ * @method isFunction
+ * @param {*} fn
+ * @return {Boolean}
+ */
+const isFunction = fn => typeof fn === 'function';
+
+/**
  * @method createWithCompose
  * @param {Object} component
  * @return {React.createClass}
@@ -67,7 +74,7 @@ export const createWithCompose = component => {
      * @return {Function}
      */
     function orFunction(fn) {
-        return typeof fn === 'function' ? fn : () => {};
+        return isFunction(fn) ? fn : () => {};
     }
 
     return createClass(objectAssign({}, component, {
@@ -111,11 +118,11 @@ export const stitch = component => {
 
 /**
  * @method wrap
- * @param {Object|Function} component
+ * @param {Object|Function} object
  * @return {Object}
  */
-export const wrap = component => {
-    return typeof component === 'function' ? { render: component } : component;
+export const wrap = object => {
+    return isFunction(object) ? { render: object } : object;
 };
 
 /**
