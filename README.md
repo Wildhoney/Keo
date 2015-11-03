@@ -75,7 +75,7 @@ export const eatBrain = name => {
 
 In the above example returning `null` when there's no `name` will prevent `setState` from being invoked.
 
-### Setting State & Dispatching
+### Composing State & Dispatch
 
 Oftentimes you'll require a function to both set the state and dispatch an event &mdash; in these cases you *may* be tempted to `setState` and `dispatch` in your function, which would move React specific functions into plain functions, rather than keeping them in your `render` function. In these cases we recommend using `compose` to create your own action:
 
