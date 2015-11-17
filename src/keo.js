@@ -46,12 +46,12 @@ export const createWithCompose = component => {
 
         /**
          * @method dispatch
-         * @param {*} emit
+         * @param {*} model
          * @type {*|Function}
          */
-        const dispatch = (...emit) => {
-            props.dispatch && props.dispatch(...emit);
-            return emit;
+        const dispatch = (...model) => {
+            model != null && props.dispatch && props.dispatch(...model);
+            return model;
         };
 
         /**
