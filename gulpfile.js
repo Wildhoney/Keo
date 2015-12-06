@@ -18,6 +18,11 @@
     };
 
     gulp.task('compile', function() {
+        compile('dist/keo.js', 'src/keo.js');
+        compile('dist/redux.js', 'src/redux.js');
+    });
+
+    gulp.task('example', function() {
         return compile('example/js/bundle.js', 'example/js/app.js');
     });
 
@@ -33,7 +38,7 @@
     });
 
     gulp.task('test', ['karma']);
-    gulp.task('build', ['compile']);
+    gulp.task('build', ['example', 'compile']);
     gulp.task('default', ['test', 'build']);
 
     gulp.task('watch', function watch() {
