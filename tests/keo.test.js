@@ -3,6 +3,9 @@ import TestUtils from 'react-addons-test-utils';
 import {findDOMNode} from 'react-dom';
 import Gremlin from './components/gremlin';
 import {compose, stitch, wrap} from '../src/keo';
+import {stitch as s} from '../dist/keo';
+
+console.log(s);
 
 describe('Keo', () => {
 
