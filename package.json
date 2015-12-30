@@ -2,11 +2,17 @@
   "name": "keo",
   "version": "0.1.11",
   "description": "Plain functions for a more functional Deku approach to creating React components, with functional goodies such as compose, memoize, etc... for free.",
-  "main": "src/keo.js",
+  "main": "dist/keo.js",
   "scripts": {
     "test": "gulp test",
-    "start": "node example/server/default.js"
+    "start": "node example/server/default.js",
+    "prebuild": "rimraf dist && mkdir dist",
+    "build": "gulp compile",
+    "prepublish": "npm run build"
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Wildhoney/Keo.git"
@@ -39,7 +45,8 @@
     "karma-spec-reporter": "0.0.20",
     "react": "^0.14.0",
     "react-addons-test-utils": "^0.14.0",
-    "react-dom": "^0.14.0"
+    "react-dom": "^0.14.0",
+    "rimraf": "^2.5.0"
   },
   "dependencies": {
     "funkel": "^0.1.9",
