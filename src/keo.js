@@ -22,7 +22,7 @@ const isFunction = fn => typeof fn === 'function';
  * @return {Boolean}
  */
 function isPromise(x) {
-    return 'then' in x;
+    return 'then' in Object(x);
 }
 
 /**
