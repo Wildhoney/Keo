@@ -61,8 +61,7 @@ export const createWithCompose = component => {
         const dispatch = (...model) => {
 
             if (isPromise(model)) {
-                model.then(x => dispatch(model));
-                return model;
+                return model.then(x => dispatch(model));
             }
 
             model != null && props.dispatch && props.dispatch(...model);
@@ -78,8 +77,7 @@ export const createWithCompose = component => {
         const setState = state => {
 
             if (isPromise(state)) {
-                state.then(x => setState(x));
-                return state;
+                return state.then(x => setState(x));
             }
 
             state != null && this.setState(state);
