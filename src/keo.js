@@ -80,6 +80,33 @@ export const createWithCompose = component => {
                 return state.then(x => setState(x));
             }
 
+            /**
+             * @method keyToState
+             * @param {Object} accumulator
+             * @param {String} key
+             * @return {Object}
+             */
+            const keyToState = (accumulator, key) => {
+                accumulator[key] = state[key];
+                return accumulator;
+            };
+
+            if (state && typeof state === 'object') {
+
+                // Determine which state items yield promises, and which yield immediate values.
+                const immediateState = Object.keys(state).filter(k => !isPromise(state[k])).reduce(keyToState, {});
+                const futureState = Object.keys(state).filter(k => isPromise(state[k])).reduce(keyToState, {});
+
+                // Iterate over each future state to apply the state once the promise has been resolved.
+                Object.keys(futureState).map(key => {
+                    state[key].then(value => setState({ [key]: value }));
+                });
+
+                this.setState(immediateState);
+                return state;
+
+            }
+
             state != null && this.setState(state);
             return state;
 
