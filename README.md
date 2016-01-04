@@ -121,6 +121,13 @@ As both of Keo's `setState` and `dispatch` functions return the arguments passed
 Using `compose` on functions that yield promises will not work as expected &mdash; see [State Promises](#state-promises) &mdash; and will inevitably pass the promise to each function, rather than the value. In these cases use `composeDeferred`:
 
 ```javascript
+const setPersonAndDispatch = composeDeferred(
+    state => setState(state),
+    event => dispatch(event)
+);
+
+// ...
+
 <button onClick={() => setPersonAndDispatch(findPerson('Wally'))}>
     Where is Wally?
 </button>
