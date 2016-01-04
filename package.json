@@ -1,8 +1,8 @@
 {
   "name": "keo",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "Plain functions for a more functional Deku approach to creating React components, with functional goodies such as compose, memoize, etc... for free.",
-  "main": "dist/keo.js",
+  "main": "src/keo.js",
   "scripts": {
     "test": "gulp test",
     "start": "node example/server/default.js",
