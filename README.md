@@ -122,7 +122,7 @@ Using `compose` on functions that yield promises will not work as expected &mdas
 
 ```javascript
 <button onClick={() => setPersonAndDispatch(findPerson('Wally'))}>
-    Where's Wally?
+    Where is Wally?
 </button>
 ```
 
