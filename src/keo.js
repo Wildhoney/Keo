@@ -17,6 +17,15 @@ export {objectAssign};
 const isFunction = fn => typeof fn === 'function';
 
 /**
+ * @method isPromise
+ * @param {*} x
+ * @return {Boolean}
+ */
+function isPromise(x) {
+    return 'then' in x;
+}
+
+/**
  * @method createWithCompose
  * @param {Object} component
  * @return {React.createClass}
@@ -50,8 +59,15 @@ export const createWithCompose = component => {
          * @type {*|Function}
          */
         const dispatch = (...model) => {
+
+            if (isPromise(model)) {
+                model.then(x => dispatch(model));
+                return model;
+            }
+
             model != null && props.dispatch && props.dispatch(...model);
             return model;
+
         };
 
         /**
@@ -60,8 +76,15 @@ export const createWithCompose = component => {
          * @return {Object}
          */
         const setState = state => {
+
+            if (isPromise(state)) {
+                state.then(x => setState(x));
+                return state;
+            }
+
             state != null && this.setState(state);
             return state;
+
         };
 
         return { props, state, setState, dispatch, refs, context, forceUpdate };
