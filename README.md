@@ -77,7 +77,7 @@ In the above example returning `null` when there's no `name` will prevent `setSt
 
 ### State Promises
 
-Assume for a moment that you have a function which yields a promise &mdash; by applying the `setState` you'll end up with the promise in your state, not the value that it represents. Therefore in these cases Keo cleverly waits for the promise to resolve before invoking `setState` &mdash; this allows you to keep `setState` in React-specific lifecycle functions, such as `render`:
+Assume for a moment that you have a function which yields a promise &mdash; by applying the `setState` you'll end up with the promise in your state, not the value that it represents. Therefore in these cases Keo cleverly waits for the promise to resolve before invoking `setState` &mdash; this allows you to keep `setState` &mdash; and `dispatch` &mdash; in React-specific lifecycle functions, such as `render`:
 
 ```javascript
 const findPerson = name => {
