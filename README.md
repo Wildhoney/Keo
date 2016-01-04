@@ -102,7 +102,7 @@ Oftentimes you'll require a function to both set the state and dispatch an event
 ```javascript
 const setNameAndDispatch = compose(
     state => setState(state),
-    event => dispatch(event)
+    props => dispatch(props)
 );
 ```
 
@@ -123,7 +123,7 @@ Using `compose` on functions that yield promises will not work as expected &mdas
 ```javascript
 const setPersonAndDispatch = composeDeferred(
     state => setState(state),
-    event => dispatch(event)
+    props => dispatch(props)
 );
 
 // ...
