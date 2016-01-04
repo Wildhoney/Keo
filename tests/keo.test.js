@@ -105,4 +105,23 @@ describe('Keo', () => {
 
     });
 
+    it('Should be able to setState on functions that yield promises;', done => {
+
+        const name     = 'Cecil';
+        const instance = TestUtils.renderIntoDocument(<Gremlin name={name} />);
+
+        const h3       = TestUtils.findRenderedDOMComponentWithTag(instance, 'h3');
+        const buttons  = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'button');
+
+        expect(findDOMNode(h3).textContent).toBe('Zombie Name: Unavailable...');
+        TestUtils.Simulate.click(findDOMNode(buttons[2]));
+        expect(findDOMNode(h3).textContent).toBe('Zombie Name: Unavailable...');
+
+        setTimeout(() => {
+            expect(findDOMNode(h3).textContent).toBe('Zombie Name: Janice');
+            done();
+        });
+
+    });
+
 });

@@ -38,6 +38,14 @@ export const randomLife = () => {
 };
 
 /**
+ * @method findZombieName
+ * @return {Promise}
+ */
+export const findZombieName = () => {
+    return Promise.resolve({ zombieName: 'Janice' });
+};
+
+/**
  * @method hasBrain
  * @param {Object} args
  * @return {Object}
@@ -79,8 +87,10 @@ const render = compose(hasBrain, ({ props, state, setState, dispatch }) => {
         <article>
             <h1>Señorita Zombie {capitaliseName(props.name)}</h1>
             <h2>Human Brain Intact: { state.brainIntact ? 'Kinda!' : 'Auf Wiedersehen, Brain.' }</h2>
+            <h3>Zombie Name: { state.zombieName || 'Unavailable...' }</h3>
             <button onClick={() => setState(findHuman())}>Find Human</button>
             <button onClick={() => setNameAndDispatch(eatBrain(state.name))} disabled={!state.name}>Eat Brain</button>
+            <button onClick={() => setState(findZombieName())}>Zombie's Name</button>
         </article>
     );
 
