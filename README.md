@@ -75,6 +75,26 @@ export const eatBrain = name => {
 
 In the above example returning `null` when there's no `name` will prevent `setState` from being invoked.
 
+### State Promises
+
+Assume for a moment that you have a function which yields a promise &mdash; by applying the `setState` you'll end up with the promise in your state, not the value that it represents. Therefore in these cases Keo cleverly waits for the promise to resolve before invoking `setState` &mdash; this allows you to keep `setState` in React-specific lifecycle functions, such as `render`:
+
+```javascript
+const findPerson = name => {
+    return fetch(`/person/${name}`);
+}
+
+const render = compose(({ setState }) => {
+
+    return (
+        <button onClick={() => setState(findPerson('Wally')}>
+            Find Wally
+        </button>
+    );
+
+});
+```
+
 ### Composing State & Dispatch
 
 Oftentimes you'll require a function to both set the state and dispatch an event &mdash; in these cases you *may* be tempted to `setState` and `dispatch` in your function, which would move React specific functions into plain functions, rather than keeping them in your `render` function. In these cases we recommend using `compose` to create your own action:
@@ -95,6 +115,18 @@ Which you can use in your `render` method for an action:
 ```
 
 As both of Keo's `setState` and `dispatch` functions return the arguments passed to them, you can safely `compose`.
+
+### Composing Promises
+
+Using `compose` on functions that yield promises will not work as expected &mdash; see [State Promises](#state-promises) &mdash; and will inevitably pass the promise to each function, rather than the value. In these cases use `composeDeferred`:
+
+```javascript
+<button onClick={() => setPersonAndDispatch(findPerson('Wally'))}>
+    Where's Wally?
+</button>
+```
+
+Which you can use in your `render` method [as above](#composing-state--dispatch).
 
 ## Exporting
 
