@@ -1,6 +1,6 @@
 {
   "name": "keo",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "Plain functions for a more functional Deku approach to creating React components, with functional goodies such as compose, memoize, etc... for free.",
   "main": "src/keo.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "prepublish": "npm run build"
   },
   "files": [
-    "dist"
+    "src"
   ],
   "repository": {
     "type": "git",
