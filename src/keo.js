@@ -102,7 +102,7 @@ export const createWithCompose = component => {
                     state[key].then(value => setState({ [key]: value }));
                 });
 
-                this.setState(immediateState);
+                Object.keys(immediateState).length && this.setState(immediateState);
                 return state;
 
             }
