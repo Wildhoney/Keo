@@ -5,7 +5,7 @@
  */
 import objectAssign from 'object-assign';
 import {createClass} from 'react';
-import {compose as composeRight, composeDeferred as composeRightDeferred} from 'funkel';
+import {compose as comp, composeDeferred as compDeferred} from 'funkel';
 export {memoize, trace, partial} from 'funkel';
 export {objectAssign};
 
@@ -154,7 +154,7 @@ export const wrap = object => {
  * @return {Function}
  */
 export const compose = (...fns) => {
-    return composeRight(...fns.reverse());
+    return comp(...fns.reverse());
 };
 
 /**
@@ -163,5 +163,5 @@ export const compose = (...fns) => {
  * @return {Promise}
  */
 export const composeDeferred = (...fns) => {
-    return composeRightDeferred(...fns.reverse());
+    return compDeferred(...fns.reverse());
 };
