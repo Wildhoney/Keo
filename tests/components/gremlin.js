@@ -91,6 +91,7 @@ const render = compose(hasBrain, ({ props, state, setState, dispatch }) => {
             <button onClick={() => setState(findHuman())}>Find Human</button>
             <button onClick={() => setNameAndDispatch(eatBrain(state.name))} disabled={!state.name}>Eat Brain</button>
             <button onClick={() => setState(findZombieName())}>Zombie's Name</button>
+            <button onClick={() => setState({ zombieName: 'Reset', name: Promise.resolve('No Name') })}>Reset</button>
         </article>
     );
 

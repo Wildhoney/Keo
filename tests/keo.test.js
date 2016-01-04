@@ -107,9 +107,7 @@ describe('Keo', () => {
 
     it('Should be able to setState on functions that yield promises;', done => {
 
-        const name     = 'Cecil';
-        const instance = TestUtils.renderIntoDocument(<Gremlin name={name} />);
-
+        const instance = TestUtils.renderIntoDocument(<Gremlin name="Cecil" />);
         const h3       = TestUtils.findRenderedDOMComponentWithTag(instance, 'h3');
         const buttons  = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'button');
 
@@ -119,6 +117,25 @@ describe('Keo', () => {
 
         setTimeout(() => {
             expect(findDOMNode(h3).textContent).toBe('Zombie Name: Janice');
+            done();
+        });
+
+    });
+
+    it('Should be able to set state according to immediate and future values;', done => {
+
+        const instance = TestUtils.renderIntoDocument(<Gremlin name="Gemma" />);
+        const h2       = TestUtils.findRenderedDOMComponentWithTag(instance, 'h2');
+        const h3       = TestUtils.findRenderedDOMComponentWithTag(instance, 'h3');
+        const buttons  = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'button');
+
+        TestUtils.Simulate.click(findDOMNode(buttons[3]));
+        expect(instance.state.zombieName).toEqual('Reset');
+        expect(instance.state.name instanceof Promise).toBeFalsy();
+
+        setTimeout(() => {
+            expect(instance.state.zombieName).toEqual('Reset');
+            expect(instance.state.name).toEqual('No Name');
             done();
         });
 
