@@ -91,24 +91,38 @@ export const createWithCompose = component => {
                 return accumulator;
             };
 
-            if (state && typeof state === 'object') {
+            /**
+             * @property immediateState
+             * @type {Object}
+             */
+            const immediateState = (() => {
 
-                // Determine which state items yield promises, and which yield immediate values.
-                const immediateState = Object.keys(state).filter(k => !isPromise(state[k])).reduce(keyToState, {});
-                const futureState = Object.keys(state).filter(k => isPromise(state[k])).reduce(keyToState, {});
+                if (isPromise(state)) {
 
-                // Iterate over each future state to apply the state once the promise has been resolved.
-                Object.keys(futureState).map(key => {
-                    state[key].then(value => setState({ [key]: value }));
-                });
+                    // Defer promise states until they have been resolved.
+                    state.then(value => setState(value));
+                    return null;
 
-                Object.keys(immediateState).length && this.setState(immediateState);
-                return state;
+                }
 
-            }
+                if (state && typeof state === 'object') {
 
-            state != null && this.setState(state);
-            return state;
+                    // Determine which state items yield promises, and which yield immediate values.
+                    const futureState = Object.keys(state).filter(k => isPromise(state[k])).reduce(keyToState, {});
+
+                    // Iterate over each future state to apply the state once the promise has been resolved.
+                    Object.keys(futureState).map(key => {
+                        state[key].then(value => setState({ [key]: value }));
+                    });
+
+                    return Object.keys(state).filter(k => !isPromise(state[k])).reduce(keyToState, {});
+
+                }
+
+            })();
+
+            immediateState != null && this.setState(immediateState);
+            return immediateState;
 
         };
 
