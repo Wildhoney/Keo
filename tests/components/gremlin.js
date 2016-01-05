@@ -58,7 +58,7 @@ const render = compose(resolutionMap, ({ props, state, setState }) => {
                 {asideLabel}
             </aside>
 
-            <button disabled={props.resolving.humans} className="eat-brain" onClick={() => eat()}>
+            <button disabled={props.resolving.humans} className="eat-brain" onClick={eat}>
                 {buttonLabel}
             </button>
 
