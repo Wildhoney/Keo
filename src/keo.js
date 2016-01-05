@@ -17,6 +17,25 @@ export {objectAssign};
 const isFunction = fn => typeof fn === 'function';
 
 /**
+ * @property resolving
+ * @type {Map}
+ */
+const resolving = new Map();
+
+/**
+ * @method resolutionMap
+ * @param {Array} args
+ * @return {Array}
+ */
+export const resolutionMap = args => {
+
+    return Object.assign({}, args, {
+        props: { ...args.props, resolving }
+    });
+
+};
+
+/**
  * @method isPromise
  * @param {*} x
  * @return {Boolean}
@@ -152,8 +171,13 @@ export const createWithCompose = component => {
 
                         if (isPromise(cursor)) {
 
+                            resolving.set(key, true);
+
                             // Resolve a simple promise contained within an object.
-                            state[key].then(value => setState({ [key]: value }));
+                            state[key].then(value => {
+                                resolving.set(key, false);
+                                setState({ [key]: value });
+                            });
                         }
 
                         if (Array.isArray(cursor)) {
@@ -161,7 +185,13 @@ export const createWithCompose = component => {
                             // Await all promises to resolve before setting the state.
                             const promises = cursor.filter(item => isPromise(item));
                             const items = cursor.filter(item => !isPromise(item));
-                            Promise.all(promises).then(array => setState({ [key]: [...items, ...array] }));
+
+                            resolving.set(key, true);
+
+                            Promise.all(promises).then(array => {
+                                resolving.set(key, false);
+                                setState({ [key]: [...items, ...array] });
+                            });
 
                         }
 

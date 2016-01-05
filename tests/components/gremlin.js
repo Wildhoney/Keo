@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import {stitch, compose, memoize, objectAssign} from '../../src/keo';
+import {stitch, compose, memoize, objectAssign, resolutionMap} from '../../src/keo';
 
 /**
  * @method eatBrain
@@ -28,6 +28,7 @@ const displayLine = (name, humans, time) => {
  */
 const getInitialState = () => {
     return {
+        clicks: 0,
         humans: [],
         time: Date.now()
     };
@@ -40,7 +41,7 @@ const getInitialState = () => {
  * @param {Function} setState
  * @return {XML}
  */
-const render = ({ props, state, setState }) => {
+const render = compose(resolutionMap, ({ props, state, setState }) => {
 
     const humans = state.humans.map(human => {
 
@@ -56,6 +57,14 @@ const render = ({ props, state, setState }) => {
 
     });
 
+    /**
+     * @method eat
+     * @return {void}
+     */
+    const eat = () => {
+        setState({ clicks: state.clicks + 1, humans: [...state.humans, eatBrain()] });
+    };
+
     return (
         <main>
 
@@ -63,18 +72,18 @@ const render = ({ props, state, setState }) => {
                 {displayLine(props.name, state.humans, state.time)}
             </aside>
 
-            <button className="eat-brain" onClick={() => setState({ humans: [...state.humans, eatBrain()] })}>
-                Eat Brain
+            <button disabled={props.resolving.get('humans')} className="eat-brain" onClick={() => eat()}>
+                Eat Brain ({state.clicks} clicks)
             </button>
 
             <ul className="humans">
-                <li className="title">Devoured:</li>
+                <li className="title">{humans.length} Devoured:</li>
                 {humans}
             </ul>
 
         </main>
     );
 
-};
+});
 
 export default stitch({ getInitialState, render });
