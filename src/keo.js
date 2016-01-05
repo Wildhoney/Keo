@@ -107,15 +107,59 @@ export const createWithCompose = component => {
 
                 if (state && typeof state === 'object') {
 
+                    const keys = Object.keys(state);
+
+                    /**
+                     * @method containsPromise
+                     * @param {String} key
+                     * @return {Boolean}
+                     */
+                    const containsPromise = key => {
+
+                        const cursor = state[key];
+
+                        return isPromise(cursor) || (() => {
+
+                            if (Array.isArray(cursor)) {
+
+                                // Determine if an array was passed, which includes a promise.
+                                return cursor.some(item => isPromise(item));
+
+                            }
+
+                            return false;
+
+                        })();
+
+                    };
+
                     // Determine which state items yield promises, and which yield immediate values.
-                    const futureState = Object.keys(state).filter(k => isPromise(state[k])).reduce(keyToState, {});
+                    const futureStates = keys.filter(key => containsPromise(key)).reduce(keyToState, {});
+
+                    console.log(futureStates);
 
                     // Iterate over each future state to apply the state once the promise has been resolved.
-                    Object.keys(futureState).map(key => {
-                        state[key].then(value => setState({ [key]: value }));
+                    Object.keys(futureStates).map(key => {
+
+                        const cursor = state[key];
+
+                        if (isPromise(cursor)) {
+
+                            // Resolve a simple promise contained within an object.
+                            state[key].then(value => setState({ [key]: value }));
+                        }
+
+                        if (Array.isArray(cursor)) {
+
+                            // Await all promises to resolve before setting the state.
+                            const promises = cursor.filter(item => isPromise(item));
+                            Promise.all(promises).then(array => setState({ [key]: array }));
+
+                        }
+
                     });
 
-                    return Object.keys(state).filter(k => !isPromise(state[k])).reduce(keyToState, {});
+                    return keys.filter(key => !containsPromise(key)).reduce(keyToState, {});
 
                 }
 
