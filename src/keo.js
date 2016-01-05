@@ -29,7 +29,7 @@ const resolving = {};
  */
 export const resolutionMap = args => {
 
-    return Object.assign({}, args, {
+    return objectAssign({}, args, {
         props: { ...args.props, resolving }
     });
 
@@ -166,6 +166,7 @@ export const createWithCompose = component => {
                                 resolving[key] = false;
                                 setState({ [key]: value });
                             });
+
                         }
 
                         if (Array.isArray(cursor)) {

@@ -7,7 +7,7 @@ import {stitch, compose, memoize, objectAssign, resolutionMap} from '../../src/k
  * @return {Object}
  */
 export const eatBrain = () => {
-    return fetch('https://randomuser.me/api/').then(response => response.json()).then(json => json.results[0].user);
+    return fetch('https://randomuser.me/api').then(response => response.json()).then(json => json.results[0].user);
 };
 
 /**
@@ -62,7 +62,7 @@ const render = compose(resolutionMap, ({ props, state, setState }) => {
                 {buttonLabel}
             </button>
 
-            <ul className="humans">
+            <ul className="humans" style={{ display: humans.length ? 'block' : 'none' }}>
                 <li className="title">{humans.length} Devoured:</li>
                 {humans}
             </ul>

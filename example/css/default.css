@@ -53,7 +53,9 @@ ul.humans li img {
     float: left;
     overflow: hidden;
     width: 32px;
+    height: 32px;
     border-radius: 50%;
+    background-color: rgba(0, 0, 0, .25);
 }
 
 ul.humans li h2 {
