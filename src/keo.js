@@ -66,20 +66,8 @@ export const createWithCompose = component => {
      */
     function passArguments() {
 
-        /**
-         * @method orObject
-         * @param {Object} item
-         * @return {Object}
-         */
-        const orObject = item => {
-            return item || {};
-        };
-
-        const refs = orObject(this.refs);
-        const props = orObject(this.props);
-        const state = orObject(this.state);
-        const context = orObject(this.context);
-        const forceUpdate = this.forceUpdate.bind(this);
+        const {refs = {}, props = {}, state = {}, context = {}} = this;
+        const forceUpdate = this::this.forceUpdate;
 
         /**
          * @method dispatch
