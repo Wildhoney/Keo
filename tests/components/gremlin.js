@@ -11,18 +11,6 @@ export const eatBrain = () => {
 };
 
 /**
- * @method displayLine
- * @param {String} name
- * @param {Array} humans
- * @param {Number} time
- * @return {string}
- */
-const displayLine = (name, humans, time) => {
-    return humans.length ? `Zombie ${name} has devoured ${humans.length} humans ${moment(time).fromNow()}.`
-                         : `Zombie ${name} is currently a pacifist.`;
-};
-
-/**
  * @method getInitialState
  * @return {Object}
  */
@@ -57,23 +45,21 @@ const render = compose(resolutionMap, ({ props, state, setState }) => {
 
     });
 
-    /**
-     * @method eat
-     * @return {void}
-     */
-    const eat = () => {
-        setState({ clicks: state.clicks + 1, humans: [...state.humans, eatBrain()] });
-    };
+    const eat = () => setState({ clicks: state.clicks + 1, humans: [...state.humans, eatBrain()] });
+
+    const buttonLabel = props.resolving.humans ? 'Geolocating Human...' : `Eat Brain (${state.clicks} clicks)`;
+    const asideLabel = state.humans.length ? `Zombie ${props.name} has devoured ${state.humans.length} humans in ${moment(state.time).fromNow(true)}.`
+                                           : `Zombie ${props.name} is currently a pacifist.`;
 
     return (
         <main>
 
             <aside>
-                {displayLine(props.name, state.humans, state.time)}
+                {asideLabel}
             </aside>
 
-            <button disabled={props.resolving.get('humans')} className="eat-brain" onClick={() => eat()}>
-                Eat Brain ({state.clicks} clicks)
+            <button disabled={props.resolving.humans} className="eat-brain" onClick={() => eat()}>
+                {buttonLabel}
             </button>
 
             <ul className="humans">

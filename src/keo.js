@@ -18,9 +18,9 @@ const isFunction = fn => typeof fn === 'function';
 
 /**
  * @property resolving
- * @type {Map}
+ * @type {Object}
  */
-const resolving = new Map();
+const resolving = {};
 
 /**
  * @method resolutionMap
@@ -171,11 +171,11 @@ export const createWithCompose = component => {
 
                         if (isPromise(cursor)) {
 
-                            resolving.set(key, true);
+                            resolving[key] = true;
 
                             // Resolve a simple promise contained within an object.
                             state[key].then(value => {
-                                resolving.set(key, false);
+                                resolving[key] = false;
                                 setState({ [key]: value });
                             });
                         }
@@ -186,10 +186,10 @@ export const createWithCompose = component => {
                             const promises = cursor.filter(item => isPromise(item));
                             const items = cursor.filter(item => !isPromise(item));
 
-                            resolving.set(key, true);
+                            resolving[key] = true;
 
                             Promise.all(promises).then(array => {
-                                resolving.set(key, false);
+                                resolving[key] = false;
                                 setState({ [key]: [...items, ...array] });
                             });
 
