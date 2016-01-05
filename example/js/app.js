@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from 'react-dom';
+import { render } from 'react-dom';
 import Gremlin from '../../tests/components/Gremlin';
 
 document.addEventListener('DOMContentLoaded', () => {
