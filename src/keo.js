@@ -191,9 +191,7 @@ export const createWithCompose = component => {
 
             })();
 
-            const notEmpty = isObject(immediateState) ? Object.keys(immediateState).length
-                                                      : immediateState != null;
-
+            const notEmpty = isObject(immediateState) ? Object.keys(immediateState).length : immediateState != null;
             notEmpty && this.setState(immediateState);
             return immediateState;
 

@@ -52,8 +52,8 @@ ul.humans li.title {
 ul.humans li img {
     float: left;
     overflow: hidden;
-    border-radius: 50%;
     width: 32px;
+    border-radius: 50%;
 }
 
 ul.humans li h2 {
