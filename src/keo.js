@@ -26,6 +26,15 @@ function isPromise(x) {
 }
 
 /**
+ * @method isObject
+ * @param {*} x
+ * @return {Boolean}
+ */
+function isObject(x) {
+    return typeof x === 'object';
+}
+
+/**
  * @method createWithCompose
  * @param {Object} component
  * @return {React.createClass}
@@ -105,7 +114,7 @@ export const createWithCompose = component => {
 
                 }
 
-                if (state && typeof state === 'object') {
+                if (state && isObject(state)) {
 
                     const keys = Object.keys(state);
 
@@ -136,8 +145,6 @@ export const createWithCompose = component => {
                     // Determine which state items yield promises, and which yield immediate values.
                     const futureStates = keys.filter(key => containsPromise(key)).reduce(keyToState, {});
 
-                    console.log(futureStates);
-
                     // Iterate over each future state to apply the state once the promise has been resolved.
                     Object.keys(futureStates).map(key => {
 
@@ -153,7 +160,8 @@ export const createWithCompose = component => {
 
                             // Await all promises to resolve before setting the state.
                             const promises = cursor.filter(item => isPromise(item));
-                            Promise.all(promises).then(array => setState({ [key]: array }));
+                            const items = cursor.filter(item => !isPromise(item));
+                            Promise.all(promises).then(array => setState({ [key]: [...items, ...array] }));
 
                         }
 
@@ -165,7 +173,10 @@ export const createWithCompose = component => {
 
             })();
 
-            immediateState != null && this.setState(immediateState);
+            const notEmpty = isObject(immediateState) ? Object.keys(immediateState).length
+                                                      : immediateState != null;
+
+            notEmpty && this.setState(immediateState);
             return immediateState;
 
         };
