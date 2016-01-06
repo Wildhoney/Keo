@@ -197,3 +197,54 @@ const componentDidRender = ({ setState }) => {
     setState({ people: ['Adam', Promise.resolve('Maria')] });
 };
 ```
+
+### Race Conditions
+
+It's worth noting that if you apply `setState` on a promise state then race conditions may cause issues. For example in the following case, if the buttons are clicked in quick succession before the promise from the first click has been resolved, then the `state.people` will not be valid.
+
+* First Click: `setState({ people: [...[], Promise.resolve('Adam')] })`
+* Second Click (Race Condition): `setState({ people: [...[], Promise.resolve('Maria')] })`
+* Second Click (Ideal): `setState({ people: [...['Adam'], Promise.resolve('Maria')] })`
+
+In the above case the <kbd>Race Condition</kbd> click occurs because the button was clicked before <kbd>First Click</kbd>'s promise resolved, whereas the <kbd>Ideal</kbd> click is perfect because the click occurred **after** the <kbd>First Click</kbd>'s promise resolved. We therefore need to prevent the possibility of the <kbd>Race Condition</kbd> click from happening &mdash; for this Keo provides the `resolutionMap` middleware that can be composed into React lifecycle functions:
+
+```javascript
+const render = compose(resolutionMap, ({ props, state, setState }) => {
+
+    <button disabled={props.resolving.people}
+            onClick={() => setState({ people: [...state.people, Promise.resolve('Adam')] })}>
+        Add Person
+    </button>
+
+});
+```
+
+With the `resolutionMap` middleware applied the `props` is augmented with the `resolving` object which contains keys for each state that you set &ndash; setting either `true` or `false` depending on whether it's being resolved or not.
+
+As the `setState` will be deferred until the promise has been resolved, the re-running of the `render` function won't occur immediately, which means that you won't be able to validate `props.resolving` &ndash; if your `setState` is purely a Promise-specific state, then you can use `forceUpdate` to force a re-render and thus the ability to evaluate the `props.resolving` object:
+
+```javascript
+const render = compose(resolutionMap, ({ props, state, setState, forceUpdate }) => {
+
+    <button disabled={props.resolving.people}
+            onClick={() => forceUpdate(void setState({ humans: [...state.humans, eatBrain()] }))}>
+        Add Person
+    </button>
+
+});
+```
+
+Note that you won't need to use the `forceUpdate` path if your `setState` also contains a `state` which causes an immediate re-render, such as the following:
+
+```javascript
+const render = compose(resolutionMap, ({ props, state, setState }) => {
+
+    <button disabled={props.resolving.people}
+            onClick={() => setState({ clicks: state.clicks + 1, people: [...state.people, Promise.resolve('Adam')] })}>
+        Add Person
+    </button>
+
+});
+```
+
+As the `clicks` state will cause `render` to be re-run immediately &mdash; **voila!**

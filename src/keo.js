@@ -265,6 +265,7 @@ export const wrap = object => {
  * @return {Function}
  */
 export const compose = (...fns) => {
+    console.log(fns);
     return fnkl.compose(...fns.reverse());
 };
 
