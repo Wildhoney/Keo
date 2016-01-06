@@ -54,7 +54,7 @@ const render = compose(resolutionMap, ({ props, state, setState }) => {
 
     });
 
-    const eat = () => setState({ clicks: state.clicks + 1, humans: [...state.humans, eatBrain()] });
+    const eat = () => setState({ humans: [...state.humans, eatBrain()], clicks: state.clicks + 1 });
 
     const buttonLabel = props.resolving.humans ? 'Geolocating Human...' : `Eat Brain (${state.clicks} clicks)`;
     const asideLabel = state.humans.length ? `Zombie ${props.name} has devoured ${state.humans.length} humans in ${moment(state.time).fromNow(true)}.`

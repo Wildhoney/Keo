@@ -8,7 +8,8 @@
     "start": "node example/server/default.js",
     "prebuild": "rimraf dist && mkdir dist",
     "prepublish": "rimraf dist && npm run build",
-    "build": "webpack"
+    "build": "webpack",
+    "watch": "watch 'npm run build' example/"
   },
   "files": [
     "dist"
