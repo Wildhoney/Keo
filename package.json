@@ -8,7 +8,7 @@
     "start": "node example/server/default.js",
     "prebuild": "rimraf dist && mkdir dist",
     "prepublish": "npm run clean",
-    "clean": "rimraf dist && rimraf example/js/example.js && npm run build",
+    "clean": "rimraf dist && npm run build",
     "build": "webpack",
     "example": "browserify example/js/app.js -o example/js/example.js -t [ babelify --presets [ es2015 react ] ]",
     "watch": "watch 'npm run example' example/"
