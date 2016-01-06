@@ -1,8 +1,8 @@
 {
   "name": "keo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Plain functions for a more functional Deku approach to creating React components, with functional goodies such as compose, memoize, etc... for free.",
-  "main": "src/keo.js",
+  "main": "dist/keo.js",
   "scripts": {
     "test": "ava tests/*.test.js",
     "start": "node example/server/default.js",
@@ -11,7 +11,7 @@
     "build": "webpack"
   },
   "files": [
-    "src"
+    "dist"
   ],
   "repository": {
     "type": "git",
