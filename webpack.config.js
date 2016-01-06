@@ -9,7 +9,7 @@ module.exports = {
     output: {
         path: __dirname + '/dist',
         filename: '[name].js',
-	library: "keo",
+	    library: "keo",
         libraryTarget: 'commonjs2'
     },
     module: {
