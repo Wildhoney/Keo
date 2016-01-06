@@ -182,18 +182,18 @@ More often than not you'll want to `setState` with a promise &ndash; with React 
 this.setState({ name: Promise.resolve('Adam') });
 ```
 
-However when you use the Keo `setState` &mdash; which is a thin wrapped around React's `setState` &mdash; then the `setState` is deferred until the promise has been resolved. Additionally, an array of promises &mdash; optionally mixed with immediate values &mdash; will also cause the `setState` to be deferred until the promise has been resolved.
+However when you use the Keo `setState` &mdash; which is a thin wrapper around React's `setState` &mdash; then the `setState` is deferred until all of the promises in that array have been resolved. Additionally, an array of promises &mdash; optionally mixed with immediate values &mdash; will also cause the `setState` to be deferred until the promise has been resolved.
 
 ```javascript
-const componentDidRender = ({ setState }) => {
+const componentDidMount = ({ setState }) => {
     setState({ name: Promise.resolve('Adam') });
 };
 ```
 
-Likewise in the following example, where the array is a mix of eventual and immediate values &ndash; the same applies, where the `setState` will be deferred until *Maria* has been resolved:
+Likewise in the following example, where the array is a mix of eventual and immediate values &ndash; the same applies, where the `setState` will be deferred *until* **Maria** has been resolved:
 
 ```javascript
-const componentDidRender = ({ setState }) => {
+const componentDidMount = ({ setState }) => {
     setState({ people: ['Adam', Promise.resolve('Maria')] });
 };
 ```
@@ -202,11 +202,11 @@ const componentDidRender = ({ setState }) => {
 
 It's worth noting that if you apply `setState` on a promise state then race conditions may cause issues. For example in the following case, if the buttons are clicked in quick succession before the promise from the first click has been resolved, then the `state.people` will not be valid.
 
-* First Click: `setState({ people: [...[], Promise.resolve('Adam')] })`
-* Second Click (Race Condition): `setState({ people: [...[], Promise.resolve('Maria')] })`
-* Second Click (Ideal): `setState({ people: [...['Adam'], Promise.resolve('Maria')] })`
+* First Click <kbd>Initial<kbd>: `setState({ people: [...[], Promise.resolve('Adam')] })`
+* Second Click <kbd>Race Condition</kbd>: `setState({ people: [...[], Promise.resolve('Maria')] })`
+* Second Click <kbd>Ideal</kbd>: `setState({ people: [...['Adam'], Promise.resolve('Maria')] })`
 
-In the above case the <kbd>Race Condition</kbd> click occurs because the button was clicked before <kbd>First Click</kbd>'s promise resolved, whereas the <kbd>Ideal</kbd> click is perfect because the click occurred **after** the <kbd>First Click</kbd>'s promise resolved. We therefore need to prevent the possibility of the <kbd>Race Condition</kbd> click from happening &mdash; for this Keo provides the `resolutionMap` middleware that can be composed into React lifecycle functions:
+In the above case the <kbd>Race Condition</kbd> click occurs because the button was clicked before <kbd>Initial</kbd>'s promise resolved, whereas the <kbd>Ideal</kbd> click is perfect because the click occurred **after** the <kbd>Initial</kbd>'s promise resolved. We therefore need to prevent the possibility of the <kbd>Race Condition</kbd> click from happening &mdash; for this Keo provides the `resolutionMap` middleware that can be composed into React lifecycle functions:
 
 ```javascript
 const render = compose(resolutionMap, ({ props, state, setState }) => {
@@ -220,6 +220,8 @@ const render = compose(resolutionMap, ({ props, state, setState }) => {
 ```
 
 With the `resolutionMap` middleware applied the `props` is augmented with the `resolving` object which contains keys for each state that you set &ndash; setting either `true` or `false` depending on whether it's being resolved or not.
+
+### Confusing Matters
 
 As the `setState` will be deferred until the promise has been resolved, the re-running of the `render` function won't occur immediately, which means that you won't be able to validate `props.resolving` &ndash; if your `setState` is purely a Promise-specific state, then you can use `forceUpdate` to force a re-render and thus the ability to evaluate the `props.resolving` object:
 
