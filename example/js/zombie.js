@@ -8,11 +8,7 @@ import {stitch, compose, memoize, objectAssign, resolutionMap} from '../../src/k
  * @return {Object}
  */
 export const eatBrain = () => {
-    return new Promise((resolve, reject) => {
-        console.log('x');
-        reject();
-        //return fetch('https://randomuser.me/api').then(response => response.json()).then(json => json.results[0].user);
-    });
+    return fetch('https://randomuser.me/api').then(response => response.json()).then(json => json.results[0].user);
 };
 
 /**

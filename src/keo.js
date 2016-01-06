@@ -163,8 +163,17 @@ export const createWithCompose = component => {
 
                             // Resolve a simple promise contained within an object.
                             state[key].then(value => {
+
+                                // Succeeded! We'll therefore update the value.
                                 resolving[key] = false;
                                 setState({ [key]: value });
+
+                            }).catch(() => {
+
+                                // Failed! In which case we'll simply re-render.
+                                resolving[key] = false;
+                                forceUpdate();
+
                             });
 
                         }
@@ -178,8 +187,17 @@ export const createWithCompose = component => {
                             resolving[key] = true;
 
                             Promise.all(promises).then(array => {
+
+                                // Succeeded! Therefore we'll merge the new items in with the existing items.
                                 resolving[key] = false;
                                 setState({ [key]: [...items, ...array] });
+
+                            }).catch(() => {
+
+                                // Failed! We'll therefore display only the existing items.
+                                resolving[key] = false;
+                                setState({ [key]: items });
+
                             });
 
                         }
