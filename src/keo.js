@@ -244,7 +244,7 @@ export const createWithCompose = component => {
 /**
  * @method stitch
  * @param {Object|Function} component
- * @return {React.createClass}
+ * @return {createClass}
  */
 export const stitch = component => {
     return createWithCompose(wrap(component));
