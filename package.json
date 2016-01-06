@@ -1,6 +1,6 @@
 {
   "name": "keo",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Plain functions for a more functional Deku approach to creating React components, with functional goodies such as compose, memoize, etc... for free.",
   "main": "dist/keo.js",
   "scripts": {
@@ -45,6 +45,7 @@
     "react": "^0.14.0",
     "react-addons-test-utils": "^0.14.0",
     "react-dom": "^0.14.0",
+    "redux": "^3.0.5",
     "rimraf": "^2.5.0",
     "webpack": "^1.12.9"
   },

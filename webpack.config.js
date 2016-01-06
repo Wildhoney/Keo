@@ -1,10 +1,13 @@
 require('babel-loader');
 
 module.exports = {
-    entry: './src/keo.js',
+    entry: {
+        keo: ['./src/keo.js'],
+        redux: ['./src/redux.js']
+    },
     output: {
         path: __dirname + '/dist',
-        filename: 'keo.js',
+        filename: '[name].js',
 	library: "keo",
         libraryTarget: 'commonjs2'
     },
