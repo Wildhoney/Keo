@@ -23,6 +23,8 @@
   "keywords": [
     "functional",
     "react",
+    "promises",
+    "state",
     "components",
     "functions",
     "compose",
@@ -58,8 +60,6 @@
   },
   "dependencies": {
     "funkel": "^0.2.0",
-    "install": "^0.4.1",
-    "npm": "^3.5.2",
     "object-assign": "^4.0.1"
   },
   "optionalDependencies": {
