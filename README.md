@@ -202,7 +202,7 @@ const componentDidMount = ({ setState }) => {
 
 It's worth noting that if you apply `setState` on a promise state then race conditions may cause issues. For example in the following case, if the buttons are clicked in quick succession before the promise from the first click has been resolved, then the `state.people` will not be valid.
 
-* First Click <kbd>Initial<kbd>: `setState({ people: [...[], Promise.resolve('Adam')] })`
+* First Click <kbd>Initial</kbd>: `setState({ people: [...[], Promise.resolve('Adam')] })`
 * Second Click <kbd>Race Condition</kbd>: `setState({ people: [...[], Promise.resolve('Maria')] })`
 * Second Click <kbd>Ideal</kbd>: `setState({ people: [...['Adam'], Promise.resolve('Maria')] })`
 
