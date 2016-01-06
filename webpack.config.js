@@ -1,4 +1,5 @@
 require('babel-loader');
+require('json-loader');
 
 module.exports = {
     entry: {
@@ -20,8 +21,11 @@ module.exports = {
                   presets: ['es2015', 'stage-0'],
                   cacheDirectory: true
                 }
+            },
+            {
+                test: /\.json$/,
+                loader: 'json-loader'
             }
         ]
     }
 };
-
