@@ -221,7 +221,7 @@ const render = compose(resolutionMap, ({ props, state, setState }) => {
 
 With the `resolutionMap` middleware applied the `props` is augmented with the `resolving` object which contains keys for each state that you set &ndash; setting either `true` or `false` depending on whether it's being resolved or not.
 
-### Confusing Matters
+#### Confusing Matters
 
 As the `setState` will be deferred until the promise has been resolved, the re-running of the `render` function won't occur immediately, which means that you won't be able to validate `props.resolving` &ndash; if your `setState` is purely a Promise-specific state, then you can use `forceUpdate` to force a re-render and thus the ability to evaluate the `props.resolving` object:
 
