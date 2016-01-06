@@ -21,6 +21,7 @@
 * Use `export` to export plain functions for simpler unit-testing;
 * Simple composing of functions for [*mixin* support](https://github.com/dekujs/deku/issues/174);
 * Avoid functions being littered with React specific method calls;
+* In-built support for handling promises more elegantly with `setState`;
 
 <img src="media/screenshot.png" />
 
@@ -75,25 +76,7 @@ export const eatBrain = name => {
 
 In the above example returning `null` when there's no `name` will prevent `setState` from being invoked.
 
-### State Promises
-
-Assume for a moment that you have a function which yields a promise &mdash; by applying the `setState` you'll end up with the promise in your state, not the value that it represents. Therefore in these cases Keo cleverly waits for the promise to resolve before invoking `setState` &mdash; this allows you to keep `setState` &mdash; and `dispatch` &mdash; in React-specific lifecycle functions, such as `render`:
-
-```javascript
-const findPerson = name => {
-    return fetch(`/person/${name}`);
-}
-
-const render = compose(({ setState }) => {
-
-    return (
-        <button onClick={() => setState(findPerson('Wally')}>
-            Find Wally
-        </button>
-    );
-
-});
-```
+For setting the state elegantly using promises, see [Promise State](#promise-state).
 
 ### Composing State & Dispatch
 
@@ -115,25 +98,6 @@ Which you can use in your `render` method for an action:
 ```
 
 As both of Keo's `setState` and `dispatch` functions return the arguments passed to them, you can safely `compose`.
-
-### Composing Promises
-
-Using `compose` on functions that yield promises will not work as expected &mdash; see [State Promises](#state-promises) &mdash; and will inevitably pass the promise to each function, rather than the value. In these cases use `composeDeferred`:
-
-```javascript
-const setPersonAndDispatch = composeDeferred(
-    state => setState(state),
-    props => dispatch(props)
-);
-
-// ...
-
-<button onClick={() => setPersonAndDispatch(findPerson('Wally'))}>
-    Where is Wally?
-</button>
-```
-
-Which you can use in your `render` method [as above](#composing-state--dispatch).
 
 ## Exporting
 
@@ -209,3 +173,27 @@ export default stitch({ componentWillMount, render }, state => state.zombies);
 With the remaining arguments you can specify the options &mdash; [see `react-redux`'s documentation](https://github.com/rackt/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options) &mdash; anything passed into the remaining arguments are used in the invocation of [`react-redux`](https://github.com/rackt/react-redux)'s `connect` function.
 
 For further information on connecting to Redux, see [Redux's documentation](http://rackt.org/redux/docs/basics/UsageWithReact.html).
+
+## Promise State
+
+More often than not you'll want to `setState` with a promise &ndash; with React itself the following code will simply place the promise in the `state`, as opposed to the eventual value:
+
+```javascript
+this.setState({ name: Promise.resolve('Adam') });
+```
+
+However when you use the Keo `setState` &mdash; which is a thin wrapped around React's `setState` &mdash; then the `setState` is deferred until the promise has been resolved. Additionally, an array of promises &mdash; optionally mixed with immediate values &mdash; will also cause the `setState` to be deferred until the promise has been resolved.
+
+```javascript
+const componentDidRender = ({ setState }) => {
+    setState({ name: Promise.resolve('Adam') });
+};
+```
+
+Likewise in the following example, where the array is a mix of eventual and immediate values &ndash; the same applies, where the `setState` will be deferred until *Maria* has been resolved:
+
+```javascript
+const componentDidRender = ({ setState }) => {
+    setState({ people: ['Adam', Promise.resolve('Maria')] });
+};
+```
