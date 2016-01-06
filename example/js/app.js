@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Gremlin from '../../tests/components/Gremlin';
+import Zombie from './zombie';
 
 document.addEventListener('DOMContentLoaded', () => {
-    render(<Gremlin name="Matilda" />, document.querySelector('section.gremlin'));
+    render(<Zombie name="Matilda" />, document.querySelector('section.zombie'));
 });

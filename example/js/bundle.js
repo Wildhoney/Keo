@@ -11,15 +11,15 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = require('react-dom');
 
-var _testsComponentsGremlin = require('../../tests/components/Gremlin');
+var _testsComponentsZombie = require('../../tests/components/Zombie');
 
-var _testsComponentsGremlin2 = _interopRequireDefault(_testsComponentsGremlin);
+var _testsComponentsZombie2 = _interopRequireDefault(_testsComponentsZombie);
 
 document.addEventListener('DOMContentLoaded', function () {
-    (0, _reactDom.render)(_react2['default'].createElement(_testsComponentsGremlin2['default'], { name: 'Matilda' }), document.querySelector('section.gremlin'));
+    (0, _reactDom.render)(_react2['default'].createElement(_testsComponentsZombie2['default'], { name: 'Matilda' }), document.querySelector('section.zombie'));
 });
 
-},{"../../tests/components/Gremlin":162,"react":160,"react-dom":32}],2:[function(require,module,exports){
+},{"../../tests/components/Zombie":162,"react":160,"react-dom":32}],2:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  *

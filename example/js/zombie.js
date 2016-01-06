@@ -1,3 +1,4 @@
+import fetch from 'node-fetch';
 import React from 'react';
 import moment from 'moment';
 import {stitch, compose, memoize, objectAssign, resolutionMap} from '../../src/keo';
@@ -20,6 +21,14 @@ const getInitialState = () => {
         humans: [],
         time: Date.now()
     };
+};
+
+/**
+ * @method getDefaultProps
+ * @return {Object}
+ */
+const getDefaultProps = () => {
+    return { name: 'Matilda' };
 };
 
 /**
@@ -72,4 +81,4 @@ const render = compose(resolutionMap, ({ props, state, setState }) => {
 
 });
 
-export default stitch({ getInitialState, render });
+export default stitch({ getInitialState, getDefaultProps, render });

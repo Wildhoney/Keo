@@ -1,41 +1,37 @@
+import jsdom from 'jsdom';
 import test from 'ava';
-import {shallow} from 'enzyme';
+import {shallow, mount, describeWithDOM} from 'enzyme';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import {findDOMNode} from 'react-dom';
 
 import 'babel-core/register';
 import {compose, stitch, wrap} from '../src/keo';
-import Gremlin from './components/gremlin';
 
-test('is able to set future and immediate values in state', t => {
+import DefaultProps from './mocks/default-props';
+import StateImmediate from './mocks/state-immediate';
+import StateFuture from './mocks/state-future';
 
-    t.pass();
+// Setup JSDOM manually because we don't use Mocha.
+global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
+global.window = global.document.defaultView;
 
+test('is able to utilise getDefaultProps', t => {
+    const component = mount(<DefaultProps />);
+    t.is(component.props().name, 'Geraldine');
 });
 
-//describe('Keo', () => {
-//
-//    it('Should be able to set state according to immediate and future values;', done => {
-//
-//        const instance = TestUtils.renderIntoDocument(<Gremlin name="Gemma" />);
-//        expect(true).toBeTruthy();
-//        done();
-//
-//        //const h2       = TestUtils.findRenderedDOMComponentWithTag(instance, 'h2');
-//        //const h3       = TestUtils.findRenderedDOMComponentWithTag(instance, 'h3');
-//        //const buttons  = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'button');
-//
-//        //TestUtils.Simulate.click(findDOMNode(buttons[3]));
-//        //expect(instance.state.zombieName).toEqual('Reset');
-//        //expect(instance.state.name instanceof Promise).toBeFalsy();
-//        //
-//        //setTimeout(() => {
-//        //    expect(instance.state.zombieName).toEqual('Reset');
-//        //    expect(instance.state.name).toEqual('No Name');
-//        //    done();
-//        //});
-//
-//    });
-//
-//});
+test('is able to set an immediate state', t => {
+    const component = shallow(<StateImmediate />);
+    component.find('button').simulate('click');
+    t.is(component.state().name, 'Matilda');
+});
+
+test.cb('is able to set an immediate state', t => {
+    const component = shallow(<StateFuture />);
+    component.find('button').simulate('click');
+    setTimeout(() => {
+        t.is(component.state().name, 'Spencer');
+        t.end();
+    });
+});
