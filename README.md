@@ -39,13 +39,13 @@ const componentDidMount = ({ setState }) => {
 
 Properties which can be destructured are as follows:
 
-* `props` <kbd>unchanged</kbd>;
-* `state` <kbd>unchanged</kbd>;
+* `props`;
+* `state`;
 * `setState` <kbd>wrapper</kbd>;
 * `dispatch` <kbd>wrapper</kbd>;
-* `refs` <kbd>unchanged</kbd>;
-* `context` <kbd>unchanged</kbd>;
-* `forceUpdate` <kbd>unchanged</kbd>;
+* `refs`;
+* `context`;
+* `forceUpdate`;
 
 #### Lifecycle Functions
 
