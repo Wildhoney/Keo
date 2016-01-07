@@ -9,7 +9,7 @@ module.exports = {
     output: {
         path: __dirname + '/dist',
         filename: '[name].js',
-	    library: "keo",
+	    library: 'keo',
         libraryTarget: 'commonjs2'
     },
     module: {
@@ -18,8 +18,7 @@ module.exports = {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 query: {
-                  presets: ['es2015', 'stage-0'],
-                  cacheDirectory: true
+                  presets: ['es2015', 'stage-0']
                 }
             },
             {

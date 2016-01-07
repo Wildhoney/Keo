@@ -56,7 +56,7 @@ function isObject(x) {
 /**
  * @method createWithCompose
  * @param {Object} component
- * @return {React.createClass}
+ * @return {createClass}
  */
 export const createWithCompose = component => {
 
@@ -66,7 +66,17 @@ export const createWithCompose = component => {
      */
     function passArguments() {
 
-        const {refs = {}, props = {}, state = {}, context = {}} = this;
+        /**
+         * @method orObject
+         * @param {*} x
+         * @return {Object}
+         */
+        const orObject = x => x || {};
+
+        const refs = orObject(this.refs);
+        const props = orObject(this.props);
+        const state = orObject(this.state);
+        const context = orObject(this.context);
         const forceUpdate = this::this.forceUpdate;
 
         /**

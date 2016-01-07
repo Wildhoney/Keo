@@ -33486,7 +33486,7 @@ module.exports = ReactUpdates;
 
 'use strict';
 
-module.exports = '0.14.5';
+module.exports = '0.14.6';
 },{}],176:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -41522,7 +41522,7 @@ function isObject(x) {
 /**
  * @method createWithCompose
  * @param {Object} component
- * @return {React.createClass}
+ * @return {createClass}
  */
 var createWithCompose = exports.createWithCompose = function createWithCompose(component) {
 
@@ -41533,15 +41533,19 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
     function passArguments() {
         var _this = this;
 
-        var _refs = this.refs;
-        var refs = _refs === undefined ? {} : _refs;
-        var _props = this.props;
-        var props = _props === undefined ? {} : _props;
-        var _state = this.state;
-        var state = _state === undefined ? {} : _state;
-        var _context = this.context;
-        var context = _context === undefined ? {} : _context;
+        /**
+         * @method orObject
+         * @param {*} x
+         * @return {Object}
+         */
+        var orObject = function orObject(x) {
+            return x || {};
+        };
 
+        var refs = orObject(this.refs);
+        var props = orObject(this.props);
+        var state = orObject(this.state);
+        var context = orObject(this.context);
         var forceUpdate = this.forceUpdate.bind(this);
 
         /**
