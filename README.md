@@ -39,13 +39,13 @@ const componentDidMount = ({ setState }) => {
 
 Properties which can be destructured are as follows:
 
-* `props`;
-* `state`;
-* `setState` <kbd>wrapper</kbd>;
-* `dispatch` <kbd>wrapper</kbd>;
-* `refs`;
-* `context`;
-* `forceUpdate`;
+* `props`
+* `state`
+* `setState` <kbd>wrapper</kbd>
+* `dispatch` <kbd>wrapper</kbd>
+* `refs`
+* `context`
+* `forceUpdate`
 
 #### Lifecycle Functions
 
@@ -86,7 +86,19 @@ export const eatBrain = name => {
 
 In the above example returning `null` when there's no `name` will prevent `setState` from being invoked.
 
-For setting the state elegantly using promises, see [Promise State](#promise-state).
+For setting the state elegantly using promises, see [Promise State](#promise-state) &mdash; however generally speaking the approach doesn't change:
+
+```javascript
+export const eatBrain = name => {
+    return Promise.resolve(`${name} is now tiring. Eating brain... Nom, nom, nom!`);
+};
+
+// ...
+
+<button onClick={() => setState({ current: eatBrain('Jacob') })}>
+    Eat Brain
+</button>
+```
 
 ### Composing State & Dispatch
 
