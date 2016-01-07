@@ -37,6 +37,16 @@ const componentDidMount = ({ setState }) => {
 };
 ```
 
+Properties which can be destructured are as follows:
+
+* `props` <kbd>unchanged</kbd>;
+* `state` <kbd>unchanged</kbd>;
+* `setState` <kbd>wrapper</kbd>;
+* `dispatch` <kbd>wrapper</kbd>;
+* `refs` <kbd>unchanged</kbd>;
+* `context` <kbd>unchanged</kbd>;
+* `forceUpdate` <kbd>unchanged</kbd>;
+
 #### Lifecycle Functions
 
 Following functions receive `props`, `state`, `setState`, `dispatch` etc... as an object which can be destructured:
@@ -52,7 +62,7 @@ Ideally your functions that aren't directly related to React should be pure func
 
 ```javascript
 export const eatBrain = name => {
-    return { current: `${name} is now tiring. Eating brain... Nom, nom, nom!` };
+    return `${name} is now tiring. Eating brain... Nom, nom, nom!`;
 };
 ```
 
@@ -61,7 +71,7 @@ Given the `eatBrain` function, we can easily test in isolation using `import {ea
 Whilst there's nothing to prevent you from passing `setState` into the `eatBrains` function, in Keo we *recommend* that you return an object from `eatBrains` and then invoke `setState` from within the `render` function &ndash; a function which **is** directly coupled to the React infrastructure.
 
 ```javascript
-<button onClick={() => setState(eatBrain('Jacob'))}>
+<button onClick={() => setState({ current: eatBrain('Jacob') })}>
     Eat Brain
 </button>
 ```
