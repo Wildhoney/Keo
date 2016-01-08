@@ -80,7 +80,6 @@ export const createWithCompose = component => {
          * @return {HTMLElement}
          */
         const element = ref => {
-            console.log(this.refs);
             return findDOMNode(this.refs[ref]);
         };
 

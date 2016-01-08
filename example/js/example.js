@@ -41461,6 +41461,8 @@ var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
 var _react = require('react');
 
+var _reactDom = require('react-dom');
+
 var fnkl = _interopRequireWildcard(_funkel);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -41542,7 +41544,16 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
             return x || {};
         };
 
-        var refs = orObject(this.refs);
+        /**
+         * @method element
+         * @param {String} ref
+         * @return {HTMLElement}
+         */
+        var element = function element(ref) {
+            console.log(_this.refs);
+            return (0, _reactDom.findDOMNode)(_this.refs[ref]);
+        };
+
         var props = orObject(this.props);
         var state = orObject(this.state);
         var context = orObject(this.context);
@@ -41707,7 +41718,7 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
             return immediateState;
         };
 
-        return { props: props, state: state, setState: setState, dispatch: dispatch, refs: refs, context: context, forceUpdate: forceUpdate };
+        return { props: props, state: state, setState: setState, dispatch: dispatch, element: element, context: context, forceUpdate: forceUpdate };
     }
 
     /**
@@ -41723,21 +41734,30 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
 
         /**
          * @method componentWillMount
-         * @return {Object}
+         * @return {*}
          */
         componentWillMount: compose(passArguments, orFunction(component.componentWillMount)),
 
         /**
          * @method componentDidMount
-         * @return {Object}
+         * @return {*}
          */
         componentDidMount: compose(passArguments, orFunction(component.componentDidMount)),
 
         /**
          * @method componentWillUnmount
-         * @return {Object}
+         * @return {*}
          */
         componentWillUnmount: compose(passArguments, orFunction(component.componentWillUnmount)),
+
+        /**
+         * @method componentWillReceiveProps
+         * @param nextProps {Object}
+         * @return {*}
+         */
+        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+            orFunction(component.componentWillReceiveProps)(nextProps, passArguments);
+        },
 
         /**
          * @method render
@@ -41792,4 +41812,4 @@ var composeDeferred = exports.composeDeferred = function composeDeferred() {
     return fnkl.composeDeferred.apply(fnkl, _toConsumableArray(fns.reverse()));
 };
 
-},{"funkel":41,"object-assign":73,"react":220}]},{},[1]);
+},{"funkel":41,"object-assign":73,"react":220,"react-dom":91}]},{},[1]);
