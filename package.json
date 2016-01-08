@@ -11,7 +11,7 @@
     "clean": "rimraf dist && npm run build",
     "build": "webpack",
     "example": "browserify example/js/app.js -o example/js/example.js -t [ babelify --presets [ es2015 react ] ]",
-    "watch": "watch 'npm run example' example/"
+    "watch": "npm run build && watch 'npm run example' example/"
   },
   "files": [
     "dist"

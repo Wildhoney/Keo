@@ -5,6 +5,7 @@
  */
 import objectAssign from 'object-assign';
 import {createClass} from 'react';
+import {findDOMNode} from 'react-dom';
 import * as fnkl from 'funkel';
 export {memoize, trace, partial} from 'funkel';
 export {objectAssign};
@@ -73,7 +74,16 @@ export const createWithCompose = component => {
          */
         const orObject = x => x || {};
 
-        const refs = orObject(this.refs);
+        /**
+         * @method element
+         * @param {String} ref
+         * @return {HTMLElement}
+         */
+        const element = ref => {
+            console.log(this.refs);
+            return findDOMNode(this.refs[ref]);
+        };
+
         const props = orObject(this.props);
         const state = orObject(this.state);
         const context = orObject(this.context);
@@ -226,7 +236,7 @@ export const createWithCompose = component => {
 
         };
 
-        return { props, state, setState, dispatch, refs, context, forceUpdate };
+        return { props, state, setState, dispatch, element, context, forceUpdate };
 
     }
 
