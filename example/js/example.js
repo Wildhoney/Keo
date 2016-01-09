@@ -41550,7 +41550,6 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
          * @return {HTMLElement}
          */
         var element = function element(ref) {
-            console.log(_this.refs);
             return (0, _reactDom.findDOMNode)(_this.refs[ref]);
         };
 
