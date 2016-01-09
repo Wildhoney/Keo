@@ -86,6 +86,8 @@ var render = (0, _keo.compose)(_keo.resolutionMap, function (_ref) {
     var props = _ref.props;
     var state = _ref.state;
     var setState = _ref.setState;
+    var element = _ref.element;
+    var refs = _ref.refs;
 
     var humans = state.humans.map(function (human) {
 
@@ -41553,6 +41555,23 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
             return (0, _reactDom.findDOMNode)(_this.refs[ref]);
         };
 
+        /**
+         * @method refs
+         * @type {Proxy}
+         */
+        var refs = new Proxy(this.refs, {
+
+            /**
+             * @method get
+             * @param {Object} target
+             * @param {String} key
+             */
+            get: function get(target, key) {
+                return _this.refs[key];
+            }
+
+        });
+
         var props = orObject(this.props);
         var state = orObject(this.state);
         var context = orObject(this.context);
@@ -41717,7 +41736,7 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
             return immediateState;
         };
 
-        return { props: props, state: state, setState: setState, dispatch: dispatch, element: element, context: context, forceUpdate: forceUpdate };
+        return { props: props, state: state, setState: setState, dispatch: dispatch, element: element, refs: refs, context: context, forceUpdate: forceUpdate };
     }
 
     /**

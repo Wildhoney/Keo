@@ -83,6 +83,21 @@ export const createWithCompose = component => {
             return findDOMNode(this.refs[ref]);
         };
 
+        /**
+         * @method refs
+         * @type {Proxy}
+         */
+        const refs = new Proxy(this.refs, {
+
+            /**
+             * @method get
+             * @param {Object} target
+             * @param {String} key
+             */
+            get: (target, key) => this.refs[key]
+
+        });
+
         const props = orObject(this.props);
         const state = orObject(this.state);
         const context = orObject(this.context);
@@ -235,7 +250,7 @@ export const createWithCompose = component => {
 
         };
 
-        return { props, state, setState, dispatch, element, context, forceUpdate };
+        return { props, state, setState, dispatch, element, refs, context, forceUpdate };
 
     }
 

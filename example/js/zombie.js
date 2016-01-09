@@ -38,7 +38,7 @@ const getDefaultProps = () => {
  * @param {Function} setState
  * @return {XML}
  */
-const render = compose(resolutionMap, ({ props, state, setState }) => {
+const render = compose(resolutionMap, ({ props, state, setState, element, refs }) => {
 
     const humans = state.humans.map(human => {
 
