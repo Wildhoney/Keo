@@ -5,7 +5,6 @@
  */
 import objectAssign from 'object-assign';
 import {createClass} from 'react';
-import {findDOMNode} from 'react-dom';
 import * as fnkl from 'funkel';
 export {memoize, trace, partial} from 'funkel';
 export {objectAssign};
@@ -80,7 +79,7 @@ export const createWithCompose = component => {
          * @return {HTMLElement}
          */
         const element = ref => {
-            return findDOMNode(this.refs[ref]);
+            return this.refs[ref];
         };
 
         /**

@@ -121,7 +121,7 @@ Which you can use in your `render` method for an action:
 
 ## Selecting Elements
 
-Until [`Proxy`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Proxy) is more widely supported, Keo uses the `element` function to select elements &ndash; it essentially takes a `key` &ndash; which is a `ref` &mdash; and returns the `findDOMNode(key)` element. Simply destructure `element`:
+Until [`Proxy`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Proxy) is more widely supported, Keo uses the `element` function to select elements &ndash; it essentially takes a `key` and returns the corresponding element. Simply destructure `element`:
 
 ```javascript
 const componentDidMount = ({ element }) => {
