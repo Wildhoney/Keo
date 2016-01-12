@@ -12,6 +12,7 @@ import DefaultProps from './mocks/default-props';
 import StateImmediate from './mocks/state-immediate';
 import StateFuture from './mocks/state-future';
 import StateMixed from './mocks/state-mixed';
+import Stateless from './mocks/stateless';
 
 // Setup JSDOM manually because we don't use Mocha.
 global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
@@ -55,4 +56,10 @@ test.cb('is able to set future and immediate states', t => {
         t.same(component.state(), equals);
         t.end();
     });
+});
+
+test('is able to initialise stateless components', t => {
+    const component = shallow(<Stateless />);
+    component.find('button').simulate('click');
+    t.same(component.state(), { name: 'Dorothy' });
 });
