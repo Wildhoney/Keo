@@ -84,9 +84,9 @@ export const createWithCompose = component => {
 
         /**
          * @method refs
-         * @type {Proxy}
+         * @type {Proxy|Object}
          */
-        const refs = new Proxy(this.refs, {
+        const refs = typeof Proxy !== 'undefined' ? new Proxy(this.refs, {
 
             /**
              * @method get
@@ -95,7 +95,7 @@ export const createWithCompose = component => {
              */
             get: (target, key) => this.refs[key]
 
-        });
+        }) : {};
 
         const props = orObject(this.props);
         const state = orObject(this.state);

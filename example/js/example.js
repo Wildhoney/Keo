@@ -86,8 +86,6 @@ var render = (0, _keo.compose)(_keo.resolutionMap, function (_ref) {
     var props = _ref.props;
     var state = _ref.state;
     var setState = _ref.setState;
-    var element = _ref.element;
-    var refs = _ref.refs;
 
     var humans = state.humans.map(function (human) {
 
@@ -41463,8 +41461,6 @@ var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
 var _react = require('react');
 
-var _reactDom = require('react-dom');
-
 var fnkl = _interopRequireWildcard(_funkel);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -41552,14 +41548,14 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
          * @return {HTMLElement}
          */
         var element = function element(ref) {
-            return (0, _reactDom.findDOMNode)(_this.refs[ref]);
+            return _this.refs[ref];
         };
 
         /**
          * @method refs
-         * @type {Proxy}
+         * @type {Proxy|Object}
          */
-        var refs = new Proxy(this.refs, {
+        var refs = typeof Proxy !== 'undefined' ? new Proxy(this.refs, {
 
             /**
              * @method get
@@ -41570,7 +41566,7 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
                 return _this.refs[key];
             }
 
-        });
+        }) : {};
 
         var props = orObject(this.props);
         var state = orObject(this.state);
@@ -41830,4 +41826,4 @@ var composeDeferred = exports.composeDeferred = function composeDeferred() {
     return fnkl.composeDeferred.apply(fnkl, _toConsumableArray(fns.reverse()));
 };
 
-},{"funkel":41,"object-assign":73,"react":220,"react-dom":91}]},{},[1]);
+},{"funkel":41,"object-assign":73,"react":220}]},{},[1]);
