@@ -41896,7 +41896,7 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
          * @return {*}
          */
         componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
-            orFunction(component.componentWillReceiveProps)(prevProps, prevState, passArguments);
+            orFunction(component.componentDidUpdate)(prevProps, prevState, passArguments);
         },
 
         /**
