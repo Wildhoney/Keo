@@ -204,8 +204,6 @@ export default stitch({ componentWillMount, render }, state => state.zombies);
 
 As the Redux adapter is a simple interface, you can only supply the `mapStateToProps` property &mdash; if you require additional options then you **must** use `Redux`'s `connect` function directly:
 
-### Using Adapter
-
 ```javascript
 import {stitch} from 'keo';
 import {connect} from 'react-redux';
