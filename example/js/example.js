@@ -69,6 +69,10 @@ var getInitialState = function getInitialState() {
     };
 };
 
+var componentWillUpdate = function componentWillUpdate(props, args) {
+    console.log(args);
+};
+
 /**
  * @method getDefaultProps
  * @return {Object}
@@ -144,7 +148,7 @@ var render = (0, _keo.compose)(_middleware.resolutionMap, function (_ref) {
     );
 });
 
-exports.default = (0, _keo.stitch)({ getInitialState: getInitialState, getDefaultProps: getDefaultProps, render: render });
+exports.default = (0, _keo.stitch)({ componentWillUpdate: componentWillUpdate, getInitialState: getInitialState, getDefaultProps: getDefaultProps, render: render });
 
 },{"../../src/keo":245,"../../src/middleware":246,"moment":68,"node-fetch":69,"react":220}],3:[function(require,module,exports){
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
@@ -41872,10 +41876,13 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
         componentDidMount: compose(passArguments, orFunction(component.componentDidMount)),
 
         /**
-         * @method componentWillUnmount
+         * @method componentWillReceiveProps
+         * @param nextProps {Object}
          * @return {*}
          */
-        componentWillUnmount: compose(passArguments, orFunction(component.componentWillUnmount)),
+        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+            orFunction(component.componentWillReceiveProps)(nextProps, passArguments.apply(this));
+        },
 
         /**
          * @method componentWillUpdate
@@ -41883,7 +41890,12 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
          * @return {*}
          */
         componentWillUpdate: function componentWillUpdate(prevProps) {
-            orFunction(component.componentWillUpdate)(prevProps, passArguments.apply(this));
+
+            orFunction(component.componentWillUpdate)(prevProps, Object.assign({}, passArguments.apply(this), {
+                setState: function setState(state) {
+                    return state;
+                }
+            }));
         },
 
         /**
@@ -41897,13 +41909,10 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
         },
 
         /**
-         * @method componentWillReceiveProps
-         * @param nextProps {Object}
+         * @method componentWillUnmount
          * @return {*}
          */
-        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-            orFunction(component.componentWillReceiveProps)(nextProps, passArguments.apply(this));
-        },
+        componentWillUnmount: compose(passArguments, orFunction(component.componentWillUnmount)),
 
         /**
          * @method render

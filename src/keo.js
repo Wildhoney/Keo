@@ -264,10 +264,13 @@ export const createWithCompose = component => {
         componentDidMount: compose(passArguments, orFunction(component.componentDidMount)),
 
         /**
-         * @method componentWillUnmount
+         * @method componentWillReceiveProps
+         * @param nextProps {Object}
          * @return {*}
          */
-        componentWillUnmount: compose(passArguments, orFunction(component.componentWillUnmount)),
+        componentWillReceiveProps(nextProps) {
+            orFunction(component.componentWillReceiveProps)(nextProps, passArguments.apply(this));
+        },
 
         /**
          * @method componentWillUpdate
@@ -275,7 +278,11 @@ export const createWithCompose = component => {
          * @return {*}
          */
         componentWillUpdate(prevProps) {
-            orFunction(component.componentWillUpdate)(prevProps, passArguments.apply(this));
+
+            orFunction(component.componentWillUpdate)(prevProps, Object.assign({}, passArguments.apply(this), {
+                setState: state => state
+            }));
+
         },
 
         /**
@@ -289,13 +296,10 @@ export const createWithCompose = component => {
         },
 
         /**
-         * @method componentWillReceiveProps
-         * @param nextProps {Object}
+         * @method componentWillUnmount
          * @return {*}
          */
-        componentWillReceiveProps(nextProps) {
-            orFunction(component.componentWillReceiveProps)(nextProps, passArguments.apply(this));
-        },
+        componentWillUnmount: compose(passArguments, orFunction(component.componentWillUnmount)),
 
         /**
          * @method render
