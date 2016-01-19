@@ -283,6 +283,16 @@ export const createWithCompose = component => {
         componentWillUnmount: compose(passArguments, orFunction(component.componentWillUnmount)),
 
         /**
+         * @method componentDidUpdate
+         * @param prevProps {Object}
+         * @param prevState {Object}
+         * @return {*}
+         */
+        componentDidUpdate: (prevProps, prevState) => {
+            orFunction(component.componentWillReceiveProps)(prevProps, prevState, passArguments);
+        },
+
+        /**
          * @method componentWillReceiveProps
          * @param nextProps {Object}
          * @return {*}
