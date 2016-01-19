@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
 import React from 'react';
 import moment from 'moment';
-import {stitch, compose, memoize, objectAssign, resolutionMap} from '../../src/keo';
+import {stitch, compose, memoize} from '../../src/keo';
+import {resolutionMap} from '../../src/middleware';
 
 /**
  * @method eatBrain

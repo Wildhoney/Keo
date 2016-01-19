@@ -39,6 +39,8 @@ var _moment2 = _interopRequireDefault(_moment);
 
 var _keo = require('../../src/keo');
 
+var _middleware = require('../../src/middleware');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -82,7 +84,7 @@ var getDefaultProps = function getDefaultProps() {
  * @param {Function} setState
  * @return {XML}
  */
-var render = (0, _keo.compose)(_keo.resolutionMap, function (_ref) {
+var render = (0, _keo.compose)(_middleware.resolutionMap, function (_ref) {
     var props = _ref.props;
     var state = _ref.state;
     var setState = _ref.setState;
@@ -144,7 +146,7 @@ var render = (0, _keo.compose)(_keo.resolutionMap, function (_ref) {
 
 exports.default = (0, _keo.stitch)({ getInitialState: getInitialState, getDefaultProps: getDefaultProps, render: render });
 
-},{"../../src/keo":245,"moment":68,"node-fetch":69,"react":220}],3:[function(require,module,exports){
+},{"../../src/keo":245,"../../src/middleware":246,"moment":68,"node-fetch":69,"react":220}],3:[function(require,module,exports){
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
 //
 // THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
@@ -41546,18 +41548,16 @@ function extend() {
 },{}],245:[function(require,module,exports){
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /**
-                                                                                                                                                                                                                                                                   * @module Keo
-                                                                                                                                                                                                                                                                   * @link https://github.com/Wildhoney/Keo
-                                                                                                                                                                                                                                                                   * @author Adam Timberlake
-                                                                                                                                                                                                                                                                   */
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /**
+                                                                                                                                                                                                                                                   * @module Keo
+                                                                                                                                                                                                                                                   * @link https://github.com/Wildhoney/Keo
+                                                                                                                                                                                                                                                   * @author Adam Timberlake
+                                                                                                                                                                                                                                                   */
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.composeDeferred = exports.compose = exports.wrap = exports.stitch = exports.createWithCompose = exports.resolutionMap = exports.objectAssign = exports.partial = exports.trace = exports.memoize = undefined;
+exports.composeDeferred = exports.compose = exports.wrap = exports.stitch = exports.createWithCompose = exports.resolving = exports.objectAssign = exports.partial = exports.trace = exports.memoize = undefined;
 
 var _funkel = require('funkel');
 
@@ -41611,20 +41611,8 @@ var isFunction = function isFunction(fn) {
 /**
  * @property resolving
  * @type {Object}
- */
-var resolving = {};
-
-/**
- * @method resolutionMap
- * @param {Array} args
- * @return {Array}
- */
-var resolutionMap = exports.resolutionMap = function resolutionMap(args) {
-
-    return (0, _objectAssign2.default)({}, args, {
-        props: _extends({}, args.props, { resolving: resolving })
-    });
-};
+*/
+var resolving = exports.resolving = {};
 
 /**
  * @method isPromise
@@ -41895,7 +41883,7 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
          * @return {*}
          */
         componentWillUpdate: function componentWillUpdate(prevProps) {
-            orFunction(component.componentDidUpdate)(prevProps, passArguments.apply(this));
+            orFunction(component.componentWillUpdate)(prevProps, passArguments.apply(this));
         },
 
         /**
@@ -41970,4 +41958,28 @@ var composeDeferred = exports.composeDeferred = function composeDeferred() {
     return fnkl.composeDeferred.apply(fnkl, _toConsumableArray(fns.reverse()));
 };
 
-},{"funkel":41,"object-assign":73,"react":220}]},{},[1]);
+},{"funkel":41,"object-assign":73,"react":220}],246:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.resolutionMap = undefined;
+
+var _keo = require('./keo');
+
+/**
+ * @method resolutionMap
+ * @param {Array} args
+ * @return {Array}
+ */
+var resolutionMap = exports.resolutionMap = function resolutionMap(args) {
+
+    return (0, _keo.objectAssign)({}, args, {
+        props: _extends({}, args.props, { resolving: _keo.resolving })
+    });
+};
+
+},{"./keo":245}]},{},[1]);

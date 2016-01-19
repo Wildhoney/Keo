@@ -19,21 +19,8 @@ const isFunction = fn => typeof fn === 'function';
 /**
  * @property resolving
  * @type {Object}
- */
-const resolving = {};
-
-/**
- * @method resolutionMap
- * @param {Array} args
- * @return {Array}
- */
-export const resolutionMap = args => {
-
-    return objectAssign({}, args, {
-        props: { ...args.props, resolving }
-    });
-
-};
+*/
+export const resolving = {};
 
 /**
  * @method isPromise
