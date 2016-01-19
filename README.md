@@ -243,6 +243,8 @@ In the above case the <kbd>Race Condition</kbd> click occurs because the button 
 ```javascript
 import { resolutionMap } from 'keo/middleware';
 
+// ...
+
 const render = compose(resolutionMap, ({ props, state, setState }) => {
 
     <button disabled={props.resolving.people}
