@@ -288,8 +288,8 @@ export const createWithCompose = component => {
          * @param prevState {Object}
          * @return {*}
          */
-        componentDidUpdate: (prevProps, prevState) => {
-            orFunction(component.componentDidUpdate)(prevProps, prevState, passArguments());
+        componentDidUpdate(prevProps, prevState) {
+            orFunction(component.componentDidUpdate)(prevProps, prevState, passArguments.apply(this));
         },
 
         /**
@@ -297,8 +297,8 @@ export const createWithCompose = component => {
          * @param nextProps {Object}
          * @return {*}
          */
-        componentWillReceiveProps: nextProps => {
-            orFunction(component.componentWillReceiveProps)(nextProps, passArguments());
+        componentWillReceiveProps(nextProps) {
+            orFunction(component.componentWillReceiveProps)(nextProps, passArguments.apply(this));
         },
 
         /**
