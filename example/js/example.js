@@ -41555,7 +41555,7 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
          * @method refs
          * @type {Proxy|Object}
          */
-        var refs = typeof Proxy !== 'undefined' ? new Proxy(this.refs, {
+        var refs = typeof Proxy === 'undefined' ? {} : new Proxy(this.refs, {
 
             /**
              * @method get
@@ -41566,7 +41566,7 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
                 return _this.refs[key];
             }
 
-        }) : {};
+        });
 
         var props = orObject(this.props);
         var state = orObject(this.state);
