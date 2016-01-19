@@ -202,7 +202,16 @@ import {stitch} from 'keo/redux';
 export default stitch({ componentWillMount, render }, state => state.zombies);
 ```
 
-With the remaining arguments you can specify the options &mdash; [see `react-redux`'s documentation](https://github.com/rackt/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options) &mdash; anything passed into the remaining arguments are used in the invocation of [`react-redux`](https://github.com/rackt/react-redux)'s `connect` function.
+As the Redux adapter is a simple interface, you can only supply the `mapStateToProps` property &mdash; if you require additional options then you **must** use `Redux`'s `connect` function directly:
+
+### Using Adapter
+
+```javascript
+import {stitch} from 'keo';
+import {connect} from 'react-redux';
+// ...
+export default connect(state => state.zombies, ...)(stitch({ componentWillMount, render }));
+```
 
 For further information on connecting to Redux, see [Redux's documentation](http://rackt.org/redux/docs/basics/UsageWithReact.html).
 
@@ -242,9 +251,7 @@ In the above case the <kbd>Race Condition</kbd> click occurs because the button 
 
 ```javascript
 import { resolutionMap } from 'keo/middleware';
-
 // ...
-
 const render = compose(resolutionMap, ({ props, state, setState }) => {
 
     <button disabled={props.resolving.people}
