@@ -288,7 +288,7 @@ export const createWithCompose = component => {
          * @return {*}
          */
         componentWillUpdate(prevProps) {
-            orFunction(component.componentDidUpdate)(prevProps, passArguments.apply(this));
+            orFunction(component.componentWillUpdate)(prevProps, passArguments.apply(this));
         },
 
         /**
