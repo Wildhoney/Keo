@@ -69,10 +69,6 @@ var getInitialState = function getInitialState() {
     };
 };
 
-var componentWillUpdate = function componentWillUpdate(props, args) {
-    console.log(args);
-};
-
 /**
  * @method getDefaultProps
  * @return {Object}
@@ -148,7 +144,7 @@ var render = (0, _keo.compose)(_middleware.resolutionMap, function (_ref) {
     );
 });
 
-exports.default = (0, _keo.stitch)({ componentWillUpdate: componentWillUpdate, getInitialState: getInitialState, getDefaultProps: getDefaultProps, render: render });
+exports.default = (0, _keo.stitch)({ getInitialState: getInitialState, getDefaultProps: getDefaultProps, render: render });
 
 },{"../../src/keo":245,"../../src/middleware":246,"moment":68,"node-fetch":69,"react":220}],3:[function(require,module,exports){
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
