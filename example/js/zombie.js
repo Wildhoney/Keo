@@ -1,3 +1,5 @@
+import 'babel-core/register';
+import 'babel-polyfill';
 import fetch from 'node-fetch';
 import React from 'react';
 import moment from 'moment';
