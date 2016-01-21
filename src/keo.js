@@ -4,6 +4,7 @@
  * @author Adam Timberlake
  */
 import objectAssign from 'object-assign';
+import isGenerator from 'is-generator-fn';
 import {createClass} from 'react';
 import * as fnkl from 'funkel';
 export {memoize, trace, partial} from 'funkel';
@@ -146,20 +147,20 @@ export const createWithCompose = component => {
                     const keys = Object.keys(state);
 
                     /**
-                     * @method containsPromise
+                     * @method containsFuture
                      * @param {String} key
                      * @return {Boolean}
                      */
-                    const containsPromise = key => {
+                    const containsFuture = key => {
 
                         const cursor = state[key];
 
-                        return isPromise(cursor) || (() => {
+                        return (isPromise(cursor) || isGenerator(cursor)) || (() => {
 
                             if (Array.isArray(cursor)) {
 
                                 // Determine if an array was passed, which includes a promise.
-                                return cursor.some(item => isPromise(item));
+                                return cursor.some(item => isPromise(item) || isGenerator(item));
 
                             }
 
@@ -170,7 +171,7 @@ export const createWithCompose = component => {
                     };
 
                     // Determine which state items yield promises, and which yield immediate values.
-                    const futureStates = keys.filter(key => containsPromise(key)).reduce(keyToState, {});
+                    const futureStates = keys.filter(key => containsFuture(key)).reduce(keyToState, {});
 
                     // Iterate over each future state to apply the state once the promise has been resolved.
                     Object.keys(futureStates).map(key => {
@@ -195,6 +196,14 @@ export const createWithCompose = component => {
                                 forceUpdate();
 
                             });
+
+                        }
+
+                        if (isGenerator(cursor)) {
+
+                            for (var x of cursor()) {
+                                setState({ [key]: x });
+                            }
 
                         }
 
@@ -224,7 +233,7 @@ export const createWithCompose = component => {
 
                     });
 
-                    return keys.filter(key => !containsPromise(key)).reduce(keyToState, {});
+                    return keys.filter(key => !containsFuture(key)).reduce(keyToState, {});
 
                 }
 
