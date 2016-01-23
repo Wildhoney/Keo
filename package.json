@@ -67,7 +67,8 @@
   "dependencies": {
     "funkel": "^0.2.0",
     "is-generator-fn": "^1.0.0",
-    "object-assign": "^4.0.1"
+    "object-assign": "^4.0.1",
+    "rx": "^4.0.7"
   },
   "optionalDependencies": {
     "react-redux": "^4.0.0",

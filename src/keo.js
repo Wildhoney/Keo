@@ -6,6 +6,7 @@
 import objectAssign from 'object-assign';
 import isGenerator from 'is-generator-fn';
 import {createClass} from 'react';
+import {Observable} from 'rx';
 import * as fnkl from 'funkel';
 export {memoize, trace, partial} from 'funkel';
 export {objectAssign};
@@ -39,6 +40,15 @@ function isPromise(x) {
  */
 function isObject(x) {
     return typeof x === 'object';
+}
+
+/**
+ * @method isObservable
+ * @param {*} x
+ * @return {Boolean}
+ */
+function isObservable(x) {
+    return typeof x.subscribe === 'function';
 }
 
 /**
@@ -203,6 +213,10 @@ export const createWithCompose = component => {
                                 setState({ [key]: x });
                             }
 
+                        }
+
+                        if (isObservable(cursor)) {
+                            console.info('Keo: RX Observables support is coming soon.');
                         }
 
                         if (Array.isArray(cursor)) {
