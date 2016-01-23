@@ -42,6 +42,28 @@ function isObject(x) {
 }
 
 /**
+ * @method containsFuture
+ * @param {*} cursor
+ * @return {Boolean}
+ */
+const containsFuture = cursor => {
+
+    return (isPromise(cursor) || isGenerator(cursor)) || (() => {
+
+        if (Array.isArray(cursor)) {
+
+            // Determine if an array was passed, which includes a promise.
+            return cursor.some(item => isPromise(item) || isGenerator(item));
+
+        }
+
+        return false;
+
+    })();
+
+};
+
+/**
  * @method createWithCompose
  * @param {Object} component
  * @return {createClass}
@@ -146,32 +168,8 @@ export const createWithCompose = component => {
 
                     const keys = Object.keys(state);
 
-                    /**
-                     * @method containsFuture
-                     * @param {String} key
-                     * @return {Boolean}
-                     */
-                    const containsFuture = key => {
-
-                        const cursor = state[key];
-
-                        return (isPromise(cursor) || isGenerator(cursor)) || (() => {
-
-                            if (Array.isArray(cursor)) {
-
-                                // Determine if an array was passed, which includes a promise.
-                                return cursor.some(item => isPromise(item) || isGenerator(item));
-
-                            }
-
-                            return false;
-
-                        })();
-
-                    };
-
                     // Determine which state items yield promises, and which yield immediate values.
-                    const futureStates = keys.filter(key => containsFuture(key)).reduce(keyToState, {});
+                    const futureStates = keys.filter(key => containsFuture(state[key])).reduce(keyToState, {});
 
                     // Iterate over each future state to apply the state once the promise has been resolved.
                     Object.keys(futureStates).map(key => {
@@ -233,7 +231,7 @@ export const createWithCompose = component => {
 
                     });
 
-                    return keys.filter(key => !containsFuture(key)).reduce(keyToState, {});
+                    return keys.filter(key => !containsFuture(state[key])).reduce(keyToState, {});
 
                 }
 
