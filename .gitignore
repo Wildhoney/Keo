@@ -7,6 +7,3 @@ node_modules
 
 # ide
 .idea
-
-# compiled files
-dist
