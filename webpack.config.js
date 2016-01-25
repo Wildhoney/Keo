@@ -4,8 +4,7 @@ require('json-loader');
 module.exports = {
     entry: {
         keo: ['./src/keo.js'],
-        redux: ['./src/redux.js'],
-        middleware: ['./src/middleware.js']
+        redux: ['./src/redux.js']
     },
     output: {
         path: __dirname + '/dist',

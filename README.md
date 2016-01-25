@@ -248,7 +248,7 @@ It's worth noting that if you apply `setState` on a promise state then race cond
 In the above case the <kbd>Race Condition</kbd> click occurs because the button was clicked before <kbd>Initial</kbd>'s promise resolved, whereas the <kbd>Ideal</kbd> click is perfect because the click occurred **after** the <kbd>Initial</kbd>'s promise resolved. We therefore need to prevent the possibility of the <kbd>Race Condition</kbd> click from happening &mdash; for this Keo provides the `resolutionMap` middleware that can be composed into React lifecycle functions:
 
 ```javascript
-import { resolutionMap } from 'keo/middleware';
+import { stitch, compose, resolutionMap } from 'keo';
 // ...
 const render = compose(resolutionMap, ({ props, state, setState }) => {
 

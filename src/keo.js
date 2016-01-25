@@ -22,7 +22,7 @@ const isFunction = fn => typeof fn === 'function';
  * @property resolving
  * @type {Object}
 */
-export const resolving = {};
+const resolving = {};
 
 /**
  * @method isPromise
@@ -366,4 +366,17 @@ export const compose = (...fns) => {
  */
 export const composeDeferred = (...fns) => {
     return fnkl.composeDeferred(...fns.reverse());
+};
+
+/**
+ * @method resolutionMap
+ * @param {Array} args
+ * @return {Array}
+ */
+export const resolutionMap = args => {
+
+    return objectAssign({}, args, {
+        props: { ...args.props, resolving }
+    });
+
 };

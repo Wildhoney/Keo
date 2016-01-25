@@ -54,6 +54,8 @@ module.exports =
 
 	'use strict';
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /**
 	                                                                                                                                                                                                                                                   * @module Keo
 	                                                                                                                                                                                                                                                   * @link https://github.com/Wildhoney/Keo
@@ -63,7 +65,7 @@ module.exports =
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.composeDeferred = exports.compose = exports.wrap = exports.stitch = exports.createWithCompose = exports.resolving = exports.objectAssign = exports.partial = exports.trace = exports.memoize = undefined;
+	exports.resolutionMap = exports.composeDeferred = exports.compose = exports.wrap = exports.stitch = exports.createWithCompose = exports.objectAssign = exports.partial = exports.trace = exports.memoize = undefined;
 
 	var _funkel = __webpack_require__(2);
 
@@ -124,7 +126,7 @@ module.exports =
 	 * @property resolving
 	 * @type {Object}
 	*/
-	var resolving = exports.resolving = {};
+	var resolving = {};
 
 	/**
 	 * @method isPromise
@@ -506,6 +508,18 @@ module.exports =
 	    }
 
 	    return fnkl.composeDeferred.apply(fnkl, _toConsumableArray(fns.reverse()));
+	};
+
+	/**
+	 * @method resolutionMap
+	 * @param {Array} args
+	 * @return {Array}
+	 */
+	var resolutionMap = exports.resolutionMap = function resolutionMap(args) {
+
+	    return (0, _objectAssign2.default)({}, args, {
+	        props: _extends({}, args.props, { resolving: resolving })
+	    });
 	};
 
 /***/ },
