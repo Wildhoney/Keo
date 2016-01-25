@@ -58285,7 +58285,9 @@ function isObject(x) {
  * @param {*} x
  * @return {Boolean}
  */
-function isObservable(x) {}
+function isObservable(x) {
+    return typeof x.subscribe === 'function';
+}
 
 /**
  * @method containsFuture
@@ -58293,8 +58295,6 @@ function isObservable(x) {}
  * @return {Boolean}
  */
 var containsFuture = function containsFuture(cursor) {
-
-    console.log(_rx.Observable);
 
     return isPromise(cursor) || (0, _isGeneratorFn2.default)(cursor) || function () {
 
@@ -58483,7 +58483,9 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
                             }
                         }
 
-                        if (isObservable(cursor)) {}
+                        if (isObservable(cursor)) {
+                            console.info('Keo: RX Observables support is coming soon.');
+                        }
 
                         if (Array.isArray(cursor)) {
                             (function () {
