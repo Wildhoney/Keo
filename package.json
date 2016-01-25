@@ -1,6 +1,6 @@
 {
   "name": "keo",
-  "version": "1.2.8",
+  "version": "1.3.0",
   "description": "Plain functions for a more functional Deku approach to creating React components, with functional goodies such as compose, memoize, etc... for free.",
   "scripts": {
     "test": "ava tests/*.test.js",
