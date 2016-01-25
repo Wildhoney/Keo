@@ -300,7 +300,7 @@ export const createWithCompose = component => {
          */
         componentWillUpdate(prevProps) {
 
-            orFunction(component.componentWillUpdate)(prevProps, Object.assign({}, passArguments.apply(this), {
+            orFunction(component.componentWillUpdate)(prevProps, objectAssign({}, passArguments.apply(this), {
                 setState: state => state
             }));
 
