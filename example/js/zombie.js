@@ -3,8 +3,7 @@ import 'babel-polyfill';
 import fetch from 'node-fetch';
 import React from 'react';
 import moment from 'moment';
-import {stitch, compose, memoize} from '../../src/keo';
-import {resolutionMap} from '../../src/middleware';
+import {stitch, compose, memoize, resolutionMap} from '../../src/keo';
 
 /**
  * @method eatBrain
