@@ -4,7 +4,6 @@
  * @author Adam Timberlake
  */
 import objectAssign from 'object-assign';
-import isGenerator from 'is-generator-fn';
 import {createClass} from 'react';
 import {Observable} from 'rx';
 import * as fnkl from 'funkel';
@@ -58,12 +57,12 @@ function isObservable(x) {
  */
 const containsFuture = cursor => {
 
-    return (isPromise(cursor) || isGenerator(cursor)) || (() => {
+    return (isPromise(cursor) || isObservable(cursor)) || (() => {
 
         if (Array.isArray(cursor)) {
 
             // Determine if an array was passed, which includes a promise.
-            return cursor.some(item => isPromise(item) || isGenerator(item));
+            return cursor.some(item => isPromise(item) || isObservable(item));
 
         }
 
@@ -204,14 +203,6 @@ export const createWithCompose = component => {
                                 forceUpdate();
 
                             });
-
-                        }
-
-                        if (isGenerator(cursor)) {
-
-                            for (var x of cursor()) {
-                                setState({ [key]: x });
-                            }
 
                         }
 
