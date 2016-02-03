@@ -148,7 +148,7 @@ module.exports =
 	 * @return {Boolean}
 	 */
 	function isObservable(x) {
-	    return typeof x.subscribe === 'function';
+	    return typeof Object(x).subscribe === 'function';
 	}
 
 	/**
