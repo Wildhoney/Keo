@@ -19,9 +19,9 @@ const isFunction = fn => typeof fn === 'function';
 
 /**
  * @property resolving
- * @type {Object}
+ * @type {Map}
 */
-const resolving = {};
+const resolving = new Map();
 
 /**
  * @method isPromise
@@ -84,6 +84,13 @@ export const createWithCompose = component => {
      * @return {Object}
      */
     function passArguments() {
+
+        if (!resolving.has(this)) {
+
+            // Define the resolving as an object for adding items to.
+            resolving.set(this, {});
+
+        }
 
         /**
          * @method orObject
@@ -187,19 +194,19 @@ export const createWithCompose = component => {
 
                         if (isPromise(cursor)) {
 
-                            resolving[key] = true;
+                            resolving.get(this)[key] = true;
 
                             // Resolve a simple promise contained within an object.
                             state[key].then(value => {
 
                                 // Succeeded! We'll therefore update the value.
-                                resolving[key] = false;
+                                resolving.get(this)[key] = false;
                                 setState({ [key]: value });
 
                             }).catch(() => {
 
                                 // Failed! In which case we'll simply re-render.
-                                resolving[key] = false;
+                                resolving.get(this)[key] = false;
                                 forceUpdate();
 
                             });
@@ -207,7 +214,7 @@ export const createWithCompose = component => {
                         }
 
                         if (isObservable(cursor)) {
-                            console.info('Keo: RX Observables support is coming soon.');
+                            console.info('Keo: Support for RX Observables is coming soon.');
                         }
 
                         if (Array.isArray(cursor)) {
@@ -216,18 +223,18 @@ export const createWithCompose = component => {
                             const promises = cursor.filter(item => isPromise(item));
                             const items = cursor.filter(item => !isPromise(item));
 
-                            resolving[key] = true;
+                            resolving.get(this)[key] = true;
 
                             Promise.all(promises).then(array => {
 
                                 // Succeeded! Therefore we'll merge the new items in with the existing items.
-                                resolving[key] = false;
+                                resolving.get(this)[key] = false;
                                 setState({ [key]: [...items, ...array] });
 
                             }).catch(() => {
 
                                 // Failed! We'll therefore display only the existing items.
-                                resolving[key] = false;
+                                resolving.get(this)[key] = false;
                                 setState({ [key]: items });
 
                             });
@@ -364,10 +371,10 @@ export const composeDeferred = (...fns) => {
  * @param {Array} args
  * @return {Array}
  */
-export const resolutionMap = args => {
+export const resolutionMap = function(args) {
 
     return objectAssign({}, args, {
-        props: { ...args.props, resolving }
+        props: { ...args.props, resolving: resolving.get(this) }
     });
 
 };

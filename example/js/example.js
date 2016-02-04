@@ -58241,9 +58241,9 @@ var isFunction = function isFunction(fn) {
 
 /**
  * @property resolving
- * @type {Object}
+ * @type {Map}
 */
-var resolving = {};
+var resolving = new Map();
 
 /**
  * @method isPromise
@@ -58269,7 +58269,7 @@ function isObject(x) {
  * @return {Boolean}
  */
 function isObservable(x) {
-    return typeof x.subscribe === 'function';
+    return typeof Object(x).subscribe === 'function';
 }
 
 /**
@@ -58306,6 +58306,12 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
      */
     function passArguments() {
         var _this = this;
+
+        if (!resolving.has(this)) {
+
+            // Define the resolving as an object for adding items to.
+            resolving.set(this, {});
+        }
 
         /**
          * @method orObject
@@ -58422,24 +58428,24 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
 
                         if (isPromise(cursor)) {
 
-                            resolving[key] = true;
+                            resolving.get(_this)[key] = true;
 
                             // Resolve a simple promise contained within an object.
                             state[key].then(function (value) {
 
                                 // Succeeded! We'll therefore update the value.
-                                resolving[key] = false;
+                                resolving.get(_this)[key] = false;
                                 setState(_defineProperty({}, key, value));
                             }).catch(function () {
 
                                 // Failed! In which case we'll simply re-render.
-                                resolving[key] = false;
+                                resolving.get(_this)[key] = false;
                                 forceUpdate();
                             });
                         }
 
                         if (isObservable(cursor)) {
-                            console.info('Keo: RX Observables support is coming soon.');
+                            console.info('Keo: Support for RX Observables is coming soon.');
                         }
 
                         if (Array.isArray(cursor)) {
@@ -58453,17 +58459,17 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
                                     return !isPromise(item);
                                 });
 
-                                resolving[key] = true;
+                                resolving.get(_this)[key] = true;
 
                                 Promise.all(promises).then(function (array) {
 
                                     // Succeeded! Therefore we'll merge the new items in with the existing items.
-                                    resolving[key] = false;
+                                    resolving.get(_this)[key] = false;
                                     setState(_defineProperty({}, key, [].concat(_toConsumableArray(items), _toConsumableArray(array))));
                                 }).catch(function () {
 
                                     // Failed! We'll therefore display only the existing items.
-                                    resolving[key] = false;
+                                    resolving.get(_this)[key] = false;
                                     setState(_defineProperty({}, key, items));
                                 });
                             })();
@@ -58607,7 +58613,7 @@ var composeDeferred = exports.composeDeferred = function composeDeferred() {
 var resolutionMap = exports.resolutionMap = function resolutionMap(args) {
 
     return (0, _objectAssign2.default)({}, args, {
-        props: _extends({}, args.props, { resolving: resolving })
+        props: _extends({}, args.props, { resolving: resolving.get(this) })
     });
 };
 
