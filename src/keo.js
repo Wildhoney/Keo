@@ -32,6 +32,15 @@ function isPromise(x) {
 }
 
 /**
+ * @method isObservable
+ * @param {*} x
+ * @return {Boolean}
+ */
+function isObservable(x) {
+    return 'subscribe' in Object(x);
+}
+
+/**
  * @method isObject
  * @param {*} x
  * @return {Boolean}
@@ -41,18 +50,27 @@ function isObject(x) {
 }
 
 /**
+ * @method isFuture
+ * @param {Object} cursor
+ * @return {Boolean}
+ */
+const isFuture = cursor => {
+    return isPromise(cursor) || isObservable(cursor);
+};
+
+/**
  * @method containsFuture
  * @param {*} cursor
  * @return {Boolean}
  */
 const containsFuture = cursor => {
 
-    return isPromise(cursor) || (() => {
+    return isFuture(cursor) || (() => {
 
         if (Array.isArray(cursor)) {
 
             // Determine if an array was passed, which includes a promise.
-            return cursor.some(item => isPromise(item));
+            return cursor.some(item => isFuture(item));
 
         }
 
