@@ -18,9 +18,9 @@ const isFunction = fn => typeof fn === 'function';
 
 /**
  * @property resolving
- * @type {Map}
+ * @type {WeakMap}
 */
-const resolving = new Map();
+const resolving = new WeakMap();
 
 /**
  * @method isPromise
