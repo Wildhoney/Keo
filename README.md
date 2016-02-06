@@ -1,7 +1,7 @@
 <img src="media/logo.png" alt="Keo" width="250" />
 
 > <sub><sup>*["Keo"](https://vi.wikipedia.org/wiki/Keo) is the Vietnamese translation for glue.*</sup></sub><br />
-> Plain functions for a more functional [Deku](https://github.com/dekujs/deku) approach to creating React components, with functional goodies such as compose, memoize, etc... for free.
+> Plain functions for a more functional [Deku](https://github.com/dekujs/deku) approach to creating React components, with functional goodies such as pipe, memoize, etc... for free.
 
 ![Travis](http://img.shields.io/travis/Wildhoney/Keo.svg?style=flat-square)
 &nbsp;
@@ -17,7 +17,7 @@
 
 * Steer away from `class` sugaring, inheritance, and `super` calls;
 * Create referentially transparent, pure functions without `this`;
-* Gain `memoize`, `compose`, et cetera... for gratis with previous;
+* Gain `memoize`, `pipe`, et cetera... for gratis with previous;
 * Use `export` to export plain functions for simpler unit-testing;
 * Simple composing of functions for [*mixin* support](https://github.com/dekujs/deku/issues/174);
 * Avoid functions being littered with React specific method calls;
@@ -102,10 +102,10 @@ export const eatBrain = name => {
 
 ### Composing State & Dispatch
 
-Oftentimes you'll require a function to both set the state and dispatch an event &mdash; in these cases you *may* be tempted to `setState` and `dispatch` in your function, which would move React specific functions into plain functions, rather than keeping them in your `render` function. In these cases we recommend using `compose` to create your own action:
+Oftentimes you'll require a function to both set the state and dispatch an event &mdash; in these cases you *may* be tempted to `setState` and `dispatch` in your function, which would move React specific functions into plain functions, rather than keeping them in your `render` function. In these cases we recommend using `pipe` to create your own action:
 
 ```javascript
-const setNameAndDispatch = compose(
+const setNameAndDispatch = pipe(
     state => setState(state),
     props => dispatch(props)
 );
@@ -129,7 +129,7 @@ const componentDidMount = ({ element }) => {
 };
 ```
 
-As both of Keo's `setState` and `dispatch` functions return the arguments passed to them, you can safely `compose`.
+As both of Keo's `setState` and `dispatch` functions return the arguments passed to them, you can safely `pipe`.
 
 ## Exporting
 
@@ -145,7 +145,7 @@ As such, your exported component will now be a valid `React.createClass` compone
 
 ## Lifecycle Composing
 
-With the [demise of mixins](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750#.dfr92o4yg) in React, and the gradual trend towards favouring composition, Keo makes it simple to compose the lifecycle functions to add additional behaviour.
+With the [demise of mixins](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750#.dfr92o4yg) in React, and the gradual trend towards favouring composition, Keo makes it simple to pipe the lifecycle functions to add additional behaviour.
 
 As an example, suppose you have a `hasBrain` component that you wish to use in numerous React components &mdash; all that your `hasBrain` component is required to do is to pass on the arguments that were passed to it! Additionally, the `hasBrain` component should be pure &mdash; without side effects &mdash; and most importantly, **not** mutate those arguments that were entrusted to it by Keo.
 
@@ -163,10 +163,10 @@ const hasBrain = args => {
 };
 ```
 
-By using the `hasBrain` above in the `compose` function in conjunction with our component's `render` function, we can pass in `brainIntact` as part of the `state` object.
+By using the `hasBrain` above in the `pipe` function in conjunction with our component's `render` function, we can pass in `brainIntact` as part of the `state` object.
 
 ```javascript
-const render = compose(hasBrain, ({ state }) => {
+const render = pipe(hasBrain, ({ state }) => {
 
     return (
         <h1>
@@ -178,7 +178,7 @@ const render = compose(hasBrain, ({ state }) => {
 });
 ```
 
-An important aspect to note is that the Keo `compose` function composes from left-to-right, because this allows you to have your **actual** lifecycle function as the final argument, making it much more readable &mdash; in Keo's opinion.
+An important aspect to note is that the Keo `pipe` function *composes* from left-to-right, because this allows you to have your **actual** lifecycle function as the final argument, making it much more readable &mdash; in Keo's opinion. However Keo does export the `compose` function from the [Funkel](https://github.com/Wildhoney/Funkel) library if you decide you prefer `compose` over `pipe`.
 
 ## Memoize
 
@@ -245,12 +245,12 @@ It's worth noting that if you apply `setState` on a promise state then race cond
 * Second Click <kbd>Race Condition</kbd>: `setState({ people: [...[], Promise.resolve('Maria')] })`
 * Second Click <kbd>Ideal</kbd>: `setState({ people: [...['Adam'], Promise.resolve('Maria')] })`
 
-In the above case the <kbd>Race Condition</kbd> click occurs because the button was clicked before <kbd>Initial</kbd>'s promise resolved, whereas the <kbd>Ideal</kbd> click is perfect because the click occurred **after** the <kbd>Initial</kbd>'s promise resolved. We therefore need to prevent the possibility of the <kbd>Race Condition</kbd> click from happening &mdash; for this Keo provides the `resolutionMap` middleware that can be composed into React lifecycle functions:
+In the above case the <kbd>Race Condition</kbd> click occurs because the button was clicked before <kbd>Initial</kbd>'s promise resolved, whereas the <kbd>Ideal</kbd> click is perfect because the click occurred **after** the <kbd>Initial</kbd>'s promise resolved. We therefore need to prevent the possibility of the <kbd>Race Condition</kbd> click from happening &mdash; for this Keo provides the `resolutionMap` middleware that can be piped into React lifecycle functions:
 
 ```javascript
-import { stitch, compose, resolutionMap } from 'keo';
+import { stitch, pipe, resolutionMap } from 'keo';
 // ...
-const render = compose(resolutionMap, ({ props, state, setState }) => {
+const render = pipe(resolutionMap, ({ props, state, setState }) => {
 
     <button disabled={props.resolving.people}
             onClick={() => setState({ people: [...state.people, Promise.resolve('Adam')] })}>
@@ -262,12 +262,14 @@ const render = compose(resolutionMap, ({ props, state, setState }) => {
 
 With the `resolutionMap` middleware applied the `props` is augmented with the `resolving` object which contains keys for each state that you set &ndash; setting either `true` or `false` depending on whether it's being resolved or not.
 
+**Note:** Prior to versions `1.4.0` `resolutionMap` dealt with a global object, which meant potential collisions when using common keys &mdash; however since `1.4.0` `resolutionMap` is scoped to the current component using `Map`.
+
 #### Confusing Matters
 
 As the `setState` will be deferred until the promise has been resolved, the re-running of the `render` function won't occur immediately, which means that you won't be able to validate `props.resolving` &ndash; if your `setState` is purely a Promise-specific state, then you can use `forceUpdate` to force a re-render and thus the ability to evaluate the `props.resolving` object:
 
 ```javascript
-const render = compose(resolutionMap, ({ props, state, setState, forceUpdate }) => {
+const render = pipe(resolutionMap, ({ props, state, setState, forceUpdate }) => {
 
     <button disabled={props.resolving.people}
             onClick={() => forceUpdate(void setState({ humans: [...state.humans, eatBrain()] }))}>
@@ -280,7 +282,7 @@ const render = compose(resolutionMap, ({ props, state, setState, forceUpdate }) 
 Note that you won't need to use the `forceUpdate` path if your `setState` also contains a `state` which causes an immediate re-render, such as the following:
 
 ```javascript
-const render = compose(resolutionMap, ({ props, state, setState }) => {
+const render = pipe(resolutionMap, ({ props, state, setState }) => {
 
     <button disabled={props.resolving.people}
             onClick={() => setState({ clicks: state.clicks + 1, people: [...state.people, Promise.resolve('Adam')] })}>
