@@ -83,6 +83,13 @@ export const createWithCompose = component => {
         }
 
         /**
+         * @method isResolving
+         * @param {Boolean} value
+         * @return {void}
+         */
+        const isResolving = value => resolving.get(!!value);
+
+        /**
          * @method orObject
          * @param {*} x
          * @return {Object}
@@ -184,19 +191,19 @@ export const createWithCompose = component => {
 
                         if (isPromise(cursor)) {
 
-                            resolving.get(this)[key] = true;
+                            isResolving(true);
 
                             // Resolve a simple promise contained within an object.
                             state[key].then(value => {
 
                                 // Succeeded! We'll therefore update the value.
-                                resolving.get(this)[key] = false;
+                                isResolving(false);
                                 setState({ [key]: value });
 
                             }).catch(() => {
 
                                 // Failed! In which case we'll simply re-render.
-                                resolving.get(this)[key] = false;
+                                isResolving(false);
                                 forceUpdate();
 
                             });
@@ -209,18 +216,18 @@ export const createWithCompose = component => {
                             const promises = cursor.filter(item => isPromise(item));
                             const items = cursor.filter(item => !isPromise(item));
 
-                            resolving.get(this)[key] = true;
+                            isResolving(true);
 
                             Promise.all(promises).then(array => {
 
                                 // Succeeded! Therefore we'll merge the new items in with the existing items.
-                                resolving.get(this)[key] = false;
+                                isResolving(false);
                                 setState({ [key]: [...items, ...array] });
 
                             }).catch(() => {
 
                                 // Failed! We'll therefore display only the existing items.
-                                resolving.get(this)[key] = false;
+                                isResolving(false);
                                 setState({ [key]: items });
 
                             });
