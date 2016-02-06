@@ -86,7 +86,7 @@ var getDefaultProps = function getDefaultProps() {
  * @param {Function} setState
  * @return {XML}
  */
-var render = (0, _keo.compose)(_keo.resolutionMap, function (_ref) {
+var render = (0, _keo.pipe)(_keo.resolutionMap, function (_ref) {
     var props = _ref.props;
     var state = _ref.state;
     var setState = _ref.setState;

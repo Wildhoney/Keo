@@ -3,7 +3,7 @@ import 'babel-polyfill';
 import fetch from 'node-fetch';
 import React from 'react';
 import moment from 'moment';
-import {stitch, compose, memoize, resolutionMap} from '../../src/keo';
+import {stitch, pipe, memoize, resolutionMap} from '../../src/keo';
 
 /**
  * @method eatBrain
@@ -40,7 +40,7 @@ const getDefaultProps = () => {
  * @param {Function} setState
  * @return {XML}
  */
-const render = compose(resolutionMap, ({ props, state, setState }) => {
+const render = pipe(resolutionMap, ({ props, state, setState }) => {
 
     const humans = state.humans.map(human => {
 
