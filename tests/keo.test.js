@@ -6,8 +6,6 @@ import TestUtils from 'react-addons-test-utils';
 import {findDOMNode} from 'react-dom';
 
 import 'babel-core/register';
-import {compose, stitch, wrap} from '../src/keo';
-
 import DefaultProps from './mocks/default-props';
 import StateImmediate from './mocks/state-immediate';
 import StateFuture from './mocks/state-future';

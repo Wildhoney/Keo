@@ -46054,9 +46054,9 @@ var isFunction = function isFunction(fn) {
 
 /**
  * @property resolving
- * @type {Map}
+ * @type {WeakMap}
 */
-var resolving = new Map();
+var resolving = new WeakMap();
 
 /**
  * @method isPromise
@@ -46065,6 +46065,15 @@ var resolving = new Map();
  */
 function isPromise(x) {
     return 'then' in Object(x);
+}
+
+/**
+ * @method isObservable
+ * @param {*} x
+ * @return {Boolean}
+ */
+function isObservable(x) {
+    return 'subscribe' in Object(x);
 }
 
 /**
@@ -46077,19 +46086,28 @@ function isObject(x) {
 }
 
 /**
+ * @method isFuture
+ * @param {Object} cursor
+ * @return {Boolean}
+ */
+var isFuture = function isFuture(cursor) {
+    return isPromise(cursor) || isObservable(cursor);
+};
+
+/**
  * @method containsFuture
  * @param {*} cursor
  * @return {Boolean}
  */
 var containsFuture = function containsFuture(cursor) {
 
-    return isPromise(cursor) || function () {
+    return isFuture(cursor) || function () {
 
         if (Array.isArray(cursor)) {
 
             // Determine if an array was passed, which includes a promise.
             return cursor.some(function (item) {
-                return isPromise(item);
+                return isFuture(item);
             });
         }
 
@@ -46116,6 +46134,15 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
             // Define the resolving as an object for adding items to.
             resolving.set(this, {});
         }
+
+        /**
+         * @method isResolving
+         * @param {Boolean} value
+         * @return {void}
+         */
+        var isResolving = function isResolving(value) {
+            return resolving.get(!!value);
+        };
 
         /**
          * @method orObject
@@ -46232,18 +46259,18 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
 
                         if (isPromise(cursor)) {
 
-                            resolving.get(_this)[key] = true;
+                            isResolving(true);
 
                             // Resolve a simple promise contained within an object.
                             state[key].then(function (value) {
 
                                 // Succeeded! We'll therefore update the value.
-                                resolving.get(_this)[key] = false;
+                                isResolving(false);
                                 setState(_defineProperty({}, key, value));
                             }).catch(function () {
 
                                 // Failed! In which case we'll simply re-render.
-                                resolving.get(_this)[key] = false;
+                                isResolving(false);
                                 forceUpdate();
                             });
                         }
@@ -46259,17 +46286,17 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
                                     return !isPromise(item);
                                 });
 
-                                resolving.get(_this)[key] = true;
+                                isResolving(true);
 
                                 Promise.all(promises).then(function (array) {
 
                                     // Succeeded! Therefore we'll merge the new items in with the existing items.
-                                    resolving.get(_this)[key] = false;
+                                    isResolving(false);
                                     setState(_defineProperty({}, key, [].concat(_toConsumableArray(items), _toConsumableArray(array))));
                                 }).catch(function () {
 
                                     // Failed! We'll therefore display only the existing items.
-                                    resolving.get(_this)[key] = false;
+                                    isResolving(false);
                                     setState(_defineProperty({}, key, items));
                                 });
                             })();
