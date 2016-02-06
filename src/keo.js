@@ -5,7 +5,6 @@
  */
 import objectAssign from 'object-assign';
 import {createClass} from 'react';
-import {Observable} from 'rx';
 import {compose, composeDeferred} from 'funkel';
 export {memoize, trace, partial} from 'funkel';
 export {objectAssign, compose, composeDeferred};
@@ -42,27 +41,18 @@ function isObject(x) {
 }
 
 /**
- * @method isObservable
- * @param {*} x
- * @return {Boolean}
- */
-function isObservable(x) {
-    return typeof Object(x).subscribe === 'function';
-}
-
-/**
  * @method containsFuture
  * @param {*} cursor
  * @return {Boolean}
  */
 const containsFuture = cursor => {
 
-    return (isPromise(cursor) || isObservable(cursor)) || (() => {
+    return isPromise(cursor) || (() => {
 
         if (Array.isArray(cursor)) {
 
             // Determine if an array was passed, which includes a promise.
-            return cursor.some(item => isPromise(item) || isObservable(item));
+            return cursor.some(item => isPromise(item));
 
         }
 
@@ -211,10 +201,6 @@ export const createWithCompose = component => {
 
                             });
 
-                        }
-
-                        if (isObservable(cursor)) {
-                            console.info('Keo: Support for RX Observables is coming soon.');
                         }
 
                         if (Array.isArray(cursor)) {

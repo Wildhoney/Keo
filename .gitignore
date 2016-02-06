@@ -7,3 +7,7 @@ node_modules
 
 # ide
 .idea
+
+# publish
+keo.js
+redux.js
