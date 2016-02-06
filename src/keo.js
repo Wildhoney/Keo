@@ -1,14 +1,14 @@
 /**
  * @module Keo
- * @link https://github.com/Wildhoney/Keo
  * @author Adam Timberlake
+ * @link https://github.com/Wildhoney/Keo
  */
 import objectAssign from 'object-assign';
 import {createClass} from 'react';
 import {Observable} from 'rx';
-import * as fnkl from 'funkel';
+import {compose, composeDeferred} from 'funkel';
 export {memoize, trace, partial} from 'funkel';
-export {objectAssign};
+export {objectAssign, compose, composeDeferred};
 
 /**
  * @method isFunction
@@ -274,13 +274,13 @@ export const createWithCompose = component => {
          * @method componentWillMount
          * @return {*}
          */
-        componentWillMount: compose(passArguments, orFunction(component.componentWillMount)),
+        componentWillMount: pipe(passArguments, orFunction(component.componentWillMount)),
 
         /**
          * @method componentDidMount
          * @return {*}
          */
-        componentDidMount: compose(passArguments, orFunction(component.componentDidMount)),
+        componentDidMount: pipe(passArguments, orFunction(component.componentDidMount)),
 
         /**
          * @method componentWillReceiveProps
@@ -318,13 +318,13 @@ export const createWithCompose = component => {
          * @method componentWillUnmount
          * @return {*}
          */
-        componentWillUnmount: compose(passArguments, orFunction(component.componentWillUnmount)),
+        componentWillUnmount: pipe(passArguments, orFunction(component.componentWillUnmount)),
 
         /**
          * @method render
          * @return {XML}
          */
-        render: compose(passArguments, component.render)
+        render: pipe(passArguments, component.render)
 
     }));
 
@@ -349,21 +349,21 @@ export const wrap = object => {
 };
 
 /**
- * @method compose
+ * @method pipe
  * @param {Function} fns
  * @return {Function}
  */
-export const compose = (...fns) => {
-    return fnkl.compose(...fns.reverse());
+export const pipe = (...fns) => {
+    return compose(...fns.reverse());
 };
 
 /**
- * @method composeDeferred
+ * @method pipeDeferred
  * @param {Function} fns
  * @return {Promise}
  */
-export const composeDeferred = (...fns) => {
-    return fnkl.composeDeferred(...fns.reverse());
+export const pipeDeferred = (...fns) => {
+    return composeDeferred(...fns.reverse());
 };
 
 /**

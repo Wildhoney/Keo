@@ -1,12 +1,12 @@
 /**
  * @module Keo
  * @submodule Redux
- * @link https://github.com/Wildhoney/Keo
  * @author Adam Timberlake
+ * @link https://github.com/Wildhoney/Keo
  */
 import {createWithCompose, wrap} from './keo';
 import {connect} from 'react-redux';
-export {memoize, trace, partial} from 'funkel';
+export {memoize, trace, partial, compose, composeDeferred} from 'funkel';
 export {default as objectAssign} from 'object-assign';
 export {compose, composeDeferred, resolutionMap} from './keo';
 
