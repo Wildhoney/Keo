@@ -64,9 +64,18 @@
     "webpack": "^1.12.9"
   },
   "dependencies": {
+    "babel-loader": "^6.2.2",
+    "enzyme": "^1.5.0",
+    "express": "^4.13.4",
     "funkel": "^0.2.0",
+    "moment": "^2.11.2",
     "object-assign": "^4.0.1",
-    "rx": "^4.0.7"
+    "react": "^0.14.7",
+    "react-addons-test-utils": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "rimraf": "^2.5.1",
+    "rx": "^4.0.7",
+    "webpack": "^1.12.13"
   },
   "optionalDependencies": {
     "react-redux": "^4.0.0",
