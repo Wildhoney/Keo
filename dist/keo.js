@@ -58,14 +58,14 @@ module.exports =
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /**
 	                                                                                                                                                                                                                                                   * @module Keo
-	                                                                                                                                                                                                                                                   * @link https://github.com/Wildhoney/Keo
 	                                                                                                                                                                                                                                                   * @author Adam Timberlake
+	                                                                                                                                                                                                                                                   * @link https://github.com/Wildhoney/Keo
 	                                                                                                                                                                                                                                                   */
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.resolutionMap = exports.composeDeferred = exports.compose = exports.wrap = exports.stitch = exports.createWithCompose = exports.objectAssign = exports.partial = exports.trace = exports.memoize = undefined;
+	exports.resolutionMap = exports.pipeDeferred = exports.pipe = exports.wrap = exports.stitch = exports.createWithCompose = exports.composeDeferred = exports.compose = exports.objectAssign = exports.partial = exports.trace = exports.memoize = undefined;
 
 	var _funkel = __webpack_require__(2);
 
@@ -96,10 +96,6 @@ module.exports =
 
 	var _rx = __webpack_require__(161);
 
-	var fnkl = _interopRequireWildcard(_funkel);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -107,6 +103,8 @@ module.exports =
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 	exports.objectAssign = _objectAssign2.default;
+	exports.compose = _funkel.compose;
+	exports.composeDeferred = _funkel.composeDeferred;
 
 	/**
 	 * @method isFunction
@@ -384,13 +382,13 @@ module.exports =
 	         * @method componentWillMount
 	         * @return {*}
 	         */
-	        componentWillMount: compose(passArguments, orFunction(component.componentWillMount)),
+	        componentWillMount: pipe(passArguments, orFunction(component.componentWillMount)),
 
 	        /**
 	         * @method componentDidMount
 	         * @return {*}
 	         */
-	        componentDidMount: compose(passArguments, orFunction(component.componentDidMount)),
+	        componentDidMount: pipe(passArguments, orFunction(component.componentDidMount)),
 
 	        /**
 	         * @method componentWillReceiveProps
@@ -429,13 +427,13 @@ module.exports =
 	         * @method componentWillUnmount
 	         * @return {*}
 	         */
-	        componentWillUnmount: compose(passArguments, orFunction(component.componentWillUnmount)),
+	        componentWillUnmount: pipe(passArguments, orFunction(component.componentWillUnmount)),
 
 	        /**
 	         * @method render
 	         * @return {XML}
 	         */
-	        render: compose(passArguments, component.render)
+	        render: pipe(passArguments, component.render)
 
 	    }));
 	};
@@ -459,29 +457,29 @@ module.exports =
 	};
 
 	/**
-	 * @method compose
+	 * @method pipe
 	 * @param {Function} fns
 	 * @return {Function}
 	 */
-	var compose = exports.compose = function compose() {
+	var pipe = exports.pipe = function pipe() {
 	    for (var _len2 = arguments.length, fns = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
 	        fns[_key2] = arguments[_key2];
 	    }
 
-	    return fnkl.compose.apply(fnkl, _toConsumableArray(fns.reverse()));
+	    return _funkel.compose.apply(undefined, _toConsumableArray(fns.reverse()));
 	};
 
 	/**
-	 * @method composeDeferred
+	 * @method pipeDeferred
 	 * @param {Function} fns
 	 * @return {Promise}
 	 */
-	var composeDeferred = exports.composeDeferred = function composeDeferred() {
+	var pipeDeferred = exports.pipeDeferred = function pipeDeferred() {
 	    for (var _len3 = arguments.length, fns = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
 	        fns[_key3] = arguments[_key3];
 	    }
 
-	    return fnkl.composeDeferred.apply(fnkl, _toConsumableArray(fns.reverse()));
+	    return _funkel.composeDeferred.apply(undefined, _toConsumableArray(fns.reverse()));
 	};
 
 	/**
@@ -10157,6 +10155,7 @@ module.exports =
 	 */
 	var EventInterface = {
 	  type: null,
+	  target: null,
 	  // currentTarget is set when dispatching; no use in copying it here
 	  currentTarget: emptyFunction.thatReturnsNull,
 	  eventPhase: null,
@@ -10190,8 +10189,6 @@ module.exports =
 	  this.dispatchConfig = dispatchConfig;
 	  this.dispatchMarker = dispatchMarker;
 	  this.nativeEvent = nativeEvent;
-	  this.target = nativeEventTarget;
-	  this.currentTarget = nativeEventTarget;
 
 	  var Interface = this.constructor.Interface;
 	  for (var propName in Interface) {
@@ -10202,7 +10199,11 @@ module.exports =
 	    if (normalize) {
 	      this[propName] = normalize(nativeEvent);
 	    } else {
-	      this[propName] = nativeEvent[propName];
+	      if (propName === 'target') {
+	        this.target = nativeEventTarget;
+	      } else {
+	        this[propName] = nativeEvent[propName];
+	      }
 	    }
 	  }
 
@@ -14061,7 +14062,10 @@ module.exports =
 	      }
 	    });
 
-	    nativeProps.children = content;
+	    if (content) {
+	      nativeProps.children = content;
+	    }
+
 	    return nativeProps;
 	  }
 
@@ -19548,7 +19552,7 @@ module.exports =
 
 	'use strict';
 
-	module.exports = '0.14.6';
+	module.exports = '0.14.7';
 
 /***/ },
 /* 150 */
