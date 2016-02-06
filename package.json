@@ -6,7 +6,7 @@
     "test": "ava tests/*.test.js",
     "start": "node example/server/default.js",
     "prebuild": "rimraf dist && mkdir dist",
-    "prepublish": "npm run clean && npm run example && mv dist/* . && rimraf dist",
+    "prepublish": "npm run clean && npm run example && mv dist/* . && rimraf dist && rimraf example/js/example.js",
     "postpublish": "mkdir dist && mv keo.js redux.js dist/",
     "clean": "rimraf dist && npm run build",
     "build": "webpack",
