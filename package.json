@@ -30,6 +30,7 @@
     "components",
     "functions",
     "compose",
+    "pipe",
     "identity",
     "memoize",
     "curry"
