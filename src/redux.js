@@ -8,7 +8,7 @@ import {createWithCompose, wrap} from './keo';
 import {connect} from 'react-redux';
 export {memoize, trace, partial, compose, composeDeferred} from 'funkel';
 export {default as objectAssign} from 'object-assign';
-export {compose, composeDeferred, resolutionMap} from './keo';
+export {pipe, pipeDeferred, resolutionMap} from './keo';
 
 /**
  * @method stitch
