@@ -5,6 +5,7 @@
  */
 import objectAssign from 'object-assign';
 import {createClass} from 'react';
+import WeakMap from 'es6-weak-map';
 import {compose, composeDeferred} from 'funkel';
 export {memoize, trace, partial} from 'funkel';
 export {objectAssign, compose, composeDeferred};
@@ -102,10 +103,11 @@ export const createWithCompose = component => {
 
         /**
          * @method isResolving
+         * @param {String} key
          * @param {Boolean} value
          * @return {void}
          */
-        const isResolving = value => resolving.get(!!value);
+        const isResolving = (key, value) => resolving.get(this)[key] = !!value;
 
         /**
          * @method orObject
@@ -209,19 +211,19 @@ export const createWithCompose = component => {
 
                         if (isPromise(cursor)) {
 
-                            isResolving(true);
+                            isResolving(key, true);
 
                             // Resolve a simple promise contained within an object.
                             state[key].then(value => {
 
                                 // Succeeded! We'll therefore update the value.
-                                isResolving(false);
+                                isResolving(key, false);
                                 setState({ [key]: value });
 
                             }).catch(() => {
 
                                 // Failed! In which case we'll simply re-render.
-                                isResolving(false);
+                                isResolving(key, false);
                                 forceUpdate();
 
                             });
@@ -234,18 +236,18 @@ export const createWithCompose = component => {
                             const promises = cursor.filter(item => isPromise(item));
                             const items = cursor.filter(item => !isPromise(item));
 
-                            isResolving(true);
+                            isResolving(key, true);
 
                             Promise.all(promises).then(array => {
 
                                 // Succeeded! Therefore we'll merge the new items in with the existing items.
-                                isResolving(false);
+                                isResolving(key, false);
                                 setState({ [key]: [...items, ...array] });
 
                             }).catch(() => {
 
                                 // Failed! We'll therefore display only the existing items.
-                                isResolving(false);
+                                isResolving(key, false);
                                 setState({ [key]: items });
 
                             });
