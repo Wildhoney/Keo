@@ -9,5 +9,5 @@ node_modules
 .idea
 
 # publish
-keo.js
-redux.js
+./keo.js
+./redux.js
