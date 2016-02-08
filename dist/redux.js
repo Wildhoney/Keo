@@ -22114,7 +22114,7 @@ module.exports =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.stitch = exports.resolutionMap = exports.objectAssign = exports.composeDeferred = exports.compose = exports.partial = exports.trace = exports.memoize = undefined;
+	exports.stitch = exports.resolutionMap = exports.pipeDeferred = exports.pipe = exports.objectAssign = exports.composeDeferred = exports.compose = exports.partial = exports.trace = exports.memoize = undefined;
 
 	var _funkel = __webpack_require__(99);
 
@@ -22160,16 +22160,16 @@ module.exports =
 
 	var _keo = __webpack_require__(101);
 
-	Object.defineProperty(exports, 'compose', {
+	Object.defineProperty(exports, 'pipe', {
 	  enumerable: true,
 	  get: function get() {
-	    return _keo.compose;
+	    return _keo.pipe;
 	  }
 	});
-	Object.defineProperty(exports, 'composeDeferred', {
+	Object.defineProperty(exports, 'pipeDeferred', {
 	  enumerable: true,
 	  get: function get() {
-	    return _keo.composeDeferred;
+	    return _keo.pipeDeferred;
 	  }
 	});
 	Object.defineProperty(exports, 'resolutionMap', {
