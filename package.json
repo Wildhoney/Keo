@@ -67,6 +67,7 @@
   "dependencies": {
     "babel-loader": "^6.2.2",
     "enzyme": "^1.5.0",
+    "es6-weak-map": "^2.0.1",
     "express": "^4.13.4",
     "funkel": "^0.2.0",
     "moment": "^2.11.2",
