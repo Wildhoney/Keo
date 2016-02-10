@@ -47153,7 +47153,7 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
 
         /**
          * @method isResolving
-         * @param {String} value
+         * @param {String} key
          * @param {Boolean} value
          * @return {void}
          */
