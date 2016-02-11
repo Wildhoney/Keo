@@ -11675,7 +11675,20 @@ module.exports =
 	            return immediateState;
 	        };
 
-	        return { props: props, state: state, setState: setState, dispatch: dispatch, element: element, refs: refs, context: context, forceUpdate: forceUpdate };
+	        var args = { props: props, state: state, setState: setState, dispatch: dispatch, element: element, refs: refs, context: context, forceUpdate: forceUpdate };
+
+	        /**
+	         * @method debug
+	         * @return {void}
+	         */
+	        var debug = function debug() {
+
+	            console.table(Object.keys(args).reduce(function (accumulator, key) {
+	                return [].concat(_toConsumableArray(accumulator), [{ name: key, type: _typeof(args[key]) }]);
+	            }, []));
+	        };
+
+	        return _extends({}, args, { debug: debug });
 	    }
 
 	    /**
@@ -11738,13 +11751,9 @@ module.exports =
 	         */
 	        componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
 
-	            orFunction(component.componentWillUpdate)(_extends({}, passArguments.apply(this), {
-	                nextProps: nextProps, nextState: nextState,
-	                setState: function setState(state) {
-	                    throwError('You cannot `setState` inside of `componentWillUpdate`, instead use `componentWillReceiveProps`');
-	                    return state;
-	                }
-	            }));
+	            var args = _extends({}, passArguments.apply(this), { nextProps: nextProps, nextState: nextState });
+	            delete args.setState;
+	            orFunction(component.componentWillUpdate)(args);
 	        },
 
 
