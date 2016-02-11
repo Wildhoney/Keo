@@ -11,13 +11,6 @@ export {memoize, trace, partial} from 'funkel';
 export {objectAssign, compose, composeDeferred};
 
 /**
- * @method throwError
- * @param {String} message
- * @return {void}
- */
-const throwError = message => console.error(`Keo: ${message}.`);
-
-/**
  * @method isFunction
  * @param {*} fn
  * @return {Boolean}
