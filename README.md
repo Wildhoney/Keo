@@ -192,6 +192,18 @@ export const capitaliseName = memoize(name => {
 
 As the `capitaliseName` function returns the same value when given the same `name`, we can cache its result making future invocations quicker. With `memoize` we see performance gains at the expense of memory allocation.
 
+## Special Lifecycle Methods
+
+Browsing the [React documentation](https://facebook.github.io/react/docs/component-specs.html) you may notice that certain lifecycle methods pass in `prevProps`, `prevState`, etc... in these instances Keo merges them into the object passed into the associated function, which allows you to destructure as usual.
+
+Take for example the `shouldComponentUpdate` function that passes in `nextProps` and `nextState` &mdash; you could quite easily destructure the `nextState` property &mdash; as well as `nextProps`:
+
+```javascript
+const shouldComponentUpdate = ({ state, nextState }) => {
+    return state.person !== nextState.person;
+};
+```
+
 ## Redux
 
 Using Redux with Keo is straightforward &ndash; Keo provides a `keo/redux` adapter for handling Redux in a more succinct fashion &mdash; instead of importing `keo` you can instead import the `keo/redux` adapter and use the `stitch` function from there instead.
