@@ -11394,20 +11394,11 @@ module.exports =
 	exports.composeDeferred = _funkel.composeDeferred;
 
 	/**
-	 * @method throwError
-	 * @param {String} message
-	 * @return {void}
-	 */
-
-	var throwError = function throwError(message) {
-	    return console.error('Keo: ' + message + '.');
-	};
-
-	/**
 	 * @method isFunction
 	 * @param {*} fn
 	 * @return {Boolean}
 	 */
+
 	var isFunction = function isFunction(fn) {
 	    return typeof fn === 'function';
 	};
@@ -11428,15 +11419,6 @@ module.exports =
 	}
 
 	/**
-	 * @method isObservable
-	 * @param {*} x
-	 * @return {Boolean}
-	 */
-	function isObservable(x) {
-	    return 'subscribe' in Object(x);
-	}
-
-	/**
 	 * @method isObject
 	 * @param {*} x
 	 * @return {Boolean}
@@ -11451,7 +11433,7 @@ module.exports =
 	 * @return {Boolean}
 	 */
 	var isFuture = function isFuture(cursor) {
-	    return isPromise(cursor) || isObservable(cursor);
+	    return isPromise(cursor);
 	};
 
 	/**
