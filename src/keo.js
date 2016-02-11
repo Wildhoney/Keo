@@ -301,7 +301,28 @@ export const createWithCompose = component => {
          * @return {*}
          */
         componentWillReceiveProps(nextProps) {
-            orFunction(component.componentWillReceiveProps)(nextProps, passArguments.apply(this));
+
+            orFunction(component.componentWillReceiveProps)({
+                ...passArguments.apply(this),
+                nextProps
+            });
+
+        },
+
+        /**
+         * @method shouldComponentUpdate
+         * @param nextProps {Object}
+         * @param nextState {Object}
+         * @return {*}
+         */
+        shouldComponentUpdate(nextProps, nextState) {
+
+            orFunction(component.shouldComponentUpdate)({
+                ...passArguments.apply(this),
+                nextProps,
+                nextState
+            });
+
         },
 
         /**
@@ -311,9 +332,10 @@ export const createWithCompose = component => {
          */
         componentWillUpdate(prevProps) {
 
-            orFunction(component.componentWillUpdate)(prevProps, objectAssign({}, passArguments.apply(this), {
+            orFunction(component.componentWillUpdate)(prevProps, {
+                ...passArguments.apply(this),
                 setState: state => state
-            }));
+            });
 
         },
 
@@ -324,7 +346,12 @@ export const createWithCompose = component => {
          * @return {*}
          */
         componentDidUpdate(prevProps, prevState) {
-            orFunction(component.componentDidUpdate)(prevProps, prevState, passArguments.apply(this));
+
+            orFunction(component.componentDidUpdate)({
+                ...passArguments.apply(this),
+                prevProps, prevState
+            });
+
         },
 
         /**
