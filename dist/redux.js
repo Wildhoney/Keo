@@ -11394,11 +11394,20 @@ module.exports =
 	exports.composeDeferred = _funkel.composeDeferred;
 
 	/**
+	 * @method throwError
+	 * @param {String} message
+	 * @return {void}
+	 */
+
+	var throwError = function throwError(message) {
+	    return console.error('Keo: ' + message + '.');
+	};
+
+	/**
 	 * @method isFunction
 	 * @param {*} fn
 	 * @return {Boolean}
 	 */
-
 	var isFunction = function isFunction(fn) {
 	    return typeof fn === 'function';
 	};
@@ -11713,22 +11722,26 @@ module.exports =
 	         */
 	        shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
 
-	            orFunction(component.shouldComponentUpdate)(_extends({}, passArguments.apply(this), {
-	                nextProps: nextProps,
-	                nextState: nextState
+	            return (component.shouldComponentUpdate || function () {
+	                return true;
+	            })(_extends({}, passArguments.apply(this), {
+	                nextProps: nextProps, nextState: nextState
 	            }));
 	        },
 
 
 	        /**
 	         * @method componentWillUpdate
-	         * @param prevProps {Object}
+	         * @param nextProps {Object}
+	         * @param nextState {Object}
 	         * @return {*}
 	         */
-	        componentWillUpdate: function componentWillUpdate(prevProps) {
+	        componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
 
-	            orFunction(component.componentWillUpdate)(prevProps, _extends({}, passArguments.apply(this), {
+	            orFunction(component.componentWillUpdate)(_extends({}, passArguments.apply(this), {
+	                nextProps: nextProps, nextState: nextState,
 	                setState: function setState(state) {
+	                    throwError('You cannot `setState` inside of `componentWillUpdate`, instead use `componentWillReceiveProps`');
 	                    return state;
 	                }
 	            }));

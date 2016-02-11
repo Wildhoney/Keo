@@ -79,6 +79,13 @@ var getDefaultProps = function getDefaultProps() {
     return { name: 'Matilda' };
 };
 
+var componentWillUpdate = function componentWillUpdate(_ref) {
+    var nextProps = _ref.nextProps;
+    var nextState = _ref.nextState;
+
+    console.log(nextProps, nextState);
+};
+
 /**
  * @method render
  * @param {Object} props
@@ -86,10 +93,10 @@ var getDefaultProps = function getDefaultProps() {
  * @param {Function} setState
  * @return {XML}
  */
-var render = (0, _keo.pipe)(_keo.resolutionMap, function (_ref) {
-    var props = _ref.props;
-    var state = _ref.state;
-    var setState = _ref.setState;
+var render = (0, _keo.pipe)(_keo.resolutionMap, function (_ref2) {
+    var props = _ref2.props;
+    var state = _ref2.state;
+    var setState = _ref2.setState;
 
 
     var humans = state.humans.map(function (human) {
@@ -147,7 +154,7 @@ var render = (0, _keo.pipe)(_keo.resolutionMap, function (_ref) {
     );
 });
 
-exports.default = (0, _keo.stitch)({ getInitialState: getInitialState, getDefaultProps: getDefaultProps, render: render });
+exports.default = (0, _keo.stitch)({ getInitialState: getInitialState, componentWillUpdate: componentWillUpdate, getDefaultProps: getDefaultProps, render: render });
 
 },{"../../src/keo":486,"babel-core/register":4,"babel-polyfill":5,"moment":310,"node-fetch":311,"react":462}],3:[function(require,module,exports){
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
@@ -47059,11 +47066,20 @@ exports.compose = _funkel.compose;
 exports.composeDeferred = _funkel.composeDeferred;
 
 /**
+ * @method throwError
+ * @param {String} message
+ * @return {void}
+ */
+
+var throwError = function throwError(message) {
+    return console.error('Keo: ' + message + '.');
+};
+
+/**
  * @method isFunction
  * @param {*} fn
  * @return {Boolean}
  */
-
 var isFunction = function isFunction(fn) {
     return typeof fn === 'function';
 };
@@ -47363,19 +47379,41 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
          * @return {*}
          */
         componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-            orFunction(component.componentWillReceiveProps)(nextProps, passArguments.apply(this));
+
+            orFunction(component.componentWillReceiveProps)(_extends({}, passArguments.apply(this), {
+                nextProps: nextProps
+            }));
+        },
+
+
+        /**
+         * @method shouldComponentUpdate
+         * @param nextProps {Object}
+         * @param nextState {Object}
+         * @return {*}
+         */
+        shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
+
+            return (component.shouldComponentUpdate || function () {
+                return true;
+            })(_extends({}, passArguments.apply(this), {
+                nextProps: nextProps, nextState: nextState
+            }));
         },
 
 
         /**
          * @method componentWillUpdate
-         * @param prevProps {Object}
+         * @param nextProps {Object}
+         * @param nextState {Object}
          * @return {*}
          */
-        componentWillUpdate: function componentWillUpdate(prevProps) {
+        componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
 
-            orFunction(component.componentWillUpdate)(prevProps, (0, _objectAssign2.default)({}, passArguments.apply(this), {
+            orFunction(component.componentWillUpdate)(_extends({}, passArguments.apply(this), {
+                nextProps: nextProps, nextState: nextState,
                 setState: function setState(state) {
+                    throwError('You cannot `setState` inside of `componentWillUpdate`, instead use `componentWillReceiveProps`');
                     return state;
                 }
             }));
@@ -47389,7 +47427,10 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
          * @return {*}
          */
         componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
-            orFunction(component.componentDidUpdate)(prevProps, prevState, passArguments.apply(this));
+
+            orFunction(component.componentDidUpdate)(_extends({}, passArguments.apply(this), {
+                prevProps: prevProps, prevState: prevState
+            }));
         },
 
 
