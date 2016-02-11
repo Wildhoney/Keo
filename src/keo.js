@@ -11,6 +11,13 @@ export {memoize, trace, partial} from 'funkel';
 export {objectAssign, compose, composeDeferred};
 
 /**
+ * @method throwError
+ * @param {String} message
+ * @return {void}
+ */
+const throwError = message => console.error(`Keo: ${message}.`);
+
+/**
  * @method isFunction
  * @param {*} fn
  * @return {Boolean}
@@ -319,22 +326,26 @@ export const createWithCompose = component => {
 
             return (component.shouldComponentUpdate || (() => true))({
                 ...passArguments.apply(this),
-                nextProps,
-                nextState
+                nextProps, nextState
             });
 
         },
 
         /**
          * @method componentWillUpdate
-         * @param prevProps {Object}
+         * @param nextProps {Object}
+         * @param nextState {Object}
          * @return {*}
          */
-        componentWillUpdate(prevProps) {
+        componentWillUpdate(nextProps, nextState) {
 
-            orFunction(component.componentWillUpdate)(prevProps, {
+            orFunction(component.componentWillUpdate)({
                 ...passArguments.apply(this),
-                setState: state => state
+                nextProps, nextState,
+                setState: state => {
+                    throwError('You cannot `setState` inside of `componentWillUpdate`, instead use `componentWillReceiveProps`');
+                    return state;
+                }
             });
 
         },
