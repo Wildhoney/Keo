@@ -305,3 +305,13 @@ const render = pipe(resolutionMap, ({ props, state, setState }) => {
 ```
 
 As the `clicks` state will cause `render` to be re-run immediately &mdash; **voila!**
+
+# Debugging
+
+At any time you can destructure and invoke the `debug` function in your React lifecycle methods &mdash; this will present you with a `console.table` of available items to be destructured and their types (`function` or `object`):
+
+```javascript
+const componentDidUpdate = ({ debug }) => {
+    debug(); // Hmm, what's available on the `componentDidUpdate` function?
+};
+```
