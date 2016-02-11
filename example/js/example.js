@@ -79,13 +79,6 @@ var getDefaultProps = function getDefaultProps() {
     return { name: 'Matilda' };
 };
 
-var componentWillUpdate = function componentWillUpdate(_ref) {
-    var nextProps = _ref.nextProps;
-    var nextState = _ref.nextState;
-
-    console.log(nextProps, nextState);
-};
-
 /**
  * @method render
  * @param {Object} props
@@ -93,10 +86,10 @@ var componentWillUpdate = function componentWillUpdate(_ref) {
  * @param {Function} setState
  * @return {XML}
  */
-var render = (0, _keo.pipe)(_keo.resolutionMap, function (_ref2) {
-    var props = _ref2.props;
-    var state = _ref2.state;
-    var setState = _ref2.setState;
+var render = (0, _keo.pipe)(_keo.resolutionMap, function (_ref) {
+    var props = _ref.props;
+    var state = _ref.state;
+    var setState = _ref.setState;
 
 
     var humans = state.humans.map(function (human) {
@@ -154,7 +147,7 @@ var render = (0, _keo.pipe)(_keo.resolutionMap, function (_ref2) {
     );
 });
 
-exports.default = (0, _keo.stitch)({ getInitialState: getInitialState, componentWillUpdate: componentWillUpdate, getDefaultProps: getDefaultProps, render: render });
+exports.default = (0, _keo.stitch)({ getInitialState: getInitialState, getDefaultProps: getDefaultProps, render: render });
 
 },{"../../src/keo":486,"babel-core/register":4,"babel-polyfill":5,"moment":310,"node-fetch":311,"react":462}],3:[function(require,module,exports){
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
@@ -47347,7 +47340,20 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
             return immediateState;
         };
 
-        return { props: props, state: state, setState: setState, dispatch: dispatch, element: element, refs: refs, context: context, forceUpdate: forceUpdate };
+        var args = { props: props, state: state, setState: setState, dispatch: dispatch, element: element, refs: refs, context: context, forceUpdate: forceUpdate };
+
+        /**
+         * @method debug
+         * @return {void}
+         */
+        var debug = function debug() {
+
+            console.table(Object.keys(args).reduce(function (accumulator, key) {
+                return [].concat(_toConsumableArray(accumulator), [{ name: key, type: _typeof(args[key]) }]);
+            }, []));
+        };
+
+        return _extends({}, args, { debug: debug });
     }
 
     /**
@@ -47410,13 +47416,9 @@ var createWithCompose = exports.createWithCompose = function createWithCompose(c
          */
         componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
 
-            orFunction(component.componentWillUpdate)(_extends({}, passArguments.apply(this), {
-                nextProps: nextProps, nextState: nextState,
-                setState: function setState(state) {
-                    throwError('You cannot `setState` inside of `componentWillUpdate`, instead use `componentWillReceiveProps`');
-                    return state;
-                }
-            }));
+            var args = _extends({}, passArguments.apply(this), { nextProps: nextProps, nextState: nextState });
+            delete args.setState;
+            orFunction(component.componentWillUpdate)(args);
         },
 
 
