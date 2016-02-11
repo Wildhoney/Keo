@@ -275,7 +275,21 @@ export const createWithCompose = component => {
 
         };
 
-        return { props, state, setState, dispatch, element, refs, context, forceUpdate };
+        const args = { props, state, setState, dispatch, element, refs, context, forceUpdate };
+
+        /**
+         * @method debug
+         * @return {void}
+         */
+        const debug = () => {
+
+            console.table(Object.keys(args).reduce((accumulator, key) => {
+                return [ ...accumulator, { name: key, type: typeof args[key] }];
+            }, []));
+
+        };
+
+        return { ...args, debug };
 
     }
 
@@ -339,14 +353,9 @@ export const createWithCompose = component => {
          */
         componentWillUpdate(nextProps, nextState) {
 
-            orFunction(component.componentWillUpdate)({
-                ...passArguments.apply(this),
-                nextProps, nextState,
-                setState: state => {
-                    throwError('You cannot `setState` inside of `componentWillUpdate`, instead use `componentWillReceiveProps`');
-                    return state;
-                }
-            });
+            const args = { ...passArguments.apply(this), nextProps, nextState };
+            delete args.setState;
+            orFunction(component.componentWillUpdate)(args);
 
         },
 
