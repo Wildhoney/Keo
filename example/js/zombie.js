@@ -1,7 +1,7 @@
 import 'babel-core/register';
 import 'babel-polyfill';
 import fetch from 'node-fetch';
-import React from 'react';
+import React, {PropTypes} from 'react';
 import moment from 'moment';
 import {stitch, pipe, memoize, resolutionMap} from '../../src/keo';
 
@@ -11,6 +11,14 @@ import {stitch, pipe, memoize, resolutionMap} from '../../src/keo';
  */
 export const eatBrain = () => {
     return fetch('https://randomuser.me/api').then(response => response.json()).then(json => json.results[0].user);
+};
+
+/**
+ * @constant propTypes
+ * @type {Object}
+ */
+const propTypes = {
+    name: PropTypes.string.isRequired
 };
 
 /**
@@ -56,8 +64,7 @@ const render = pipe(resolutionMap, ({ props, state, setState }) => {
 
     });
 
-    const eat = () => setState({ humans: [...state.humans, eatBrain()], clicks: state.clicks + 1 });
-
+    const handleClick = () => setState({ humans: [...state.humans, eatBrain()], clicks: state.clicks + 1 });
     const buttonLabel = props.resolving.humans ? 'Geolocating Human...' : `Eat Brain (${state.clicks} clicks)`;
     const asideLabel = state.humans.length ? `Zombie ${props.name} has devoured ${state.humans.length} humans in ${moment(state.time).fromNow(true)}.`
                                            : `Zombie ${props.name} is currently a pacifist.`;
@@ -69,7 +76,7 @@ const render = pipe(resolutionMap, ({ props, state, setState }) => {
                 {asideLabel}
             </aside>
 
-            <button disabled={props.resolving.humans} className="eat-brain" onClick={eat}>
+            <button disabled={props.resolving.humans} className="eat-brain" onClick={handleClick}>
                 {buttonLabel}
             </button>
 
@@ -83,4 +90,4 @@ const render = pipe(resolutionMap, ({ props, state, setState }) => {
 
 });
 
-export default stitch({ getInitialState, getDefaultProps, render });
+export default stitch({ propTypes, getInitialState, getDefaultProps, render });

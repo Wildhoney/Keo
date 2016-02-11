@@ -60,6 +60,14 @@ var eatBrain = exports.eatBrain = function eatBrain() {
 };
 
 /**
+ * @constant propTypes
+ * @type {Object}
+ */
+var propTypes = {
+    name: _react.PropTypes.string.isRequired
+};
+
+/**
  * @method getInitialState
  * @return {Object}
  */
@@ -113,10 +121,9 @@ var render = (0, _keo.pipe)(_keo.resolutionMap, function (_ref) {
         );
     });
 
-    var eat = function eat() {
+    var handleClick = function handleClick() {
         return setState({ humans: [].concat(_toConsumableArray(state.humans), [eatBrain()]), clicks: state.clicks + 1 });
     };
-
     var buttonLabel = props.resolving.humans ? 'Geolocating Human...' : 'Eat Brain (' + state.clicks + ' clicks)';
     var asideLabel = state.humans.length ? 'Zombie ' + props.name + ' has devoured ' + state.humans.length + ' humans in ' + (0, _moment2.default)(state.time).fromNow(true) + '.' : 'Zombie ' + props.name + ' is currently a pacifist.';
 
@@ -130,7 +137,7 @@ var render = (0, _keo.pipe)(_keo.resolutionMap, function (_ref) {
         ),
         _react2.default.createElement(
             'button',
-            { disabled: props.resolving.humans, className: 'eat-brain', onClick: eat },
+            { disabled: props.resolving.humans, className: 'eat-brain', onClick: handleClick },
             buttonLabel
         ),
         _react2.default.createElement(
@@ -147,7 +154,7 @@ var render = (0, _keo.pipe)(_keo.resolutionMap, function (_ref) {
     );
 });
 
-exports.default = (0, _keo.stitch)({ getInitialState: getInitialState, getDefaultProps: getDefaultProps, render: render });
+exports.default = (0, _keo.stitch)({ propTypes: propTypes, getInitialState: getInitialState, getDefaultProps: getDefaultProps, render: render });
 
 },{"../../src/keo":486,"babel-core/register":4,"babel-polyfill":5,"moment":310,"node-fetch":311,"react":462}],3:[function(require,module,exports){
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
@@ -47059,20 +47066,11 @@ exports.compose = _funkel.compose;
 exports.composeDeferred = _funkel.composeDeferred;
 
 /**
- * @method throwError
- * @param {String} message
- * @return {void}
- */
-
-var throwError = function throwError(message) {
-    return console.error('Keo: ' + message + '.');
-};
-
-/**
  * @method isFunction
  * @param {*} fn
  * @return {Boolean}
  */
+
 var isFunction = function isFunction(fn) {
     return typeof fn === 'function';
 };
@@ -47093,15 +47091,6 @@ function isPromise(x) {
 }
 
 /**
- * @method isObservable
- * @param {*} x
- * @return {Boolean}
- */
-function isObservable(x) {
-    return 'subscribe' in Object(x);
-}
-
-/**
  * @method isObject
  * @param {*} x
  * @return {Boolean}
@@ -47116,7 +47105,7 @@ function isObject(x) {
  * @return {Boolean}
  */
 var isFuture = function isFuture(cursor) {
-    return isPromise(cursor) || isObservable(cursor);
+    return isPromise(cursor);
 };
 
 /**
