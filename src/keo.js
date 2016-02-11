@@ -33,15 +33,6 @@ function isPromise(x) {
 }
 
 /**
- * @method isObservable
- * @param {*} x
- * @return {Boolean}
- */
-function isObservable(x) {
-    return 'subscribe' in Object(x);
-}
-
-/**
  * @method isObject
  * @param {*} x
  * @return {Boolean}
@@ -56,7 +47,7 @@ function isObject(x) {
  * @return {Boolean}
  */
 const isFuture = cursor => {
-    return isPromise(cursor) || isObservable(cursor);
+    return isPromise(cursor);
 };
 
 /**
