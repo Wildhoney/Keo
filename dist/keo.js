@@ -11698,7 +11698,25 @@ module.exports =
 	         * @return {*}
 	         */
 	        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	            orFunction(component.componentWillReceiveProps)(nextProps, passArguments.apply(this));
+
+	            orFunction(component.componentWillReceiveProps)(_extends({}, passArguments.apply(this), {
+	                nextProps: nextProps
+	            }));
+	        },
+
+
+	        /**
+	         * @method shouldComponentUpdate
+	         * @param nextProps {Object}
+	         * @param nextState {Object}
+	         * @return {*}
+	         */
+	        shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
+
+	            orFunction(component.shouldComponentUpdate)(_extends({}, passArguments.apply(this), {
+	                nextProps: nextProps,
+	                nextState: nextState
+	            }));
 	        },
 
 
@@ -11709,7 +11727,7 @@ module.exports =
 	         */
 	        componentWillUpdate: function componentWillUpdate(prevProps) {
 
-	            orFunction(component.componentWillUpdate)(prevProps, (0, _objectAssign2.default)({}, passArguments.apply(this), {
+	            orFunction(component.componentWillUpdate)(prevProps, _extends({}, passArguments.apply(this), {
 	                setState: function setState(state) {
 	                    return state;
 	                }
@@ -11724,7 +11742,10 @@ module.exports =
 	         * @return {*}
 	         */
 	        componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
-	            orFunction(component.componentDidUpdate)(prevProps, prevState, passArguments.apply(this));
+
+	            orFunction(component.componentDidUpdate)(_extends({}, passArguments.apply(this), {
+	                prevProps: prevProps, prevState: prevState
+	            }));
 	        },
 
 
