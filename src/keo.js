@@ -317,7 +317,7 @@ export const createWithCompose = component => {
          */
         shouldComponentUpdate(nextProps, nextState) {
 
-            orFunction(component.shouldComponentUpdate)({
+            return (component.shouldComponentUpdate || (() => true))({
                 ...passArguments.apply(this),
                 nextProps,
                 nextState
