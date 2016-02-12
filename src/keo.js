@@ -11,6 +11,23 @@ export {memoize, trace, partial} from 'funkel';
 export {objectAssign, compose, composeDeferred};
 
 /**
+ * @method getArgs
+ * @param {Object} args
+ * @return {Function}
+ */
+const getArgs = args => {
+
+    return () => {
+
+        console.table(Object.keys(args).filter(key => key !== 'debug').sort().reduce((accumulator, key) => {
+            return [ ...accumulator, { name: key, type: typeof args[key] }];
+        }, []));
+
+    };
+
+};
+
+/**
  * @method isFunction
  * @param {*} fn
  * @return {Boolean}
@@ -260,20 +277,7 @@ export const createWithCompose = component => {
         };
 
         const args = { props, state, setState, dispatch, element, refs, context, forceUpdate };
-
-        /**
-         * @method debug
-         * @return {void}
-         */
-        const debug = () => {
-
-            console.table(Object.keys(args).reduce((accumulator, key) => {
-                return [ ...accumulator, { name: key, type: typeof args[key] }];
-            }, []));
-
-        };
-
-        return { ...args, debug };
+        return { ...args, debug: getArgs(args) };
 
     }
 
@@ -303,59 +307,45 @@ export const createWithCompose = component => {
         /**
          * @method componentWillReceiveProps
          * @param nextProps {Object}
-         * @return {*}
+         * @return {void}
          */
         componentWillReceiveProps(nextProps) {
-
-            orFunction(component.componentWillReceiveProps)({
-                ...passArguments.apply(this),
-                nextProps
-            });
-
+            const args = { ...passArguments.apply(this), nextProps };
+            orFunction(component.componentWillReceiveProps)({ ...args, debug: getArgs(args) });
         },
 
         /**
          * @method shouldComponentUpdate
          * @param nextProps {Object}
          * @param nextState {Object}
-         * @return {*}
+         * @return {Boolean}
          */
         shouldComponentUpdate(nextProps, nextState) {
-
-            return (component.shouldComponentUpdate || (() => true))({
-                ...passArguments.apply(this),
-                nextProps, nextState
-            });
-
+            const args = { ...passArguments.apply(this), nextProps, nextState };
+            return orFunction(component.shouldComponentUpdate || (() => true))({ ...args, debug: getArgs(args) });
         },
 
         /**
          * @method componentWillUpdate
          * @param nextProps {Object}
          * @param nextState {Object}
-         * @return {*}
+         * @return {void}
          */
         componentWillUpdate(nextProps, nextState) {
-
             const args = { ...passArguments.apply(this), nextProps, nextState };
             delete args.setState;
-            orFunction(component.componentWillUpdate)(args);
-
+            orFunction(component.componentWillUpdate)({ ...args, debug: getArgs(args) });
         },
 
         /**
          * @method componentDidUpdate
          * @param prevProps {Object}
          * @param prevState {Object}
-         * @return {*}
+         * @return {void}
          */
         componentDidUpdate(prevProps, prevState) {
-
-            orFunction(component.componentDidUpdate)({
-                ...passArguments.apply(this),
-                prevProps, prevState
-            });
-
+            const args = { ...passArguments.apply(this), prevProps, prevState };
+            orFunction(component.componentDidUpdate)({ ...args, debug: getArgs(args) });
         },
 
         /**
