@@ -11345,12 +11345,7 @@ module.exports =
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /**
-	                                                                                                                                                                                                                                                   * @module Keo
-	                                                                                                                                                                                                                                                   * @author Adam Timberlake
-	                                                                                                                                                                                                                                                   * @link https://github.com/Wildhoney/Keo
-	                                                                                                                                                                                                                                                   */
-
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var _funkel = __webpack_require__(99);
 
@@ -11385,20 +11380,42 @@ module.exports =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } /**
+	                                                                                                                                                                                                     * @module Keo
+	                                                                                                                                                                                                     * @author Adam Timberlake
+	                                                                                                                                                                                                     * @link https://github.com/Wildhoney/Keo
+	                                                                                                                                                                                                     */
+
 
 	exports.objectAssign = _objectAssign2.default;
 	exports.compose = _funkel.compose;
 	exports.composeDeferred = _funkel.composeDeferred;
 
 	/**
+	 * @method getArgs
+	 * @param {Object} args
+	 * @return {Function}
+	 */
+
+	var getArgs = function getArgs(args) {
+
+	    return function () {
+
+	        console.table(Object.keys(args).filter(function (key) {
+	            return key !== 'debug';
+	        }).sort().reduce(function (accumulator, key) {
+	            return [].concat(_toConsumableArray(accumulator), [{ name: key, type: _typeof(args[key]) }]);
+	        }, []));
+	    };
+	};
+
+	/**
 	 * @method isFunction
 	 * @param {*} fn
 	 * @return {Boolean}
 	 */
-
 	var isFunction = function isFunction(fn) {
 	    return typeof fn === 'function';
 	};
@@ -11658,19 +11675,7 @@ module.exports =
 	        };
 
 	        var args = { props: props, state: state, setState: setState, dispatch: dispatch, element: element, refs: refs, context: context, forceUpdate: forceUpdate };
-
-	        /**
-	         * @method debug
-	         * @return {void}
-	         */
-	        var debug = function debug() {
-
-	            console.table(Object.keys(args).reduce(function (accumulator, key) {
-	                return [].concat(_toConsumableArray(accumulator), [{ name: key, type: _typeof(args[key]) }]);
-	            }, []));
-	        };
-
-	        return _extends({}, args, { debug: debug });
+	        return _extends({}, args, { debug: getArgs(args) });
 	    }
 
 	    /**
@@ -11699,13 +11704,11 @@ module.exports =
 	        /**
 	         * @method componentWillReceiveProps
 	         * @param nextProps {Object}
-	         * @return {*}
+	         * @return {void}
 	         */
 	        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-
-	            orFunction(component.componentWillReceiveProps)(_extends({}, passArguments.apply(this), {
-	                nextProps: nextProps
-	            }));
+	            var args = _extends({}, passArguments.apply(this), { nextProps: nextProps });
+	            orFunction(component.componentWillReceiveProps)(_extends({}, args, { debug: getArgs(args) }));
 	        },
 
 
@@ -11713,15 +11716,13 @@ module.exports =
 	         * @method shouldComponentUpdate
 	         * @param nextProps {Object}
 	         * @param nextState {Object}
-	         * @return {*}
+	         * @return {Boolean}
 	         */
 	        shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
-
-	            return (component.shouldComponentUpdate || function () {
+	            var args = _extends({}, passArguments.apply(this), { nextProps: nextProps, nextState: nextState });
+	            return orFunction(component.shouldComponentUpdate || function () {
 	                return true;
-	            })(_extends({}, passArguments.apply(this), {
-	                nextProps: nextProps, nextState: nextState
-	            }));
+	            })(_extends({}, args, { debug: getArgs(args) }));
 	        },
 
 
@@ -11729,13 +11730,12 @@ module.exports =
 	         * @method componentWillUpdate
 	         * @param nextProps {Object}
 	         * @param nextState {Object}
-	         * @return {*}
+	         * @return {void}
 	         */
 	        componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
-
 	            var args = _extends({}, passArguments.apply(this), { nextProps: nextProps, nextState: nextState });
 	            delete args.setState;
-	            orFunction(component.componentWillUpdate)(args);
+	            orFunction(component.componentWillUpdate)(_extends({}, args, { debug: getArgs(args) }));
 	        },
 
 
@@ -11743,13 +11743,11 @@ module.exports =
 	         * @method componentDidUpdate
 	         * @param prevProps {Object}
 	         * @param prevState {Object}
-	         * @return {*}
+	         * @return {void}
 	         */
 	        componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
-
-	            orFunction(component.componentDidUpdate)(_extends({}, passArguments.apply(this), {
-	                prevProps: prevProps, prevState: prevState
-	            }));
+	            var args = _extends({}, passArguments.apply(this), { prevProps: prevProps, prevState: prevState });
+	            orFunction(component.componentDidUpdate)(_extends({}, args, { debug: getArgs(args) }));
 	        },
 
 
