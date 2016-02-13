@@ -284,10 +284,11 @@ export const createWithCompose = component => {
     /**
      * @method orFunction
      * @param {Function} fn
+     * @param {*} [returnValue = undefined]
      * @return {Function}
      */
-    function orFunction(fn) {
-        return isFunction(fn) ? fn : () => {};
+    function orFunction(fn, returnValue = undefined) {
+        return isFunction(fn) ? fn : () => returnValue;
     }
 
     return createClass(objectAssign({}, component, {
@@ -322,7 +323,7 @@ export const createWithCompose = component => {
          */
         shouldComponentUpdate(nextProps, nextState) {
             const args = { ...passArguments.apply(this), nextProps, nextState };
-            return orFunction(component.shouldComponentUpdate || (() => true))({ ...args, debug: getArgs(args) });
+            return orFunction(component.shouldComponentUpdate, true)({ ...args, debug: getArgs(args) });
         },
 
         /**
