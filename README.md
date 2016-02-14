@@ -119,6 +119,8 @@ Which you can use in your `render` method for an action:
 </button>
 ```
 
+As both of Keo's `setState` and `dispatch` functions return the arguments passed to them, you can safely `pipe`.
+
 ## Selecting Elements
 
 Until [`Proxy`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Proxy) is more widely supported, Keo uses the `element` function to select elements &ndash; it essentially takes a `key` and returns the corresponding element. Simply destructure `element`:
@@ -128,8 +130,6 @@ const componentDidMount = ({ element }) => {
     toggleClassName(element('button'), 'active');
 };
 ```
-
-As both of Keo's `setState` and `dispatch` functions return the arguments passed to them, you can safely `pipe`.
 
 ## Exporting
 
@@ -141,7 +141,7 @@ import {stitch} from 'keo';
 export default stitch({ componentDidMount, render });
 ```
 
-As such, your exported component will now be a valid `React.createClass` component that you can pass around, such as importing it for [React router](https://github.com/rackt/react-router).
+As such, your exported component will now be a valid `React.createClass` component that you can pass around, such as importing it for [React Router](https://github.com/rackt/react-router).
 
 ## Lifecycle Composing
 
