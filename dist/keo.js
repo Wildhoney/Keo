@@ -11681,10 +11681,15 @@ module.exports =
 	    /**
 	     * @method orFunction
 	     * @param {Function} fn
+	     * @param {*} [returnValue = undefined]
 	     * @return {Function}
 	     */
 	    function orFunction(fn) {
-	        return isFunction(fn) ? fn : function () {};
+	        var returnValue = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
+
+	        return isFunction(fn) ? fn : function () {
+	            return returnValue;
+	        };
 	    }
 
 	    return (0, _react.createClass)((0, _objectAssign2.default)({}, component, {
@@ -11720,9 +11725,7 @@ module.exports =
 	         */
 	        shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
 	            var args = _extends({}, passArguments.apply(this), { nextProps: nextProps, nextState: nextState });
-	            return orFunction(component.shouldComponentUpdate || function () {
-	                return true;
-	            })(_extends({}, args, { debug: getArgs(args) }));
+	            return orFunction(component.shouldComponentUpdate, true)(_extends({}, args, { debug: getArgs(args) }));
 	        },
 
 

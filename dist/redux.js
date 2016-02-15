@@ -11681,10 +11681,15 @@ module.exports =
 	    /**
 	     * @method orFunction
 	     * @param {Function} fn
+	     * @param {*} [returnValue = undefined]
 	     * @return {Function}
 	     */
 	    function orFunction(fn) {
-	        return isFunction(fn) ? fn : function () {};
+	        var returnValue = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
+
+	        return isFunction(fn) ? fn : function () {
+	            return returnValue;
+	        };
 	    }
 
 	    return (0, _react.createClass)((0, _objectAssign2.default)({}, component, {
@@ -11720,9 +11725,7 @@ module.exports =
 	         */
 	        shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
 	            var args = _extends({}, passArguments.apply(this), { nextProps: nextProps, nextState: nextState });
-	            return orFunction(component.shouldComponentUpdate || function () {
-	                return true;
-	            })(_extends({}, args, { debug: getArgs(args) }));
+	            return orFunction(component.shouldComponentUpdate, true)(_extends({}, args, { debug: getArgs(args) }));
 	        },
 
 
@@ -22209,10 +22212,14 @@ module.exports =
 	/**
 	 * @method stitch
 	 * @param {Object|Function} component
-	 * @param {Function} [mapStateToProps]
+	 * @param {Function} [mapStateToProps = state => state]
 	 * @return {React.createClass}
 	 */
-	var stitch = exports.stitch = function stitch(component, mapStateToProps) {
+	var stitch = exports.stitch = function stitch(component) {
+	  var mapStateToProps = arguments.length <= 1 || arguments[1] === undefined ? function (state) {
+	    return state;
+	  } : arguments[1];
+
 	  return (0, _reactRedux.connect)(mapStateToProps)((0, _keo.createWithCompose)((0, _keo.wrap)(component)));
 	};
 
