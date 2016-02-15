@@ -13,9 +13,9 @@ export {pipe, pipeDeferred, resolutionMap} from './keo';
 /**
  * @method stitch
  * @param {Object|Function} component
- * @param {Function} [mapStateToProps]
+ * @param {Function} [mapStateToProps = state => state]
  * @return {React.createClass}
  */
-export const stitch = (component, mapStateToProps) => {
+export const stitch = (component, mapStateToProps = state => state) => {
     return connect(mapStateToProps)(createWithCompose(wrap(component)));
 };
