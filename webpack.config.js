@@ -1,3 +1,4 @@
+var webpack = require('webpack');
 require('babel-loader');
 require('json-loader');
 
@@ -26,5 +27,8 @@ module.exports = {
                 loader: 'json-loader'
             }
         ]
-    }
+    },
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({minimize: true})
+    ]
 };
