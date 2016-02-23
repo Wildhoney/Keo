@@ -27,8 +27,5 @@ module.exports = {
                 loader: 'json-loader'
             }
         ]
-    },
-    plugins: [
-        new webpack.optimize.UglifyJsPlugin({minimize: true})
-    ]
+    }
 };

@@ -66,7 +66,7 @@
   "dependencies": {
     "babel-loader": "^6.2.2",
     "es6-weak-map": "^2.0.1",
-    "funkel": "^0.2.0",
+    "funkel": "^0.2.1",
     "object-assign": "^4.0.1",
     "react": "^0.14.7",
     "react-dom": "^0.14.7"
