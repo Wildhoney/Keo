@@ -98,7 +98,6 @@ var render = (0, _keo.pipe)(_keo.resolutionMap, function (_ref) {
     var props = _ref.props;
     var state = _ref.state;
     var setState = _ref.setState;
-    var debug = _ref.debug;
 
 
     var humans = state.humans.map(function (human) {

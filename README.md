@@ -265,6 +265,8 @@ const render = ({ debug }) => {
 };
 ```
 
+Typically you would use `keo/strict` with a Flux implementation, or Redux. However we have not made **any** assumptions and therefore you'll need to connect your components to your implementation. For Redux this is as simple as invoking `connect` and then passing in your `stitch`ed component to the function returned &mdash; see section on [Redux](#redux). 
+
 ### Race Conditions
 
 It's worth noting that if you apply `setState` on a promise state then race conditions may cause issues. For example in the following case, if the buttons are clicked in quick succession before the promise from the first click has been resolved, then the `state.people` will not be valid.
