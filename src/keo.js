@@ -92,9 +92,30 @@ const containsFuture = cursor => {
 /**
  * @method createWithCompose
  * @param {Object} component
- * @return {createClass}
+ * @param {Boolean} [strict = false]
+ * @return {React.createClass}
  */
-export const createWithCompose = component => {
+export const createWithCompose = (component, strict = false) => {
+
+    /**
+     * @method applyProperties
+     * @param {Object} args
+     * @return {Object}
+     */
+    function applyProperties(args) {
+
+        if (strict) {
+
+            const impureFunctions = ['state', 'nextState', 'prevState', 'setState'];
+            return Object.keys(args).filter(key => !~impureFunctions.indexOf(key)).reduce((accumulator, key) => {
+                return { ...accumulator, [key]: args[key] };
+            }, {});
+
+        }
+
+        return args;
+
+    }
 
     /**
      * @method passArguments
@@ -276,7 +297,7 @@ export const createWithCompose = component => {
 
         };
 
-        const args = { props, state, setState, dispatch, element, refs, context, forceUpdate };
+        const args = applyProperties({ props, state, setState, dispatch, element, refs, context, forceUpdate });
         return { ...args, debug: getArgs(args) };
 
     }
@@ -323,7 +344,7 @@ export const createWithCompose = component => {
          */
         shouldComponentUpdate(nextProps, nextState) {
             const args = { ...passArguments.apply(this), nextProps, nextState };
-            return orFunction(component.shouldComponentUpdate, true)({ ...args, debug: getArgs(args) });
+            return orFunction(component.shouldComponentUpdate, true)({ ...applyProperties(args), debug: getArgs(args) });
         },
 
         /**
@@ -335,7 +356,7 @@ export const createWithCompose = component => {
         componentWillUpdate(nextProps, nextState) {
             const args = { ...passArguments.apply(this), nextProps, nextState };
             delete args.setState;
-            orFunction(component.componentWillUpdate)({ ...args, debug: getArgs(args) });
+            orFunction(component.componentWillUpdate)({ ...applyProperties(args), debug: getArgs(args) });
         },
 
         /**
@@ -346,7 +367,7 @@ export const createWithCompose = component => {
          */
         componentDidUpdate(prevProps, prevState) {
             const args = { ...passArguments.apply(this), prevProps, prevState };
-            orFunction(component.componentDidUpdate)({ ...args, debug: getArgs(args) });
+            orFunction(component.componentDidUpdate)({ ...applyProperties(args), debug: getArgs(args) });
         },
 
         /**
