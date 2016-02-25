@@ -249,6 +249,22 @@ const componentDidMount = ({ setState }) => {
 };
 ```
 
+### Strict
+
+Keo also comes shipped with a strict adaptation &mdash; this prevents components from managing their own state in typical [Elm](https://github.com/elm-lang) fashion. As such when you use `keo/strict` functions and properties such as `setState`, `state`, `nextState`, etc... become unavailable on your component. This ensures that in order for components to maintain their own state, a developer would purposely have to change from `keo/strict` to `keo`.
+
+
+```javascript
+import { stitch } from 'keo/strict';
+// ...
+const render = ({ debug }) => {
+    
+    // state, setState have all disappeared into the ether...
+    debug();
+
+};
+```
+
 ### Race Conditions
 
 It's worth noting that if you apply `setState` on a promise state then race conditions may cause issues. For example in the following case, if the buttons are clicked in quick succession before the promise from the first click has been resolved, then the `state.people` will not be valid.
