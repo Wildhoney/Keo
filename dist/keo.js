@@ -13078,9 +13078,38 @@ module.exports =
 	/**
 	 * @method createWithCompose
 	 * @param {Object} component
-	 * @return {createClass}
+	 * @param {Boolean} [strict = false]
+	 * @return {React.createClass}
 	 */
 	var createWithCompose = exports.createWithCompose = function createWithCompose(component) {
+	    var strict = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+
+
+	    /**
+	     * @method applyProperties
+	     * @param {Object} args
+	     * @return {Object}
+	     */
+	    function applyProperties(args) {
+
+	        if (strict) {
+	            var _ret = function () {
+
+	                var impureFunctions = ['state', 'nextState', 'prevState', 'setState'];
+	                return {
+	                    v: Object.keys(args).filter(function (key) {
+	                        return ! ~impureFunctions.indexOf(key);
+	                    }).reduce(function (accumulator, key) {
+	                        return _extends({}, accumulator, _defineProperty({}, key, args[key]));
+	                    }, {})
+	                };
+	            }();
+
+	            if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+	        }
+
+	        return args;
+	    }
 
 	    /**
 	     * @method passArguments
@@ -13275,7 +13304,7 @@ module.exports =
 	            return immediateState;
 	        };
 
-	        var args = { props: props, state: state, setState: setState, dispatch: dispatch, element: element, refs: refs, context: context, forceUpdate: forceUpdate };
+	        var args = applyProperties({ props: props, state: state, setState: setState, dispatch: dispatch, element: element, refs: refs, context: context, forceUpdate: forceUpdate });
 	        return _extends({}, args, { debug: getArgs(args) });
 	    }
 
@@ -13326,7 +13355,7 @@ module.exports =
 	         */
 	        shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
 	            var args = _extends({}, passArguments.apply(this), { nextProps: nextProps, nextState: nextState });
-	            return orFunction(component.shouldComponentUpdate, true)(_extends({}, args, { debug: getArgs(args) }));
+	            return orFunction(component.shouldComponentUpdate, true)(_extends({}, applyProperties(args), { debug: getArgs(args) }));
 	        },
 
 
@@ -13339,7 +13368,7 @@ module.exports =
 	        componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
 	            var args = _extends({}, passArguments.apply(this), { nextProps: nextProps, nextState: nextState });
 	            delete args.setState;
-	            orFunction(component.componentWillUpdate)(_extends({}, args, { debug: getArgs(args) }));
+	            orFunction(component.componentWillUpdate)(_extends({}, applyProperties(args), { debug: getArgs(args) }));
 	        },
 
 
@@ -13351,7 +13380,7 @@ module.exports =
 	         */
 	        componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
 	            var args = _extends({}, passArguments.apply(this), { prevProps: prevProps, prevState: prevState });
-	            orFunction(component.componentDidUpdate)(_extends({}, args, { debug: getArgs(args) }));
+	            orFunction(component.componentDidUpdate)(_extends({}, applyProperties(args), { debug: getArgs(args) }));
 	        },
 
 
