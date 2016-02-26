@@ -38,7 +38,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 225);
+/******/ 	return __webpack_require__(__webpack_require__.s = 227);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -23392,7 +23392,91 @@ module.exports =
 /* 208 */,
 /* 209 */,
 /* 210 */,
-/* 211 */,
+/* 211 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.stitch = exports.resolutionMap = exports.pipeDeferred = exports.pipe = exports.objectAssign = exports.composeDeferred = exports.compose = exports.partial = exports.trace = exports.memoize = undefined;
+
+	var _funkel = __webpack_require__(99);
+
+	Object.defineProperty(exports, 'memoize', {
+	  enumerable: true,
+	  get: function get() {
+	    return _funkel.memoize;
+	  }
+	});
+	Object.defineProperty(exports, 'trace', {
+	  enumerable: true,
+	  get: function get() {
+	    return _funkel.trace;
+	  }
+	});
+	Object.defineProperty(exports, 'partial', {
+	  enumerable: true,
+	  get: function get() {
+	    return _funkel.partial;
+	  }
+	});
+	Object.defineProperty(exports, 'compose', {
+	  enumerable: true,
+	  get: function get() {
+	    return _funkel.compose;
+	  }
+	});
+	Object.defineProperty(exports, 'composeDeferred', {
+	  enumerable: true,
+	  get: function get() {
+	    return _funkel.composeDeferred;
+	  }
+	});
+
+	var _objectAssign = __webpack_require__(100);
+
+	Object.defineProperty(exports, 'objectAssign', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_objectAssign).default;
+	  }
+	});
+
+	var _keo = __webpack_require__(101);
+
+	Object.defineProperty(exports, 'pipe', {
+	  enumerable: true,
+	  get: function get() {
+	    return _keo.pipe;
+	  }
+	});
+	Object.defineProperty(exports, 'pipeDeferred', {
+	  enumerable: true,
+	  get: function get() {
+	    return _keo.pipeDeferred;
+	  }
+	});
+	Object.defineProperty(exports, 'resolutionMap', {
+	  enumerable: true,
+	  get: function get() {
+	    return _keo.resolutionMap;
+	  }
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * @method stitch
+	 * @param {Object|Function} component
+	 * @return {React.createClass}
+	 */
+	var stitch = exports.stitch = function stitch(component) {
+	  return (0, _keo.createWithCompose)((0, _keo.wrap)(component), true);
+	};
+
+/***/ },
 /* 212 */,
 /* 213 */,
 /* 214 */,
@@ -23406,10 +23490,12 @@ module.exports =
 /* 222 */,
 /* 223 */,
 /* 224 */,
-/* 225 */
+/* 225 */,
+/* 226 */,
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(101);
+	module.exports = __webpack_require__(211);
 
 
 /***/ }

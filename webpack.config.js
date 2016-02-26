@@ -5,7 +5,8 @@ require('json-loader');
 module.exports = {
     entry: {
         keo: ['./src/keo.js'],
-        redux: ['./src/redux.js']
+        redux: ['./src/redux.js'],
+        strict: ['./src/strict.js']
     },
     output: {
         path: __dirname + '/dist',
