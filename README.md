@@ -225,6 +225,22 @@ export default connect(state => state.zombies, ...)(stitch({ componentWillMount,
 
 For further information on connecting to Redux, see [Redux's documentation](http://rackt.org/redux/docs/basics/UsageWithReact.html).
 
+## Strict
+
+Keo also comes shipped with a strict adaptation &mdash; this prevents components from managing their own state in typical [Elm](https://github.com/elm-lang) fashion. As such when you use `keo/strict` functions and properties such as `setState`, `state`, `nextState`, etc... become unavailable on your component. This ensures that in order for components to maintain their own state, a developer would purposely have to change from `keo/strict` to `keo`.
+
+
+```javascript
+import { stitch } from 'keo/strict';
+// ...
+const render = ({ debug }) => {
+    
+    // state, setState have all disappeared into the ether...
+    debug();
+
+};
+```
+
 ## Promise State
 
 More often than not you'll want to `setState` with a promise &ndash; with React itself the following code will simply place the promise in the `state`, as opposed to the eventual value:
@@ -246,22 +262,6 @@ Likewise in the following example, where the array is a mix of eventual and imme
 ```javascript
 const componentDidMount = ({ setState }) => {
     setState({ people: ['Adam', Promise.resolve('Maria')] });
-};
-```
-
-### Strict
-
-Keo also comes shipped with a strict adaptation &mdash; this prevents components from managing their own state in typical [Elm](https://github.com/elm-lang) fashion. As such when you use `keo/strict` functions and properties such as `setState`, `state`, `nextState`, etc... become unavailable on your component. This ensures that in order for components to maintain their own state, a developer would purposely have to change from `keo/strict` to `keo`.
-
-
-```javascript
-import { stitch } from 'keo/strict';
-// ...
-const render = ({ debug }) => {
-    
-    // state, setState have all disappeared into the ether...
-    debug();
-
 };
 ```
 
