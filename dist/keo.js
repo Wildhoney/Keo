@@ -13326,7 +13326,7 @@ module.exports =
 	        };
 	    }
 
-	    return (0, _react.createClass)((0, _objectAssign2.default)({}, component, {
+	    var mergedComponent = (0, _objectAssign2.default)({}, component, {
 
 	        /**
 	         * @constant mixins
@@ -13408,7 +13408,15 @@ module.exports =
 	         */
 	        render: pipe(passArguments, component.render)
 
-	    }));
+	    });
+
+	    if (strict) {
+
+	        // Remove `shouldComponentUpdate` when we're using strict mode, as that's covered by the pure render mixin.
+	        delete mergedComponent.shouldComponentUpdate;
+	    }
+
+	    return (0, _react.createClass)(mergedComponent);
 	};
 
 	/**

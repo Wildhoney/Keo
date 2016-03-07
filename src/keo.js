@@ -313,7 +313,7 @@ export const createWithCompose = (component, strict = false) => {
         return isFunction(fn) ? fn : () => returnValue;
     }
 
-    return createClass(objectAssign({}, component, {
+    const mergedComponent = objectAssign({}, component, {
 
         /**
          * @constant mixins
@@ -389,7 +389,16 @@ export const createWithCompose = (component, strict = false) => {
          */
         render: pipe(passArguments, component.render)
 
-    }));
+    });
+
+    if (strict) {
+
+        // Remove `shouldComponentUpdate` when we're using strict mode, as that's covered by the pure render mixin.
+        delete mergedComponent.shouldComponentUpdate;
+
+    }
+
+    return createClass(mergedComponent);
 
 };
 
