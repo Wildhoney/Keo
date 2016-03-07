@@ -6,6 +6,7 @@
 import objectAssign from 'object-assign';
 import {createClass} from 'react';
 import WeakMap from 'es6-weak-map';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {compose, composeDeferred} from 'funkel';
 export {memoize, trace, partial} from 'funkel';
 export {objectAssign, compose, composeDeferred};
@@ -313,6 +314,12 @@ export const createWithCompose = (component, strict = false) => {
     }
 
     return createClass(objectAssign({}, component, {
+
+        /**
+         * @constant mixins
+         * @type {Array}
+         */
+        mixins: [...(component.mixins || []), strict === true && PureRenderMixin].filter(mixin => mixin !== false),
 
         /**
          * @method componentWillMount

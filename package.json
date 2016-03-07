@@ -1,6 +1,6 @@
 {
   "name": "keo",
-  "version": "2.1.2",
+  "version": "3.0.0",
   "description": "Plain functions for a more functional Deku approach to creating React components, with functional goodies such as pipe, memoize, etc... for free.",
   "scripts": {
     "test": "ava tests/*.test.js",
@@ -70,6 +70,7 @@
     "funkel": "^0.2.1",
     "object-assign": "^4.0.1",
     "react": "^0.14.7",
+    "react-addons-pure-render-mixin": "^0.14.7",
     "react-dom": "^0.14.7"
   },
   "optionalDependencies": {
