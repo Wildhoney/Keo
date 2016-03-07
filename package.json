@@ -16,7 +16,8 @@
   "main": "keo.js",
   "files": [
     "keo.js",
-    "redux.js"
+    "redux.js",
+    "strict.js"
   ],
   "repository": {
     "type": "git",
