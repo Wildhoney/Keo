@@ -5,8 +5,7 @@ require('json-loader');
 module.exports = {
     entry: {
         keo: ['./src/keo.js'],
-        redux: ['./src/redux.js'],
-        strict: ['./src/strict.js']
+        redux: ['./src/redux.js']
     },
     output: {
         path: __dirname + '/dist',
@@ -16,7 +15,7 @@ module.exports = {
     },
     module: {
         loaders: [
-            { 
+            {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 query: {

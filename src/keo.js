@@ -93,30 +93,9 @@ const containsFuture = cursor => {
 /**
  * @method createWithCompose
  * @param {Object} component
- * @param {Boolean} [strict = false]
  * @return {React.createClass}
  */
-export const createWithCompose = (component, strict = false) => {
-
-    /**
-     * @method applyProperties
-     * @param {Object} args
-     * @return {Object}
-     */
-    function applyProperties(args) {
-
-        if (strict) {
-
-            const impureFunctions = ['state', 'nextState', 'prevState', 'setState'];
-            return Object.keys(args).filter(key => !~impureFunctions.indexOf(key)).reduce((accumulator, key) => {
-                return { ...accumulator, [key]: args[key] };
-            }, {});
-
-        }
-
-        return args;
-
-    }
+export const createWithCompose = component => {
 
     /**
      * @method passArguments
@@ -298,7 +277,7 @@ export const createWithCompose = (component, strict = false) => {
 
         };
 
-        const args = applyProperties({ props, state, setState, dispatch, element, refs, context, forceUpdate });
+        const args = { props, state, setState, dispatch, element, refs, context, forceUpdate };
         return { ...args, debug: getArgs(args) };
 
     }
@@ -313,13 +292,7 @@ export const createWithCompose = (component, strict = false) => {
         return isFunction(fn) ? fn : () => returnValue;
     }
 
-    const mergedComponent = objectAssign({}, component, {
-
-        /**
-         * @constant mixins
-         * @type {Array}
-         */
-        mixins: [...(component.mixins || []), strict === true && PureRenderMixin].filter(mixin => mixin !== false),
+    return createClass(objectAssign({}, component, {
 
         /**
          * @method componentWillMount
@@ -351,7 +324,7 @@ export const createWithCompose = (component, strict = false) => {
          */
         shouldComponentUpdate(nextProps, nextState) {
             const args = { ...passArguments.apply(this), nextProps, nextState };
-            return orFunction(component.shouldComponentUpdate, true)({ ...applyProperties(args), debug: getArgs(args) });
+            return orFunction(component.shouldComponentUpdate, true)({ ...args, debug: getArgs(args) });
         },
 
         /**
@@ -363,7 +336,7 @@ export const createWithCompose = (component, strict = false) => {
         componentWillUpdate(nextProps, nextState) {
             const args = { ...passArguments.apply(this), nextProps, nextState };
             delete args.setState;
-            orFunction(component.componentWillUpdate)({ ...applyProperties(args), debug: getArgs(args) });
+            orFunction(component.componentWillUpdate)({ ...args, debug: getArgs(args) });
         },
 
         /**
@@ -374,7 +347,7 @@ export const createWithCompose = (component, strict = false) => {
          */
         componentDidUpdate(prevProps, prevState) {
             const args = { ...passArguments.apply(this), prevProps, prevState };
-            orFunction(component.componentDidUpdate)({ ...applyProperties(args), debug: getArgs(args) });
+            orFunction(component.componentDidUpdate)({ ...args, debug: getArgs(args) });
         },
 
         /**
@@ -389,16 +362,7 @@ export const createWithCompose = (component, strict = false) => {
          */
         render: pipe(passArguments, component.render)
 
-    });
-
-    if (strict) {
-
-        // Remove `shouldComponentUpdate` when we're using strict mode, as that's covered by the pure render mixin.
-        delete mergedComponent.shouldComponentUpdate;
-
-    }
-
-    return createClass(mergedComponent);
+    }));
 
 };
 
