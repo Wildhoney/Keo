@@ -1,63 +1,49 @@
-import jsdom from 'jsdom';
+import React, { PropTypes, createElement } from 'react';
 import test from 'ava';
-import {shallow, mount, describeWithDOM} from 'enzyme';
-import React from 'react';
-import TestUtils from 'react-addons-test-utils';
-import {findDOMNode} from 'react-dom';
+import { shallow, mount } from 'enzyme';
+import { spy } from 'sinon';
+import starwars from 'starwars';
+import { stitch } from '../src/keo';
 
-import 'babel-core/register';
-import DefaultProps from './mocks/default-props';
-import StateImmediate from './mocks/state-immediate';
-import StateFuture from './mocks/state-future';
-import StateMixed from './mocks/state-mixed';
-import Stateless from './mocks/stateless';
-
-// Setup JSDOM manually because we don't use Mocha.
-global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
-global.window = global.document.defaultView;
-
-test('is able to utilise getDefaultProps', t => {
-    const component = mount(<DefaultProps />);
-    t.is(component.props().name, 'Geraldine');
+test('is able to render a simple component without a `render` method;', t => {
+    const text = starwars();
+    const Component = stitch(() => <h1>{text}</h1>);
+    const wrapper = shallow(<Component />);
+    t.is(wrapper.find('h1').text(), text);
 });
 
-test('is able to set an immediate state', t => {
-    const component = shallow(<StateImmediate />);
-    component.find('button').simulate('click');
-    t.is(component.state().name, 'Matilda');
+test('is able to render a component with a `render` method', t => {
+    const text = starwars();
+    const Component = stitch({ render: () => <h1>{text}</h1> });
+    const wrapper = shallow(<Component />);
+    t.is(wrapper.find('h1').text(), text);
 });
 
-test.cb('is able to set an immediate state', t => {
-    const component = shallow(<StateFuture />);
-    component.find('button').simulate('click');
-    setTimeout(() => {
-        t.is(component.state().name, 'Spencer');
-        t.end();
-    });
+test('is able to render a component with `componentDidMount` hook', t => {
+    const componentDidMountSpy = spy();
+    const Component = stitch({ componentDidMount: componentDidMountSpy, render: () => <span /> });
+    mount(<Component />);
+    t.true(componentDidMountSpy.called);
 });
 
-test.cb('is able to set future and immediate states', t => {
-    const component = shallow(<StateFuture />);
-    component.find('button').simulate('click');
-    setTimeout(() => {
-        t.is(component.state().name, 'Spencer');
-        t.end();
-    });
+test('is able to pass in properties to the component;', t => {
+    const text = starwars();
+    const Component = stitch({ render: ({ props }) => <h1>{props.quote}</h1> });
+    const wrapper = mount(<Component quote={text} />);
+    t.is(wrapper.find('h1').text(), text);
 });
 
-test.cb('is able to set future and immediate states', t => {
-    const component = shallow(<StateMixed />);
-    component.find('button').simulate('click');
-    t.same(component.state(), { age: 45, friends: true });
-    setTimeout(() => {
-        const equals = { name: 'Donovan', age: 45, friends: true, visited: ['Argentina', 'Maldives', 'Brazil'] };
-        t.same(component.state(), equals);
-        t.end();
-    });
+test('is able to remove `getInitialState` function;', t => {
+    const text= starwars();
+    const getInitialStateSpy = spy(() => ({ text }));
+    const Component = stitch({ getInitialState: getInitialStateSpy, render: () => <span /> });
+    const wrapper = mount(<Component />);
+    t.false(getInitialStateSpy.called);
+    t.true(wrapper.state() === null);
 });
 
-test('is able to initialise stateless components', t => {
-    const component = shallow(<Stateless />);
-    component.find('button').simulate('click');
-    t.same(component.state(), { name: 'Dorothy' });
-});
+// Skipped...
+
+test.skip('is not able to setState or access the state object;', t => {});
+test.skip('is only re-rendering when the component-specific properties change;', t => {});
+test.skip('is able to override the default `shouldComponentUpdate` behaviour;', t => {});
