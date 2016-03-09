@@ -15,9 +15,8 @@ const propTypes = {
  * @return {XML}
  */
 const render = ({ props }) => {
-
+    console.log('Re-render');
     return <h1>Countries ({ props.country.length })</h1>
-
 };
 
 export default stitch({ propTypes, render });

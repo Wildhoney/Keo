@@ -37,7 +37,7 @@ var propTypes = {
 var render = function render(_ref) {
   var props = _ref.props;
 
-
+  console.log('Re-render');
   return _react2.default.createElement(
     'h1',
     null,
