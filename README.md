@@ -1,7 +1,7 @@
 <img src="media/logo.png" alt="Keo" width="250" />
 
 > <sub><sup>*["Keo"](https://vi.wikipedia.org/wiki/Keo) is the Vietnamese translation for glue.*</sup></sub><br />
-> Plain functions for a more functional [Deku](https://github.com/dekujs/deku) approach to creating React components, with functional goodies such as pipe, memoize, etc... for free.
+> Plain functions for a more functional [Deku](https://github.com/dekujs/deku) approach to creating React components, with functional goodies such as compose, memoize, etc... for free.
 
 ![Travis](http://img.shields.io/travis/Wildhoney/Keo.svg?style=flat-square)
 &nbsp;
@@ -10,14 +10,6 @@
 ![License MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat-square)
 
 * **npm:** `npm install keo --save`
-
-At the core of Keo's philosophies is the notion that you **shouldn't** have to deal with the `this` keyword &mdash; and while in ES2015 the `this` keyword has become easier to manage, it seems wholly unnecessary in a React component. As such, Keo takes a more [Deku](https://github.com/dekujs/deku) approach in that items such as `props`, `state`, `setState`, etc... are passed in to [*some*](#lifecycle-functions) React [lifecycle functions](https://facebook.github.io/react/docs/component-specs.html).
-
-Since `v5.x`, Keo has taken on a more fundamental interpretation of React where components are **expected** to be passed immutable properties &mdash; and `state` is entirely inaccessible, as is `setState` to prevent components from holding their own state. As such, you are required to use Redux with Keo to pass properties down through your components.
-
-**Note:** Prior to `v5.x` Keo had a different API &mdash; use `npm i keo@4.0.0` ([README](LEGACY.md)).
-
----
 
 ## Table of Contents
 
@@ -29,11 +21,19 @@ Since `v5.x`, Keo has taken on a more fundamental interpretation of React where 
 
 ---
 
+At the core of Keo's philosophies is the notion that you **shouldn't** have to deal with the `this` keyword &mdash; and while in ES2015 the `this` keyword has become easier to manage, it seems wholly unnecessary in a React component. As such, Keo takes a more [Deku](https://github.com/dekujs/deku) approach in that items such as `props`, `context`, `nextProps`, etc... are passed in to [*some*](#lifecycle-functions) React [lifecycle functions](https://facebook.github.io/react/docs/component-specs.html).
+
+Since `v4.x`, Keo has taken on a more fundamental interpretation of React where components are **expected** to be passed immutable properties &mdash; and `state` is entirely inaccessible, as is `setState` to prevent components from holding their own state. As such, you are **required** to use Redux with Keo to pass properties down through your components.
+
+**Note:** Prior to `v4.x` Keo had a different API which was more tolerant &mdash; please use `npm i keo@3.0.2` &mdash; [See associated README](LEGACY.md)
+
+---
+
 ## Advantages
 
 * Steer away from `class` sugaring, inheritance, and `super` calls;
 * Create referentially transparent, pure functions without `this`;
-* Gain `memoize`, `pipe`, et cetera... for gratis with previous;
+* Gain `memoize`, `compose`, et cetera... for gratis with previous;
 * Use `export` to export plain functions for simpler unit-testing;
 * Simple composing of functions for [*mixin* support](https://github.com/dekujs/deku/issues/174);
 * Avoid functions being littered with React specific method calls;
@@ -42,7 +42,7 @@ Since `v5.x`, Keo has taken on a more fundamental interpretation of React where 
 
 ## Getting Started
 
-Use [Redux](https://github.com/reactjs/redux) to pass down properties through your components, and an immutable solution &mdash; such as [`seamless-immutable`](https://github.com/rtfeldman/seamless-immutable) or Facebook's [`Immutable`](https://facebook.github.io/immutable-js/) &mdash; although [`Object.freeze`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze) can in many cases be perfectly acceptable as well as a good starting point for getting started.
+Use [Redux](https://github.com/reactjs/redux) to pass down properties through your components, and an immutable solution &mdash; such as [`seamless-immutable`](https://github.com/rtfeldman/seamless-immutable) or Facebook's [`Immutable`](https://facebook.github.io/immutable-js/) &mdash; even [`Object.freeze`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze) can in many cases be perfectly acceptable for getting started.
 
 Once you're setup with Redux, and your project is passing down immutable properties, within your first component you can import `stitch` from Keo. In the following example we'll assume the immutable property `name` is being passed down to your component:
 
@@ -59,7 +59,7 @@ export stitch({ render });
 
 In the above example the component will re-render **every time** properties are updated in your Redux state &mdash; even when the `name` property hasn't been changed. React provides the [`PureRenderMixin` mixin](https://facebook.github.io/react/docs/pure-render-mixin.html) for these instances, and Keo provides a similar solution.
 
-Taking advantage of the `shouldComponentUpdate` improve you **must** define `propTypes` &mdash; Keo favours this approach over checking `props` directly to encourage strictness in component definitions:
+Taking advantage of the `shouldComponentUpdate` improvement you **must** define `propTypes` &mdash; Keo favours this approach over checking `props` directly to encourage strictness in component definitions:
 
 ```javascript
 import React, { PropTypes } from 'react';
