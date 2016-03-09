@@ -1,7 +1,14 @@
 import { createClass } from 'react';
-import { compose, dissoc, pick, curry, memoize } from 'ramda';
+import { compose, dissoc, pick, curry, memoize, pickBy } from 'ramda';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Perf from 'react-addons-perf';
+
+/**
+ * @method isFunction
+ * @param {Object} x
+ * @return {Boolean}
+ */
+const isFunction = memoize(x => typeof x === 'function');
 
 /**
  * When an object is passed then it's simply returned. However if a function is passed
@@ -13,8 +20,7 @@ import Perf from 'react-addons-perf';
  * @return {Object}
  */
 export const transform = memoize(x => {
-    const isFunction = typeof x === 'function';
-    return isFunction ? { render: x } : x;
+    return isFunction(x) ? { render: x } : x;
 });
 
 /**
@@ -29,12 +35,13 @@ export const wrapMethods = memoize(x => {
 
     const propertyWhitelist = ['props', 'context', 'nextProps', 'prevProps'];
     const passArgs = pick(propertyWhitelist);
+    const keys = Object.keys(x);
 
-    return Object.keys(x).reduce((accumulator, key) => {
+    return keys.reduce((accumulator, key) => {
 
         // Wrap each developer-defined function in the Keo-defined wrapper, and pass in the
         // arguments for destructuring.
-        return { ...accumulator, [key]: function lifecycleMethod(...args) {
+        return { ...accumulator, [key]: function(...args) {
 
             const lifecycleArguments = passArgs(this, args);
             return x[key].call(null, lifecycleArguments);
@@ -63,19 +70,33 @@ export const rejectProps = curry(memoize((blacklist, x) => {
 }));
 
 /**
+ * @method onlyFunctions
+ * @param {Object} x
+ * @return {Object}
+ */
+export const onlyFunctions = memoize(x => {
+    return pickBy(isFunction, x);
+});
+
+/**
  * @method stitch
- * @param {Object} fns
+ * @param {Object|Function} definition
  * @return {createClass}
  */
-export const stitch = memoize(fns => {
+export const stitch = memoize(definition => {
 
-    const methodBlacklist = ['getInitialState', 'mixins'];
-    const create = compose(wrapMethods, rejectProps(methodBlacklist), transform);
-    const component = create(fns);
+    const propertyBlacklist = ['getInitialState', 'mixins'];
+
+    // Create the component by removing forbidden or non-related functions and properties.
+    const createComponent = compose(rejectProps(propertyBlacklist), transform);
+    const component = createComponent(definition);
+
+    // Wrap the methods in Keo-specific functions for applying properties as arguments.
+    const applyMethods = compose(wrapMethods, onlyFunctions);
 
     return createClass({
         mixins: [PureRenderMixin],
-        ...component
+        ...component, ...applyMethods(component)
     });
 
 });
