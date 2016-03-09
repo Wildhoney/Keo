@@ -1,6 +1,6 @@
 {
   "name": "keo",
-  "version": "5.0.0",
+  "version": "4.0.0",
   "description": "Plain functions for a more functional Deku approach to creating React components, with functional goodies such as pipe, memoize, etc... for free.",
   "scripts": {
     "test": "ava tests/*.test.js --tap | tap-spec",
