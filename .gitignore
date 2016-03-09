@@ -11,4 +11,6 @@ node_modules
 # publish
 ./keo.js
 ./redux.js
-./strict.js
+
+# example
+./example/js/build.js
