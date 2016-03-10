@@ -64,7 +64,7 @@ test('is not able to setState or access the state object;', t => {
     t.true(props.setState === undefined);
 });
 
-test.only('is only re-rendering when the component-specific properties change;', t => {
+test('is only re-rendering when the component-specific properties change;', t => {
 
     const renderSpy = spy(({ props }) => <div><h1>{props.quote}</h1><datetime>{props.dateTime}</datetime></div>);
     const Component = stitch({ propTypes: { quote: PropTypes.string.isRequired }, render: renderSpy });
@@ -90,6 +90,21 @@ test.only('is only re-rendering when the component-specific properties change;',
 
 });
 
-// Skipped...
+test('is able to override the default `shouldComponentUpdate` behaviour;', t => {
 
-test.skip('is able to override the default `shouldComponentUpdate` behaviour;', t => {});
+    const renderSpy = spy(({ props }) => <div><h1>{props.quote}</h1><datetime>{props.dateTime}</datetime></div>);
+    const Component = stitch({ propTypes: { programmeName: PropTypes.string }, shouldComponentUpdate: () => true, render: renderSpy });
+
+    const initialText = starwars();
+    const wrapper = mount(<Component quote={initialText} />);
+
+    t.is(renderSpy.callCount, 1);
+    t.is(wrapper.find('h1').text(), initialText);
+
+    const changedText = starwars();
+    wrapper.setProps({ quote: changedText });
+
+    t.is(renderSpy.callCount, 2);
+    t.is(wrapper.find('h1').text(), changedText);
+
+});

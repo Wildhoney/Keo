@@ -3,7 +3,7 @@
   "version": "4.0.0",
   "description": "Plain functions for a more functional Deku approach to creating React components, with functional goodies such as compose, memoize, etc... for free.",
   "scripts": {
-    "test": "ava tests/*.test.js --tap | tap-spec",
+    "test": "ava tests/*.test.js --tap | tap-nyan",
     "start": "node example/server/default.js",
     "build": "webpack && npm run dev",
     "dev": "browserify example/js/default.js -o example/js/build.js -t [ babelify --presets [ es2015 react ] ]"
@@ -61,7 +61,7 @@
     "seamless-immutable": "^5.1.0",
     "sinon": "^1.17.3",
     "starwars": "^1.0.0",
-    "tap-spec": "^4.1.1",
+    "tap-nyan": "0.0.2",
     "unique-random-array": "^1.0.0",
     "webpack": "^2.1.0-beta.4"
   },
