@@ -15884,23 +15884,29 @@ module.exports =
 	 */
 	var passArguments = exports.passArguments = (0, _ramda.memoize)(function (x) {
 
-	    var passArgs = (0, _ramda.pick)(propertyWhitelist);
-	    var keys = Object.keys(x);
+	    var filterArgs = (0, _ramda.compose)((0, _ramda.pickBy)((0, _ramda.complement)(_ramda.isNil)), (0, _ramda.pick)(propertyWhitelist));
 
-	    return keys.reduce(function (accumulator, key) {
+	    // Wrap each developer-defined function in the Keo-defined wrapper, and pass in the
+	    // arguments for destructuring.
+	    return Object.keys(x).reduce(function (accumulator, key) {
 
-	        // Wrap each developer-defined function in the Keo-defined wrapper, and pass in the
-	        // arguments for destructuring.
-	        return _extends({}, accumulator, _defineProperty({}, key, function () {
-	            var _ref = this.props || {};
+	        return _extends({}, accumulator, _defineProperty({}, key, function (prop) {
+	            var _extends2;
 
-	            var dispatch = _ref.dispatch;
+	            // When an argument has been passed in, `prevProps` is only used in `componentDidUpdate`
+	            // whereas other lifecycle methods take `nextProps` instead.
+	            var name = key === 'componentDidUpdate' ? 'prevProps' : 'nextProps';
 
-	            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	                args[_key] = arguments[_key];
-	            }
+	            // We then gather all of the arguments used for this function, taking the properties from
+	            // `this` and the first argument, which will be used as either `nextProps` or `prevProps`
+	            // depending on which function scope we're currently in.
+	            var props = this.props || {};
+	            var dispatch = props.dispatch || function () {};
+	            var args = _extends({}, this, (_extends2 = {}, _defineProperty(_extends2, name, prop), _defineProperty(_extends2, 'dispatch', dispatch), _extends2));
 
-	            var lifecycleArguments = _extends({}, passArgs(this, args), { dispatch: dispatch });
+	            // Finally filter the arguments against our whitelist; removing arguments which evaluate
+	            // to "undefined".
+	            var lifecycleArguments = _extends({}, filterArgs(args));
 	            return x[key].call(undefined, lifecycleArguments);
 	        }));
 	    }, {});
