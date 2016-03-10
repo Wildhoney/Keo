@@ -12,7 +12,7 @@ const propertyBlacklist = ['getInitialState', 'mixins'];
  * @constant propertyWhitelist
  * @type {String[]}
  */
-const propertyWhitelist = ['props', 'context', 'nextProps', 'prevProps'];
+const propertyWhitelist = ['props', 'context', 'nextProps', 'prevProps', 'dispatch'];
 
 /**
  * @method isFunction
