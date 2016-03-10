@@ -1,5 +1,5 @@
 import { createClass } from 'react';
-import { compose, dissoc, pick, curry, memoize, pickBy } from 'ramda';
+import { compose, dissoc, isNil, complement, pick, curry, memoize, pickBy } from 'ramda';
 import Perf from 'react-addons-perf';
 
 /**
@@ -44,17 +44,28 @@ export const ensureRenderMethod = memoize(x => {
  */
 export const passArguments = memoize(x => {
 
-    const passArgs = pick(propertyWhitelist);
-    const keys = Object.keys(x);
+    const filterArgs = compose(pickBy(complement(isNil)), pick(propertyWhitelist));
 
-    return keys.reduce((accumulator, key) => {
+    // Wrap each developer-defined function in the Keo-defined wrapper, and pass in the
+    // arguments for destructuring.
+    return Object.keys(x).reduce((accumulator, key) => {
 
-        // Wrap each developer-defined function in the Keo-defined wrapper, and pass in the
-        // arguments for destructuring.
-        return { ...accumulator, [key]: function(...args) {
+        return { ...accumulator, [key]: function(prop) {
 
-            const { dispatch } = this.props || {};
-            const lifecycleArguments = { ...passArgs(this, args), dispatch };
+            // When an argument has been passed in, `prevProps` is only used in `componentDidUpdate`
+            // whereas other lifecycle methods take `nextProps` instead.
+            const name = key === 'componentDidUpdate' ? 'prevProps' : 'nextProps';
+
+            // We then gather all of the arguments used for this function, taking the properties from
+            // `this` and the first argument, which will be used as either `nextProps` or `prevProps`
+            // depending on which function scope we're currently in.
+            const props = this.props || {};
+            const dispatch = props.dispatch || (() => {});
+            const args = { ...this, [name]: prop, dispatch };
+
+            // Finally filter the arguments against our whitelist; removing arguments which evaluate
+            // to "undefined".
+            const lifecycleArguments = { ...filterArgs(args) };
             return x[key].call(undefined, lifecycleArguments);
 
         }}

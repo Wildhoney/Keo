@@ -108,3 +108,27 @@ test('is able to override the default `shouldComponentUpdate` behaviour;', t => 
     t.is(wrapper.find('h1').text(), changedText);
 
 });
+
+test('is able to pass in correct arguments to `shouldComponentUpdate`', t => {
+
+    const initialText = starwars();
+    const updatedText = starwars();
+
+    const shouldComponentUpdateSpy = spy(({ props, nextProps }) => {
+        t.same(props, { text: initialText });
+        t.same(nextProps, { text: updatedText });
+        return true;
+    });
+
+    const Component = stitch({
+        shouldComponentUpdate: shouldComponentUpdateSpy,
+        render: ({ props }) => <h1>{props.text}</h1>
+    });
+
+    const wrapper = shallow(<Component text={initialText} />);
+    t.is(wrapper.find('h1').text(), initialText);
+
+    wrapper.setProps({ text: updatedText });
+    t.is(shouldComponentUpdateSpy.callCount, 1);
+
+});
