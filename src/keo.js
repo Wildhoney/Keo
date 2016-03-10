@@ -53,7 +53,7 @@ export const passArguments = memoize(x => {
         // arguments for destructuring.
         return { ...accumulator, [key]: function(...args) {
 
-            const { dispatch } = this.props;
+            const { dispatch } = this.props || {};
             const lifecycleArguments = { ...passArgs(this, args), dispatch };
             return x[key].call(undefined, lifecycleArguments);
 

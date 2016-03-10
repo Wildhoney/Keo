@@ -15892,7 +15892,9 @@ module.exports =
 	        // Wrap each developer-defined function in the Keo-defined wrapper, and pass in the
 	        // arguments for destructuring.
 	        return _extends({}, accumulator, _defineProperty({}, key, function () {
-	            var dispatch = this.props.dispatch;
+	            var _ref = this.props || {};
+
+	            var dispatch = _ref.dispatch;
 
 	            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 	                args[_key] = arguments[_key];
