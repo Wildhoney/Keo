@@ -103,11 +103,6 @@ Properties which are typically available in React components, but are unavailabl
 
 ## Lifecycle Functions
 
-The following functions receive [properties](#destructuring) as an object which can be destructured:
-
-* `componentWillMount`
-* `componentDidMount`
-* `componentWillUnmount`
-* `render`
+The entire gamut of [React's lifecycle methods](https://facebook.github.io/react/docs/component-specs.html) pass in their own associated arguments &mdash; for example the `render` method will take `props`, `context` and `dispatch`, whereas other functions such as `componentWillUpdate` would also take an additional `nextProps` argument.
 
 You may override the `shouldComponentUpdate`, however the provided function is fine in most cases assuming that your [`propTypes` are accurate](#getting-started).

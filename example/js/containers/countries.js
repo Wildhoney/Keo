@@ -49,7 +49,7 @@ const render = ({ props }) => {
 
     return (
         <section>
-            <h1>You've got { correct.length } of { props.countries.length } correct</h1>
+            <h1>You have got { correct.length } of { props.countries.length } correct</h1>
             <h2 className={ answer ? (answer.isCorrect ? 'correct' : 'incorrect') : '' }>
                 { props.answers.length ? `Previous answer was ${answer.capital}` : '-' }
             </h2>
