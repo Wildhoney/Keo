@@ -42,8 +42,29 @@ test('is able to remove `getInitialState` function;', t => {
     t.true(wrapper.state() === null);
 });
 
+test('is able to prevent access to the `this` context;', t => {
+    let context;
+    const Component = stitch({ render: function() {
+        context = this;
+        return <span />
+    }});
+    mount(<Component />);
+    t.true(context === undefined);
+});
+
+test('is not able to setState or access the state object;', t => {
+    const props = {};
+    const Component = stitch({ render: ({ state, setState }) => {
+        props.state = state;
+        props.setState = setState;
+        return <span />
+    }});
+    mount(<Component />);
+    t.true(props.state === undefined);
+    t.true(props.setState === undefined);
+});
+
 // Skipped...
 
-test.skip('is not able to setState or access the state object;', t => {});
 test.skip('is only re-rendering when the component-specific properties change;', t => {});
 test.skip('is able to override the default `shouldComponentUpdate` behaviour;', t => {});
