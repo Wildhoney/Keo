@@ -15850,7 +15850,7 @@ module.exports =
 	 * @constant propertyWhitelist
 	 * @type {String[]}
 	 */
-	var propertyWhitelist = ['props', 'context', 'nextProps', 'prevProps'];
+	var propertyWhitelist = ['props', 'context', 'nextProps', 'prevProps', 'dispatch'];
 
 	/**
 	 * @method isFunction
