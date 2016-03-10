@@ -1,6 +1,5 @@
 import { createClass } from 'react';
 import { compose, dissoc, pick, curry, memoize, pickBy } from 'ramda';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Perf from 'react-addons-perf';
 
 /**
@@ -54,7 +53,8 @@ export const passArguments = memoize(x => {
         // arguments for destructuring.
         return { ...accumulator, [key]: function(...args) {
 
-            const lifecycleArguments = passArgs(this, args);
+            const { dispatch } = this.props;
+            const lifecycleArguments = { ...passArgs(this, args), dispatch };
             return x[key].call(undefined, lifecycleArguments);
 
         }}
@@ -82,7 +82,7 @@ export const rejectProps = curry(memoize((blacklist, x) => {
 
 /**
  * Yields only the functions when given an array of varying types.
- * 
+ *
  * @method onlyFunctions
  * @param {Object} x
  * @return {Object}
@@ -92,19 +92,23 @@ export const onlyFunctions = memoize(x => {
 });
 
 /**
- * Takes the current component definition, and adds the standard Keo `shouldComponentUpdate`
- * function unless it's been specified on the component itself by the developer.
+ * Determines whether a component should be updated depending on whether its immutable
+ * properties have changed as defined in the component's `propTypes`.
  * @see: https://facebook.github.io/react/docs/pure-render-mixin.html
  *
- * @method applyShouldComponent
- * @param {Object} x
- * @return {Object}
+ * @method applyShouldComponentUpdate
+ * @param {Object} propTypes
+ * @param {Object} nextProps
+ * @return {Boolean}
  */
-export const applyShouldComponent = memoize(x => {
+export const applyShouldComponentUpdate = curry(function(propTypes, nextProps) {
 
-    const shouldComponentUpdate = () => {};
+    const inspectImmutableProperties = () => {
+        const props = Object.keys(propTypes);
+        return props.some(key => this.props[key] !== nextProps[key]);
+    };
 
-    return { shouldComponentUpdate, ...x };
+    return propTypes ? inspectImmutableProperties() : true;
 
 });
 
@@ -116,14 +120,14 @@ export const applyShouldComponent = memoize(x => {
 export const stitch = memoize(definition => {
 
     // Create the component by removing forbidden or non-related functions and properties.
-    const createComponent = compose(rejectProps(propertyBlacklist), ensureRenderMethod);
-    const component = createComponent(definition);
+    const prepareComponent = memoize(compose(rejectProps(propertyBlacklist), ensureRenderMethod));
+    const component = prepareComponent(definition);
 
     // Wrap the methods in Keo-specific functions for applying properties as arguments.
-    const encompassMethods = compose(passArguments, applyShouldComponent, onlyFunctions);
-    console.log(encompassMethods);
+    const encompassMethods = memoize(compose(passArguments, onlyFunctions));
+    const shouldComponentUpdate = applyShouldComponentUpdate(definition.propTypes);
 
     // Construct the React component from the prepared blueprint.
-    return createClass({ ...component, ...encompassMethods(component) });
+    return createClass({ ...component, shouldComponentUpdate, ...encompassMethods(component) });
 
 });
