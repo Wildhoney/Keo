@@ -6,7 +6,9 @@
     "test": "ava tests/*.test.js --tap | tap-nyan",
     "start": "node example/server/default.js",
     "build": "webpack && npm run dev",
-    "dev": "browserify example/js/default.js -o example/js/build.js -t [ babelify --presets [ es2015 react ] ]"
+    "dev": "browserify example/js/default.js -o example/js/build.js -t [ babelify --presets [ es2015 react ] ]",
+    "prepublish": "mv dist/* .",
+    "postpublish": "mv keo.js redux.js dist/"
   },
   "main": "keo.js",
   "files": [

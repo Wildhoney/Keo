@@ -256,7 +256,7 @@ var render = function render(_ref3) {
         _react2.default.createElement(
             'h1',
             null,
-            'You\'ve got ',
+            'You have got ',
             correct.length,
             ' of ',
             props.countries.length,
