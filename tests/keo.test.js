@@ -34,7 +34,7 @@ test('is able to pass in properties to the component;', t => {
 });
 
 test('is able to remove `getInitialState` function;', t => {
-    const text= starwars();
+    const text = starwars();
     const getInitialStateSpy = spy(() => ({ text }));
     const Component = stitch({ getInitialState: getInitialStateSpy, render: () => <span /> });
     const wrapper = mount(<Component />);
@@ -64,7 +64,32 @@ test('is not able to setState or access the state object;', t => {
     t.true(props.setState === undefined);
 });
 
+test.only('is only re-rendering when the component-specific properties change;', t => {
+
+    const renderSpy = spy(({ props }) => <div><h1>{props.quote}</h1><datetime>{props.dateTime}</datetime></div>);
+    const Component = stitch({ propTypes: { quote: PropTypes.string.isRequired }, render: renderSpy });
+
+    const date = Date.now();
+    const initialText = starwars();
+    const wrapper = mount(<Component quote={initialText} dateTime={date} />);
+
+    t.is(renderSpy.callCount, 1);
+    t.is(wrapper.find('h1').text(), initialText);
+    t.is(wrapper.find('datetime').text(), String(date));
+
+    const changedText = starwars();
+    wrapper.setProps({ quote: changedText });
+    t.is(renderSpy.callCount, 2);
+    t.is(wrapper.find('h1').text(), changedText);
+    t.is(wrapper.find('datetime').text(), String(date));
+
+    wrapper.setProps({ dateTime: 'Invalid Date' });
+    t.is(renderSpy.callCount, 2);
+    t.is(wrapper.find('h1').text(), changedText);
+    t.is(wrapper.find('datetime').text(), String(date));
+
+});
+
 // Skipped...
 
-test.skip('is only re-rendering when the component-specific properties change;', t => {});
 test.skip('is able to override the default `shouldComponentUpdate` behaviour;', t => {});
