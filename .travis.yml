@@ -12,6 +12,7 @@ before_script:
 
 script:
   - npm i
+  - npm run build
 
 sudo: false
 
