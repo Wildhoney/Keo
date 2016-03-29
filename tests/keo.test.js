@@ -4,6 +4,7 @@ import { shallow, mount } from 'enzyme';
 import { spy } from 'sinon';
 import starwars from 'starwars';
 import { stitch } from '../src/keo';
+import isSymbol from 'is-symbol';
 
 test('is able to render a simple component without a `render` method;', t => {
     const text = starwars();
@@ -130,5 +131,24 @@ test('is able to pass in correct arguments to `shouldComponentUpdate`', t => {
 
     wrapper.setProps({ text: updatedText });
     t.is(shouldComponentUpdateSpy.callCount, 1);
+
+});
+
+test('is able to pass a unique id for each component;', t => {
+
+    let componentUpdateId;
+
+    const Component = stitch({
+        componentWillMount: ({ id }) => {
+            t.true(isSymbol(id));
+            componentUpdateId = id;
+        },
+        render: ({ id }) => {
+            t.is(id, componentUpdateId);
+            return <span />;
+        }
+    });
+
+    mount(<Component />);
 
 });

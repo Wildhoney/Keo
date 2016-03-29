@@ -1,6 +1,7 @@
 import { createClass } from 'react';
-import { compose, dissoc, isNil, complement, pick, curry, memoize, pickBy } from 'ramda';
-import Perf from 'react-addons-perf';
+import { compose, dissoc, isNil, complement, pick, curry, memoize, identity, pickBy, keys } from 'ramda';
+import WeakMap from 'es6-weak-map';
+// import Perf from 'react-addons-perf';
 
 /**
  * @constant propertyBlacklist
@@ -12,7 +13,28 @@ const propertyBlacklist = ['getInitialState', 'mixins'];
  * @constant propertyWhitelist
  * @type {String[]}
  */
-const propertyWhitelist = ['props', 'context', 'nextProps', 'prevProps', 'dispatch'];
+const propertyWhitelist = ['id', 'props', 'context', 'nextProps', 'prevProps', 'dispatch'];
+
+/**
+ * @constant identityStore
+ * @type {WeakMap}
+ */
+const identityStore = new WeakMap();
+
+/**
+ * @method getIdentity
+ * @param {Object} context
+ * @return {Object}
+ */
+const getIdentity = context => {
+
+    return identityStore.get(context) || (() => {
+        const id = Symbol('keo/component');
+        identityStore.set(context, id);
+        return id;
+    })();
+
+};
 
 /**
  * @method isFunction
@@ -48,7 +70,7 @@ export const passArguments = memoize(x => {
 
     // Wrap each developer-defined function in the Keo-defined wrapper, and pass in the
     // arguments for destructuring.
-    return Object.keys(x).reduce((accumulator, key) => {
+    return keys(x).reduce((accumulator, key) => {
 
         return { ...accumulator, [key]: function(prop) {
 
@@ -60,13 +82,12 @@ export const passArguments = memoize(x => {
             // `this` and the first argument, which will be used as either `nextProps` or `prevProps`
             // depending on which function scope we're currently in.
             const props = this.props || {};
-            const dispatch = props.dispatch || (() => {});
-            const args = { ...this, [name]: prop, dispatch };
+            const dispatch = props.dispatch || identity;
+            const args = filterArgs({ ...this, [name]: prop, dispatch, id: getIdentity(this) });
 
             // Finally filter the arguments against our whitelist; removing arguments which evaluate
             // to "undefined".
-            const lifecycleArguments = { ...filterArgs(args) };
-            return x[key].call(undefined, lifecycleArguments);
+            return x[key].call(undefined, { ...args, args });
 
         }}
 
@@ -115,8 +136,7 @@ export const onlyFunctions = memoize(x => {
 export const applyShouldComponentUpdate = curry(function(propTypes, nextProps) {
 
     const inspectImmutableProperties = () => {
-        const props = Object.keys(propTypes);
-        return props.some(key => this.props[key] !== nextProps[key]);
+        return keys(propTypes).some(key => this.props[key] !== nextProps[key]);
     };
 
     return propTypes ? inspectImmutableProperties() : true;
