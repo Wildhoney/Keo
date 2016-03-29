@@ -112,7 +112,7 @@ You may override the `shouldComponentUpdate`, however the provided function is f
 
 Below are a handful of additional nonstandard properties which can be destructured in all lifecycle methods.
 
-* [`id`](id) &mdash; for managing 
+* [`id`](id) &mdash; for managing local state in the Redux tree structure;
 * [`args`](args) &mdash; accessing **all** arguments for passing to other functions;
 
 ### `id`
