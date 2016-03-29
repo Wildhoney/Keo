@@ -62,7 +62,6 @@
     "redux-thunk": "^2.0.1",
     "seamless-immutable": "^5.1.0",
     "sinon": "^1.17.3",
-    "starwars": "^1.0.0",
     "tap-nyan": "0.0.2",
     "unique-random-array": "^1.0.0",
     "webpack": "^2.1.0-beta.4"

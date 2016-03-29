@@ -1,5 +1,5 @@
 import { createClass } from 'react';
-import { compose, dissoc, isNil, complement, pick, curry, memoize, identity, pickBy, keys } from 'ramda';
+import { compose, dissoc, isNil, complement, pick, curry, identity, pickBy, keys } from 'ramda';
 import WeakMap from 'es6-weak-map';
 // import Perf from 'react-addons-perf';
 
@@ -22,11 +22,11 @@ const propertyWhitelist = ['id', 'props', 'context', 'nextProps', 'prevProps', '
 const identityStore = new WeakMap();
 
 /**
- * @method getIdentity
+ * @method identityFor
  * @param {Object} context
  * @return {Object}
  */
-const getIdentity = context => {
+const identityFor = context => {
 
     return identityStore.get(context) || (() => {
         const id = Symbol('keo/component');
@@ -41,7 +41,7 @@ const getIdentity = context => {
  * @param {Object} x
  * @return {Boolean}
  */
-const isFunction = memoize(x => typeof x === 'function');
+const isFunction = (x => typeof x === 'function');
 
 /**
  * When an object is passed then it's simply returned. However if a function is passed
@@ -52,7 +52,7 @@ const isFunction = memoize(x => typeof x === 'function');
  * @param {Object|Function} x
  * @return {Object}
  */
-export const ensureRenderMethod = memoize(x => {
+export const ensureRenderMethod = (x => {
     return isFunction(x) ? { render: x } : x;
 });
 
@@ -64,7 +64,7 @@ export const ensureRenderMethod = memoize(x => {
  * @param {Object} x
  * @return {Object}
  */
-export const passArguments = memoize(x => {
+export const passArguments = (x => {
 
     const filterArgs = compose(pickBy(complement(isNil)), pick(propertyWhitelist));
 
@@ -83,7 +83,7 @@ export const passArguments = memoize(x => {
             // depending on which function scope we're currently in.
             const props = this.props || {};
             const dispatch = props.dispatch || identity;
-            const args = filterArgs({ ...this, [name]: prop, dispatch, id: getIdentity(this) });
+            const args = filterArgs({ ...this, [name]: prop, dispatch, id: identityFor(this) });
 
             // Finally filter the arguments against our whitelist; removing arguments which evaluate
             // to "undefined".
@@ -104,7 +104,7 @@ export const passArguments = memoize(x => {
  * @param {Object} x
  * @return {Function}
  */
-export const rejectProps = curry(memoize((blacklist, x) => {
+export const rejectProps = curry(((blacklist, x) => {
 
     return blacklist.reduce((accumulator, property) => {
         return { ...dissoc(property, accumulator) };
@@ -119,7 +119,7 @@ export const rejectProps = curry(memoize((blacklist, x) => {
  * @param {Object} x
  * @return {Object}
  */
-export const onlyFunctions = memoize(x => {
+export const onlyFunctions = (x => {
     return pickBy(isFunction, x);
 });
 
@@ -128,19 +128,30 @@ export const onlyFunctions = memoize(x => {
  * properties have changed as defined in the component's `propTypes`.
  * @see: https://facebook.github.io/react/docs/pure-render-mixin.html
  *
- * @method applyShouldComponentUpdate
+ * @method propsModified
  * @param {Object} propTypes
  * @param {Object} nextProps
+ * @return {Function}
+ */
+export const propsModified = curry(function(propTypes, args) {
+
+    return keys(propTypes).some(key => {
+        return args.props[key] !== args.nextProps[key];
+    });
+
+});
+
+/**
+ * @method applyShouldUpdate
+ * @param {Object} definition
+ * @param {Object} args
  * @return {Boolean}
  */
-export const applyShouldComponentUpdate = curry(function(propTypes, nextProps) {
-
-    const inspectImmutableProperties = () => {
-        return keys(propTypes).some(key => this.props[key] !== nextProps[key]);
-    };
-
-    return propTypes ? inspectImmutableProperties() : true;
-
+const applyShouldUpdate = curry(function(definition, { args }) {
+    
+    const { shouldComponentUpdate = () => true } = definition;
+    return propsModified(definition.propTypes, args) && shouldComponentUpdate(args);
+    
 });
 
 /**
@@ -148,17 +159,16 @@ export const applyShouldComponentUpdate = curry(function(propTypes, nextProps) {
  * @param {Object|Function} definition
  * @return {createClass}
  */
-export const stitch = memoize(definition => {
+export const stitch = (definition => {
 
     // Create the component by removing forbidden or non-related functions and properties.
-    const prepareComponent = memoize(compose(rejectProps(propertyBlacklist), ensureRenderMethod));
-    const component = prepareComponent(definition);
+    const prepareComponent = (compose(rejectProps(propertyBlacklist), ensureRenderMethod));
+    const component = { ...prepareComponent(definition), shouldComponentUpdate: applyShouldUpdate(definition) };
 
     // Wrap the methods in Keo-specific functions for applying properties as arguments.
-    const encompassMethods = memoize(compose(passArguments, onlyFunctions));
-    const shouldComponentUpdate = applyShouldComponentUpdate(definition.propTypes);
+    const encompassMethods = (compose(passArguments, onlyFunctions));
 
     // Construct the React component from the prepared blueprint.
-    return createClass({ ...component, shouldComponentUpdate, ...encompassMethods(component) });
+    return createClass({ ...component, ...encompassMethods(component) });
 
 });
