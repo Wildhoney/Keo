@@ -117,38 +117,33 @@ Below are a handful of additional nonstandard properties which can be destructur
 
 ### `id`
 
-For managing [pseudo-local state](https://github.com/reactjs/redux/issues/159) in a single tree state you can use the `id` property &mdash; which is a unique [`Symbol`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Symbol) representing the current component.
-
-When dispatching actions you pass the `id` as the payload, and then pass the `id` back as part of the result. With that information at hand, it's simply to determine when a component should be updated.
-
-Assuming you have an array of `Anchor` components which embedded in a container component, and when you click on the anchor it adds the `loading` class name to the component you clicked on &mdash; with React alone you would simply `setState` on that component, however with Redux you relinquish any local state &mdash; you instead update your store with `id`:
+For managing [pseudo-local state](https://github.com/reactjs/redux/issues/159) in a single tree state you can use the `id` property &mdash; which is a unique [`Symbol`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Symbol) representing the current component. When dispatching actions you should pass the `id` as the payload, and then pass the `id` back as part of the result &mdash; with that information it's simple to determine when a component *should* be updated.
 
 ```javascript
-dispatch(setLoading({ id }));
+const render = ({ id }) => {
+    return (
+        <a onClick={dispatch(setValue('United Kingdom', id))}></a>
+    );
+};
 ```
 
-Once the action has filtered down through all of your components, you can determine if the action applies to the current component by checking the property as you would normally.
+You may also prevent other components from updating by using the `shouldComponentUpdate` function to determine when the action applies to the current component. It's worth noting that a custom `shouldComponentUpdate` will simply be composed with the Keo default `shouldComponentUpdate` which inspects the `propTypes` for a significant performance enhancement.
 
 ```javascript
-const render = (({ props, id}) => {
-    const {loader} = props;
-    return <a className={loader.loading && loader.id === id}>My Anchor</a>;
-});
-```
-
-You could also prevent all of the other `Anchor` components from updating by using `shouldComponentUpdate` function to determine when the action applies to the current component. It's worth noting that a custom `shouldComponentUpdate` will simply be composed with the Keo default `shouldComponentUpdate` which inspects the `propTypes` for a significant performance enhancement.
-
 const shouldComponentUpdate = (({ props, id }) => {
     return props.loader.id === id;
 });
+```
 
 ### `args`
 
 In Haskell you have `all@` for accessing **all** of the arguments in a function, even after listing the arguments &mdash; with JavaScript you have the nonstandard `arguments` however with Keo `args` can be destructured to provide access to **all** of the arguments passed in, allowing you to forward these arguments to other functions.
 
+```javascript
 const componentDidUpdate = ({ props, context, args }) => {
     const name = parseName(args);
     // ...
 };
+```
 
 Which then allows you to destructure the arguments in the `parseName` function as though it's a typical lifecycle React method.
