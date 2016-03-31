@@ -87,7 +87,10 @@ export const passArguments = (x => {
 
             // Finally filter the arguments against our whitelist; removing arguments which evaluate
             // to "undefined".
-            return x[key].call(undefined, { ...args, args });
+            return (() => {
+                const returned = x[key].call(undefined, { ...args, args });
+                return typeof returned !== 'undefined' ? returned : args;
+            })();
 
         }}
 
