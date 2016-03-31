@@ -38,7 +38,7 @@ Since `v4.x`, Keo has taken on a more fundamental interpretation of React where 
 * Use `export` to export plain functions for simpler unit-testing;
 * Simple composing of functions for [*mixin* support](https://github.com/dekujs/deku/issues/174);
 * Avoid functions being littered with React specific method calls;
-* Integrated `shouldComponentUpdate` performing immutable equality checks;
+* Integrated `shouldComponentUpdate` performing immutable equality checks from `propTypes`;
 * An assumption that [immutable properties](http://www.sitepoint.com/immutability-javascript/) are used for performance gains;
 
 ## Getting Started
