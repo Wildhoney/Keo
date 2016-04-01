@@ -18,6 +18,7 @@
 * [Advantages](#advantages)
 * [Getting Started](#getting-started)
 * [Destructuring](#destructuring)
+* [Shadow DOM](#shadow-dom)
 * [Nonstandard Properties](#nonstandard-properties)
 
 At the core of Keo's philosophies is the notion that you **shouldn't** have to deal with the `this` keyword &mdash; and while in ES2015 the `this` keyword has become easier to manage, it seems wholly unnecessary in a React component. As such, Keo takes a more [Deku](https://github.com/dekujs/deku) approach in that items such as `props`, `context`, `nextProps`, etc... are passed in to [*some*](#lifecycle-functions) React [lifecycle functions](https://facebook.github.io/react/docs/component-specs.html).
@@ -38,7 +39,7 @@ Since `v4.x`, Keo has taken on a more fundamental interpretation of React where 
 * Avoid functions being littered with React specific method calls;
 * Integrated `shouldComponentUpdate` performing immutable equality checks from `propTypes`;
 * An assumption that [immutable properties](http://www.sitepoint.com/immutability-javascript/) are used for performance gains;
-* [Use `render` composition](#shadow-dom) to enable [Shadow DOM](http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom/) support in React;
+* Use `render` composition to enable [Shadow DOM](http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom/) support in React;
 
 ## Getting Started
 
