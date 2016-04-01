@@ -1,5 +1,4 @@
 import { stitch as baseStitch } from './keo';
-import { memoize } from 'ramda';
 import { connect } from 'react-redux';
 
 /**
@@ -8,6 +7,7 @@ import { connect } from 'react-redux';
  * @param {Function} [mapStateToProps = state => state]
  * @return {createClass}
  */
-export const stitch = memoize((definition, mapStateToProps = state => state) => {
-    return connect(mapStateToProps)(baseStitch(definition));
-});
+export const stitch = (definition, mapStateToProps = state => state) => {
+    console.info('Keo: `keo/redux` has been deprecated, please instead use `keo` directly passing in `mapStateToProps` as the second argument.');
+    return baseStitch(definition, mapStateToProps);
+};

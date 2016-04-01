@@ -183,7 +183,7 @@ var _isEmptyObject = require('is-empty-object');
 
 var _isEmptyObject2 = _interopRequireDefault(_isEmptyObject);
 
-var _redux = require('../../../src/redux');
+var _keo = require('../../../src/keo');
 
 var _actions = require('../actions');
 
@@ -271,9 +271,11 @@ var render = function render(_ref3) {
     );
 };
 
-exports.default = (0, _redux.stitch)({ propTypes: propTypes, componentDidMount: componentDidMount, componentDidUpdate: componentDidUpdate, render: render });
+exports.default = (0, _keo.stitch)({ propTypes: propTypes, componentDidMount: componentDidMount, componentDidUpdate: componentDidUpdate, render: render }, function (state) {
+    return state;
+});
 
-},{"../../../src/redux":428,"../actions":1,"../components/question":2,"is-empty-object":198,"ramda":220,"react":391}],5:[function(require,module,exports){
+},{"../../../src/keo":427,"../actions":1,"../components/question":2,"is-empty-object":198,"ramda":220,"react":391}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -56199,10 +56201,13 @@ var _es6WeakMap = require('es6-weak-map');
 
 var _es6WeakMap2 = _interopRequireDefault(_es6WeakMap);
 
+var _reactRedux = require('react-redux');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+// Will be used in the future for benchmarking purposes when in dev mode.
 // import Perf from 'react-addons-perf';
 
 /**
@@ -56359,9 +56364,10 @@ var applyShouldUpdate = (0, _ramda.curry)(function (definition, _ref) {
 /**
  * @method stitch
  * @param {Object|Function} definition
+ * @param {Object} [mapStateToProps]
  * @return {createClass}
  */
-var stitch = exports.stitch = function stitch(definition) {
+var stitch = exports.stitch = function stitch(definition, mapStateToProps) {
 
     // Create the component by removing forbidden or non-related functions and properties.
     var prepareComponent = (0, _ramda.compose)(rejectProps(propertyBlacklist), ensureRenderMethod);
@@ -56370,36 +56376,14 @@ var stitch = exports.stitch = function stitch(definition) {
     // Wrap the methods in Keo-specific functions for applying properties as arguments.
     var encompassMethods = (0, _ramda.compose)(passArguments, onlyFunctions);
 
-    // Construct the React component from the prepared blueprint.
-    return (0, _react.createClass)(_extends({}, component, encompassMethods(component)));
+    // Determine whether or not to wrap in React Redux's `connect` and then construct
+    // the React component from the prepared blueprint.
+    var reduxConnect = mapStateToProps ? _reactRedux.connect : function (_) {
+        return function (x) {
+            return x;
+        };
+    };
+    return reduxConnect(mapStateToProps)((0, _react.createClass)(_extends({}, component, encompassMethods(component))));
 };
 
-},{"es6-weak-map":137,"ramda":220,"react":391}],428:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.stitch = undefined;
-
-var _keo = require('./keo');
-
-var _ramda = require('ramda');
-
-var _reactRedux = require('react-redux');
-
-/**
- * @method stitch
- * @param {Object|Function} definition
- * @param {Function} [mapStateToProps = state => state]
- * @return {createClass}
- */
-var stitch = exports.stitch = (0, _ramda.memoize)(function (definition) {
-  var mapStateToProps = arguments.length <= 1 || arguments[1] === undefined ? function (state) {
-    return state;
-  } : arguments[1];
-
-  return (0, _reactRedux.connect)(mapStateToProps)((0, _keo.stitch)(definition));
-});
-
-},{"./keo":427,"ramda":220,"react-redux":225}]},{},[6]);
+},{"es6-weak-map":137,"ramda":220,"react":391,"react-redux":225}]},{},[6]);

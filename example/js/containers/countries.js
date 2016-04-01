@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { curry } from 'ramda';
 import isEmpty from 'is-empty-object';
-import { stitch } from '../../../src/redux';
+import { stitch } from '../../../src/keo';
 import { fetchCountries, fetchCountry } from '../actions';
 import Question from '../components/question';
 
@@ -59,4 +59,4 @@ const render = ({ props }) => {
 
 };
 
-export default stitch({ propTypes, componentDidMount, componentDidUpdate, render });
+export default stitch({ propTypes, componentDidMount, componentDidUpdate, render }, state => state);
