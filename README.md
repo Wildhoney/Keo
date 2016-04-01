@@ -38,7 +38,7 @@ Since `v4.x`, Keo has taken on a more fundamental interpretation of React where 
 * Avoid functions being littered with React specific method calls;
 * Integrated `shouldComponentUpdate` performing immutable equality checks from `propTypes`;
 * An assumption that [immutable properties](http://www.sitepoint.com/immutability-javascript/) are used for performance gains;
-* Use `render` composition to enable [Shadow DOM](http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom/) support in React;
+* [Use `render` composition](#shadow-dom) to enable [Shadow DOM](http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom/) support in React;
 
 ## Getting Started
 
@@ -146,3 +146,7 @@ const componentDidUpdate = ({ props, context, args }) => {
 ```
 
 Which then allows you to destructure the arguments in the `parseName` function as though it's a typical lifecycle React method.
+
+## Shadow DOM
+
+> Coming soon...
