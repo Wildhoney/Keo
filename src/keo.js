@@ -32,6 +32,14 @@ const identityStore = new WeakMap();
 class ShadowDOM extends Component {
 
     /**
+     * @constant propTypes
+     * @type {Object}
+     */
+    static propTypes = {
+        component: PropTypes.node.isRequired
+    };
+
+    /**
      * @method componentDidMount
      * @return {void}
      */

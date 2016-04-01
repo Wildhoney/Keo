@@ -11571,6 +11571,7 @@ module.exports =
 	 */
 
 
+	ShadowDOM.propTypes = {};
 	var identityFor = function identityFor(context) {
 
 	    return identityStore.get(context) || function () {
