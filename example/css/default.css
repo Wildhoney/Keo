@@ -29,22 +29,3 @@ h1, h2 {
 h1 {
     font-size: 16px;
 }
-
-h2 {
-    color: rgba(0, 0, 0, .5);
-    font-size: 12px;
-    padding: 5px 0;
-}
-
-h2.correct {
-    color: green;
-}
-
-h2.incorrect {
-    color: red;
-}
-
-ul {
-    padding-left: 20px;
-    margin-top: 10px;
-}

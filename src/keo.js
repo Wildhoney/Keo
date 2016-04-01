@@ -1,8 +1,8 @@
-import React, { createClass, Component, PropTypes } from 'react';
-import { render, findDOMNode } from 'react-dom';
+import React, { createClass } from 'react';
 import { compose, dissoc, isNil, complement, pick, curry, identity, pickBy, keys } from 'ramda';
 import WeakMap from 'es6-weak-map';
 import { connect } from 'react-redux';
+import ShadowDOM from './helpers/shadow';
 
 // Will be used in the future for benchmarking purposes when in dev mode.
 // import Perf from 'react-addons-perf';
@@ -26,47 +26,14 @@ const propertyWhitelist = ['id', 'props', 'context', 'nextProps', 'prevProps', '
 const identityStore = new WeakMap();
 
 /**
- * @class ShadowDOM
- * @extends Component
+ * @method shadow
+ * @param {Array} cssDocuments
+ * @param {Object} component
+ * @return {XML}
  */
-class ShadowDOM extends Component {
-
-    /**
-     * @constant propTypes
-     * @type {Object}
-     */
-    static propTypes = {
-        component: PropTypes.node.isRequired
-    };
-
-    /**
-     * @method componentDidMount
-     * @return {void}
-     */
-    componentDidMount() {
-        const rootElement = this.refs.container;
-        const shadowRoot = rootElement.createShadowRoot();
-        render(this.props.component, shadowRoot);
-        this.setState({ shadowRoot });
-    }
-
-    /**
-     * @method componentDidUpdate
-     * @return {void}
-     */
-    componentDidUpdate() {
-        render(this.props.component, this.state.shadowRoot);
-    }
-
-    /**
-     * @method render
-     * @return {XML}
-     */
-    render() {
-        return <main ref="container" />;
-    }
-
-}
+export const shadow = curry((cssDocuments, component) => {
+    return <ShadowDOM { ...{ cssDocuments, component }} />;
+});
 
 /**
  * @method identityFor
@@ -200,15 +167,6 @@ const applyShouldUpdate = curry(function(definition, { args }) {
     return propsModified(definition.propTypes, args) && shouldComponentUpdate(args);
     
 });
-
-/**
- * @method shadow
- * @param {Object} component
- * @return {XML}
- */
-export const shadow = component => {
-    return <ShadowDOM component={component} />
-};
 
 /**
  * @method stitch

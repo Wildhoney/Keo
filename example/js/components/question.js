@@ -3,7 +3,7 @@ import shuffle from 'array-shuffle';
 import { compose, partial } from 'ramda';
 import hash from 'object-hash';
 import { fetchCountry, setAnswer } from '../actions';
-import { stitch } from '../../../src/keo';
+import { stitch, shadow } from '../../../src/keo';
 
 /**
  * @constant MAXIMUM_CHOICES
@@ -26,7 +26,7 @@ const propTypes = {
  * @param {Function} dispatch
  * @return {XML}
  */
-const render = ({ props, dispatch }) => {
+const render = compose(({ props, dispatch }) => {
 
     const countries = shuffle([ ...props.countries ]);
     const answers = [ props.country.capital, ...countries.filter(x => x.name !== props.country.name).slice(0, MAXIMUM_CHOICES - 1).map(x => x.capital) ];
@@ -54,6 +54,6 @@ const render = ({ props, dispatch }) => {
         </section>
     );
 
-};
+});
 
 export default stitch({ propTypes, render });
