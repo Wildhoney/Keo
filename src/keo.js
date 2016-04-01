@@ -1,4 +1,5 @@
-import { createClass } from 'react';
+import React, { createClass, Component, PropTypes } from 'react';
+import { render, findDOMNode } from 'react-dom';
 import { compose, dissoc, isNil, complement, pick, curry, identity, pickBy, keys } from 'ramda';
 import WeakMap from 'es6-weak-map';
 import { connect } from 'react-redux';
@@ -23,6 +24,41 @@ const propertyWhitelist = ['id', 'props', 'context', 'nextProps', 'prevProps', '
  * @type {WeakMap}
  */
 const identityStore = new WeakMap();
+
+/**
+ * @class ShadowDOM
+ * @extends Component
+ */
+class ShadowDOM extends Component {
+
+    /**
+     * @method componentDidMount
+     * @return {void}
+     */
+    componentDidMount() {
+        const rootElement = this.refs.container;
+        const shadowRoot = rootElement.createShadowRoot();
+        render(this.props.component, shadowRoot);
+        this.setState({ shadowRoot });
+    }
+
+    /**
+     * @method componentDidUpdate
+     * @return {void}
+     */
+    componentDidUpdate() {
+        render(this.props.component, this.state.shadowRoot);
+    }
+
+    /**
+     * @method render
+     * @return {XML}
+     */
+    render() {
+        return <main ref="container" />;
+    }
+
+}
 
 /**
  * @method identityFor
@@ -156,6 +192,15 @@ const applyShouldUpdate = curry(function(definition, { args }) {
     return propsModified(definition.propTypes, args) && shouldComponentUpdate(args);
     
 });
+
+/**
+ * @method shadow
+ * @param {Object} component
+ * @return {XML}
+ */
+export const shadow = component => {
+    return <ShadowDOM component={component} />
+};
 
 /**
  * @method stitch

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
-import { curry } from 'ramda';
+import { compose } from 'ramda';
 import isEmpty from 'is-empty-object';
-import { stitch } from '../../../src/keo';
+import { stitch, shadow } from '../../../src/keo';
 import { fetchCountries, fetchCountry } from '../actions';
 import Question from '../components/question';
 
@@ -39,7 +39,7 @@ const componentDidUpdate = ({ props, dispatch }) => {
  * @param {Object} props
  * @return {XML}
  */
-const render = ({ props }) => {
+const render = compose(shadow, ({ props }) => {
 
     const [answer] = props.answers;
     const correct = props.answers.filter(x => x.isCorrect);
@@ -57,6 +57,6 @@ const render = ({ props }) => {
         </section>
     );
 
-};
+});
 
 export default stitch({ propTypes, componentDidMount, componentDidUpdate, render }, state => state);

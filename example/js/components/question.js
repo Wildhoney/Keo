@@ -56,4 +56,4 @@ const render = ({ props, dispatch }) => {
 
 };
 
-export default stitch({ render });
+export default stitch({ propTypes, render });
