@@ -1,6 +1,9 @@
 import { createClass } from 'react';
 import { compose, dissoc, isNil, complement, pick, curry, identity, pickBy, keys } from 'ramda';
 import WeakMap from 'es6-weak-map';
+import { connect } from 'react-redux';
+
+// Will be used in the future for benchmarking purposes when in dev mode.
 // import Perf from 'react-addons-perf';
 
 /**
@@ -87,10 +90,7 @@ export const passArguments = (x => {
 
             // Finally filter the arguments against our whitelist; removing arguments which evaluate
             // to "undefined".
-            return (() => {
-                const returned = x[key].call(undefined, { ...args, args });
-                return typeof returned !== 'undefined' ? returned : args;
-            })();
+            return x[key].call(undefined, { ...args, args });
 
         }}
 
@@ -160,9 +160,10 @@ const applyShouldUpdate = curry(function(definition, { args }) {
 /**
  * @method stitch
  * @param {Object|Function} definition
+ * @param {Object} [mapStateToProps]
  * @return {createClass}
  */
-export const stitch = (definition => {
+export const stitch = ((definition, mapStateToProps) => {
 
     // Create the component by removing forbidden or non-related functions and properties.
     const prepareComponent = (compose(rejectProps(propertyBlacklist), ensureRenderMethod));
@@ -171,7 +172,9 @@ export const stitch = (definition => {
     // Wrap the methods in Keo-specific functions for applying properties as arguments.
     const encompassMethods = (compose(passArguments, onlyFunctions));
 
-    // Construct the React component from the prepared blueprint.
-    return createClass({ ...component, ...encompassMethods(component) });
+    // Determine whether or not to wrap in React Redux's `connect` and then construct
+    // the React component from the prepared blueprint.
+    const reduxConnect = mapStateToProps ? connect : _ => x => x;
+    return reduxConnect(mapStateToProps)(createClass({ ...component, ...encompassMethods(component) }));
 
 });
