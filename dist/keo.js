@@ -11456,9 +11456,9 @@ module.exports =
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
-	exports.stitch = exports.propsModified = exports.onlyFunctions = exports.rejectProps = exports.passArguments = exports.ensureRenderMethod = exports.shadow = undefined;
+	exports.stitch = exports.shadow = undefined;
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -11474,9 +11474,9 @@ module.exports =
 
 	var _reactRedux = __webpack_require__(105);
 
-	var _shadow = __webpack_require__(223);
+	var _shadowDom = __webpack_require__(223);
 
-	var _shadow2 = _interopRequireDefault(_shadow);
+	var _shadowDom2 = _interopRequireDefault(_shadowDom);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11504,27 +11504,17 @@ module.exports =
 	var identityStore = new _es6WeakMap2.default();
 
 	/**
-	 * @method shadow
-	 * @param {Array} cssDocuments
-	 * @param {Object} component
-	 * @return {XML}
-	 */
-	var shadow = exports.shadow = (0, _ramda.curry)(function (cssDocuments, component) {
-	    return _react2.default.createElement(_shadow2.default, { cssDocuments: cssDocuments, component: component });
-	});
-
-	/**
 	 * @method identityFor
 	 * @param {Object} context
 	 * @return {Object}
 	 */
 	var identityFor = function identityFor(context) {
 
-	    return identityStore.get(context) || function () {
-	        var id = Symbol('keo/component');
-	        identityStore.set(context, id);
-	        return id;
-	    }();
+	  return identityStore.get(context) || function () {
+	    var id = Symbol('keo/component');
+	    identityStore.set(context, id);
+	    return id;
+	  }();
 	};
 
 	/**
@@ -11533,7 +11523,7 @@ module.exports =
 	 * @return {Boolean}
 	 */
 	var isFunction = function isFunction(x) {
-	    return typeof x === 'function';
+	  return typeof x === 'function';
 	};
 
 	/**
@@ -11545,8 +11535,8 @@ module.exports =
 	 * @param {Object|Function} x
 	 * @return {Object}
 	 */
-	var ensureRenderMethod = exports.ensureRenderMethod = function ensureRenderMethod(x) {
-	    return isFunction(x) ? { render: x } : x;
+	var ensureRenderMethod = function ensureRenderMethod(x) {
+	  return isFunction(x) ? { render: x } : x;
 	};
 
 	/**
@@ -11557,33 +11547,33 @@ module.exports =
 	 * @param {Object} x
 	 * @return {Object}
 	 */
-	var passArguments = exports.passArguments = function passArguments(x) {
+	var passArguments = function passArguments(x) {
 
-	    var filterArgs = (0, _ramda.compose)((0, _ramda.pickBy)((0, _ramda.complement)(_ramda.isNil)), (0, _ramda.pick)(propertyWhitelist));
+	  var filterArgs = (0, _ramda.compose)((0, _ramda.pickBy)((0, _ramda.complement)(_ramda.isNil)), (0, _ramda.pick)(propertyWhitelist));
 
-	    // Wrap each developer-defined function in the Keo-defined wrapper, and pass in the
-	    // arguments for destructuring.
-	    return (0, _ramda.keys)(x).reduce(function (accumulator, key) {
+	  // Wrap each developer-defined function in the Keo-defined wrapper, and pass in the
+	  // arguments for destructuring.
+	  return (0, _ramda.keys)(x).reduce(function (accumulator, key) {
 
-	        return _extends({}, accumulator, _defineProperty({}, key, function (prop) {
-	            var _extends2;
+	    return _extends({}, accumulator, _defineProperty({}, key, function (prop) {
+	      var _extends2;
 
-	            // When an argument has been passed in, `prevProps` is only used in `componentDidUpdate`
-	            // whereas other lifecycle methods take `nextProps` instead.
-	            var name = key === 'componentDidUpdate' ? 'prevProps' : 'nextProps';
+	      // When an argument has been passed in, `prevProps` is only used in `componentDidUpdate`
+	      // whereas other lifecycle methods take `nextProps` instead.
+	      var name = key === 'componentDidUpdate' ? 'prevProps' : 'nextProps';
 
-	            // We then gather all of the arguments used for this function, taking the properties from
-	            // `this` and the first argument, which will be used as either `nextProps` or `prevProps`
-	            // depending on which function scope we're currently in.
-	            var props = this.props || {};
-	            var dispatch = props.dispatch || _ramda.identity;
-	            var args = filterArgs(_extends({}, this, (_extends2 = {}, _defineProperty(_extends2, name, prop), _defineProperty(_extends2, 'dispatch', dispatch), _defineProperty(_extends2, 'id', identityFor(this)), _extends2)));
+	      // We then gather all of the arguments used for this function, taking the properties from
+	      // `this` and the first argument, which will be used as either `nextProps` or `prevProps`
+	      // depending on which function scope we're currently in.
+	      var props = this.props || {};
+	      var dispatch = props.dispatch || _ramda.identity;
+	      var args = filterArgs(_extends({}, this, (_extends2 = {}, _defineProperty(_extends2, name, prop), _defineProperty(_extends2, 'dispatch', dispatch), _defineProperty(_extends2, 'id', identityFor(this)), _extends2)));
 
-	            // Finally filter the arguments against our whitelist; removing arguments which evaluate
-	            // to "undefined".
-	            return x[key].call(undefined, _extends({}, args, { args: args }));
-	        }));
-	    }, {});
+	      // Finally filter the arguments against our whitelist; removing arguments which evaluate
+	      // to "undefined".
+	      return x[key].call(undefined, _extends({}, args, { args: args }));
+	    }));
+	  }, {});
 	};
 
 	/**
@@ -11595,11 +11585,11 @@ module.exports =
 	 * @param {Object} x
 	 * @return {Function}
 	 */
-	var rejectProps = exports.rejectProps = (0, _ramda.curry)(function (blacklist, x) {
+	var rejectProps = (0, _ramda.curry)(function (blacklist, x) {
 
-	    return blacklist.reduce(function (accumulator, property) {
-	        return _extends({}, (0, _ramda.dissoc)(property, accumulator));
-	    }, x);
+	  return blacklist.reduce(function (accumulator, property) {
+	    return _extends({}, (0, _ramda.dissoc)(property, accumulator));
+	  }, x);
 	});
 
 	/**
@@ -11609,8 +11599,8 @@ module.exports =
 	 * @param {Object} x
 	 * @return {Object}
 	 */
-	var onlyFunctions = exports.onlyFunctions = function onlyFunctions(x) {
-	    return (0, _ramda.pickBy)(isFunction, x);
+	var onlyFunctions = function onlyFunctions(x) {
+	  return (0, _ramda.pickBy)(isFunction, x);
 	};
 
 	/**
@@ -11623,11 +11613,11 @@ module.exports =
 	 * @param {Object} nextProps
 	 * @return {Function}
 	 */
-	var propsModified = exports.propsModified = (0, _ramda.curry)(function (propTypes, args) {
+	var propsModified = (0, _ramda.curry)(function (propTypes, args) {
 
-	    return (0, _ramda.keys)(propTypes).some(function (key) {
-	        return args.props[key] !== args.nextProps[key];
-	    });
+	  return (0, _ramda.keys)(propTypes).some(function (key) {
+	    return args.props[key] !== args.nextProps[key];
+	  });
 	});
 
 	/**
@@ -11637,14 +11627,32 @@ module.exports =
 	 * @return {Boolean}
 	 */
 	var applyShouldUpdate = (0, _ramda.curry)(function (definition, _ref) {
-	    var args = _ref.args;
-	    var _definition$shouldCom = definition.shouldComponentUpdate;
-	    var shouldComponentUpdate = _definition$shouldCom === undefined ? function () {
-	        return true;
-	    } : _definition$shouldCom;
+	  var args = _ref.args;
+	  var _definition$shouldCom = definition.shouldComponentUpdate;
+	  var shouldComponentUpdate = _definition$shouldCom === undefined ? function () {
+	    return true;
+	  } : _definition$shouldCom;
 
-	    return propsModified(definition.propTypes, args) && shouldComponentUpdate(args);
+	  return propsModified(definition.propTypes, args) && shouldComponentUpdate(args);
 	});
+
+	/**
+	 * @method shadow
+	 * @param {Array} [cssDocuments = []]
+	 * @return {Function}
+	 */
+	var shadow = exports.shadow = function shadow() {
+	  var cssDocuments = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+
+
+	  /**
+	   * @param {Object} component
+	   * @return {XML}
+	   */
+	  return function (component) {
+	    return _react2.default.createElement(_shadowDom2.default, { cssDocuments: cssDocuments, component: component });
+	  };
+	};
 
 	/**
 	 * @method stitch
@@ -11654,21 +11662,21 @@ module.exports =
 	 */
 	var stitch = exports.stitch = function stitch(definition, mapStateToProps) {
 
-	    // Create the component by removing forbidden or non-related functions and properties.
-	    var prepareComponent = (0, _ramda.compose)(rejectProps(propertyBlacklist), ensureRenderMethod);
-	    var component = _extends({}, prepareComponent(definition), { shouldComponentUpdate: applyShouldUpdate(definition) });
+	  // Create the component by removing forbidden or non-related functions and properties.
+	  var prepareComponent = (0, _ramda.compose)(rejectProps(propertyBlacklist), ensureRenderMethod);
+	  var component = _extends({}, prepareComponent(definition), { shouldComponentUpdate: applyShouldUpdate(definition) });
 
-	    // Wrap the methods in Keo-specific functions for applying properties as arguments.
-	    var encompassMethods = (0, _ramda.compose)(passArguments, onlyFunctions);
+	  // Wrap the methods in Keo-specific functions for applying properties as arguments.
+	  var encompassMethods = (0, _ramda.compose)(passArguments, onlyFunctions);
 
-	    // Determine whether or not to wrap in React Redux's `connect` and then construct
-	    // the React component from the prepared blueprint.
-	    var reduxConnect = mapStateToProps ? _reactRedux.connect : function (_) {
-	        return function (x) {
-	            return x;
-	        };
+	  // Determine whether or not to wrap in React Redux's `connect` and then construct
+	  // the React component from the prepared blueprint.
+	  var reduxConnect = mapStateToProps ? _reactRedux.connect : function (_) {
+	    return function (x) {
+	      return x;
 	    };
-	    return reduxConnect(mapStateToProps)((0, _react.createClass)(_extends({}, component, encompassMethods(component))));
+	  };
+	  return reduxConnect(mapStateToProps)((0, _react.createClass)(_extends({}, component, encompassMethods(component))));
 	};
 
 /***/ },
@@ -27538,16 +27546,39 @@ module.exports =
 	         * @return {void}
 	         */
 	        value: function componentDidMount() {
+
+	            // Create the shadow root on the rendered component, and then render the passed in
+	            // component to the shadow DOM.
 	            var rootElement = this.refs.container;
 	            var shadowRoot = rootElement.createShadowRoot();
 	            (0, _reactDom.render)(this.props.component, shadowRoot);
 	            this.setState({ shadowRoot: shadowRoot });
+
+	            // Fetch and attach the passed in stylesheets.
 	            this.props.cssDocuments && this.appendCSSDocuments(this.props.cssDocuments);
 	        }
 
 	        /**
+	         * @method componentDidUpdate
+	         * @return {void}
+	         */
+
+
+	        /**
 	         * @constant propTypes
 	         * @type {Object}
+	         */
+
+	    }, {
+	        key: 'componentDidUpdate',
+	        value: function componentDidUpdate() {
+	            (0, _reactDom.render)(this.props.component, this.state.shadowRoot);
+	        }
+
+	        /**
+	         * @method appendCSSDocuments
+	         * @param cssDocuments {Array|String}
+	         * @return {void}
 	         */
 
 	    }, {
@@ -27559,12 +27590,16 @@ module.exports =
 	            styleElement.setAttribute('type', 'text/css');
 	            var documents = Array.isArray(cssDocuments) ? cssDocuments : [cssDocuments];
 
+	            if (!documents.length) {
+	                return;
+	            }
+
 	            /**
-	             * @method fetchStylesheets
+	             * @method fetchStylesheet
 	             * @param {String} document
 	             * @return {Promise}
 	             */
-	            var fetchStylesheets = function fetchStylesheets(document) {
+	            var fetchStylesheet = function fetchStylesheet(document) {
 	                return fetch(document).then(function (response) {
 	                    return response.text();
 	                });
@@ -27584,18 +27619,7 @@ module.exports =
 	                _this2.state.shadowRoot.appendChild(styleElement);
 	            };
 
-	            Promise.all(documents.map(fetchStylesheets)).then(insertStyleElement);
-	        }
-
-	        /**
-	         * @method componentDidUpdate
-	         * @return {void}
-	         */
-
-	    }, {
-	        key: 'componentDidUpdate',
-	        value: function componentDidUpdate() {
-	            (0, _reactDom.render)(this.props.component, this.state.shadowRoot);
+	            Promise.all(documents.map(fetchStylesheet)).then(insertStyleElement);
 	        }
 
 	        /**
@@ -27606,7 +27630,7 @@ module.exports =
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            return _react2.default.createElement('main', { ref: 'container' });
+	            return _react2.default.createElement(this.props.component.type, { ref: 'container' });
 	        }
 	    }]);
 
