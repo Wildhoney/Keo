@@ -39,7 +39,7 @@ const componentDidUpdate = ({ props, dispatch }) => {
  * @param {Object} props
  * @return {XML}
  */
-const render = compose(shadow(['/css/countries.css']), ({ props }) => {
+const render = compose(shadow('/css/countries.css'), ({ props }) => {
 
     const [answer] = props.answers;
     const correct = props.answers.filter(x => x.isCorrect);

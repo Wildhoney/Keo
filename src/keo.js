@@ -2,7 +2,7 @@ import React, { createClass } from 'react';
 import { compose, dissoc, isNil, complement, pick, curry, identity, pickBy, keys } from 'ramda';
 import WeakMap from 'es6-weak-map';
 import { connect } from 'react-redux';
-import ShadowDOM from './helpers/shadow';
+import ShadowDOM from './helpers/shadow-dom';
 
 // Will be used in the future for benchmarking purposes when in dev mode.
 // import Perf from 'react-addons-perf';
