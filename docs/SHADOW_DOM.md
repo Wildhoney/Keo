@@ -26,7 +26,9 @@ const render = compose(shadow(), ({ props }) => {
 });
 ```
 
-Once you have the composition setup with `shadow` you should find your DOM rendering with a shadow root. Keo takes the root element's tag name &mdash; in the above case it's `section` &mdash; and appends that to the DOM tree, it then creates a shadow root and renders your component inside of there. You should see the following when inspecting the DOM:
+Once you have the composition setup with `shadow` you should find your DOM rendering with a shadow root. Keo takes the root element's tag name &mdash; in the above case it's `section` &mdash; and appends that to the DOM tree, it then creates a shadow root and renders your component inside.
+
+You should see the following when inspecting the DOM:
 
 ```html
 <section>
@@ -51,6 +53,8 @@ const render = compose(shadow('/css/greeting.css'), ({ props }) => {
 });
 ```
 
+## Pipe
+
 We've mentioned that you could also use `pipe` to place the `shadow` function at the end for readability purposes &mdash; whichever you choose is entirely up to you &mdash; but don't forget to be consistent across components!
 
 ```javascript
@@ -64,6 +68,6 @@ const render = pipe(({ props }) => {
 }, shadow(['/css/greeting.css', '/css/headers.css']));
 ```
 
-# Polyfill
+## Polyfill
 
 As Shadow DOM is part of the [webcomponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components) suite, there is a [useful polyfill](https://github.com/webcomponents/webcomponentsjs) which you can use for wider browser support &mdash; please refer to their documentation for a [list of supported browsers](https://github.com/webcomponents/webcomponentsjs#browser-support).
