@@ -1,4 +1,4 @@
-<img src="media/logo.png" alt="Keo" width="250" />
+<img src="../media/logo.png" alt="Keo" width="250" />
 
 > <sub><sup>*["Keo"](https://vi.wikipedia.org/wiki/Keo) is the Vietnamese translation for glue.*</sup></sub><br />
 > Plain functions for a more functional [Deku](https://github.com/dekujs/deku) approach to creating React components, with functional goodies such as compose, memoize, etc... for free.
@@ -22,11 +22,7 @@ import { stitch, shadow } from 'keo';
 // ...
 
 const render = compose(shadow(), ({ props }) => {
-    return (
-        <section>
-            <h1>Hello ${props.name}</h1>
-        </section>
-    );
+    return <section><h1>Hello ${props.name}</h1></section>
 });
 ```
 
@@ -51,11 +47,7 @@ Therefore to pass in stylesheets to be used with your component, simply pass in 
 
 ```javascript
 const render = compose(shadow('/css/greeting.css'), ({ props }) => {
-    return (
-        <section>
-            <h1>Hello ${props.name}</h1>
-        </section>
-    );
+    return <section><h1>Hello ${props.name}</h1></section>
 });
 ```
 
@@ -68,11 +60,7 @@ import { stitch, shadow } from 'keo';
 // ...
 
 const render = pipe(({ props }) => {
-    return (
-        <section>
-            <h1>Hello ${props.name}</h1>
-        </section>
-    );
+    return <section><h1>Hello ${props.name}</h1></section>
 }, shadow(['/css/greeting.css', '/css/headers.css']));
 ```
 
