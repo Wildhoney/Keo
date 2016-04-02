@@ -13,6 +13,8 @@
 
 <img src="media/screenshot.png" />
 
+---
+
 ## Table of Contents
 
 * [Advantages](#advantages)
@@ -26,8 +28,6 @@ At the core of Keo's philosophies is the notion that you **shouldn't** have to d
 Since `v4.x`, Keo has taken on a more fundamental interpretation of React where components are **expected** to be passed immutable properties &mdash; and `state` is entirely inaccessible, as is `setState` to prevent components from holding their own state. As such, you are **required** to use Redux with Keo to pass properties down through your components.
 
 > **Note:** Prior to `v4.x` Keo had a different API which was more tolerant &mdash; please use `npm i keo@3.0.2` &mdash; [See associated README](LEGACY.md)
-
----
 
 ## Advantages
 

@@ -21,13 +21,32 @@ export default class ShadowDOM extends Component {
      * @return {void}
      */
     componentDidMount() {
+
+        // Create the shadow root on the rendered component, and then render the passed in
+        // component to the shadow DOM.
         const rootElement = this.refs.container;
         const shadowRoot = rootElement.createShadowRoot();
         render(this.props.component, shadowRoot);
         this.setState({ shadowRoot });
+
+        // Fetch and attach the passed in stylesheets.
         this.props.cssDocuments && this.appendCSSDocuments(this.props.cssDocuments);
+        
     }
 
+    /**
+     * @method componentDidUpdate
+     * @return {void}
+     */
+    componentDidUpdate() {
+        render(this.props.component, this.state.shadowRoot);
+    }
+
+    /**
+     * @method appendCSSDocuments
+     * @param cssDocuments {Array|String}
+     * @return {void}
+     */
     appendCSSDocuments(cssDocuments) {
 
         const styleElement = document.createElement('style');
@@ -35,11 +54,11 @@ export default class ShadowDOM extends Component {
         const documents = Array.isArray(cssDocuments) ? cssDocuments : [cssDocuments];
 
         /**
-         * @method fetchStylesheets
+         * @method fetchStylesheet
          * @param {String} document
          * @return {Promise}
          */
-        const fetchStylesheets = document => fetch(document).then(response => response.text());
+        const fetchStylesheet = document => fetch(document).then(response => response.text());
 
         /**
          * @method insertStyleElement
@@ -56,16 +75,8 @@ export default class ShadowDOM extends Component {
 
         };
 
-        Promise.all(documents.map(fetchStylesheets)).then(insertStyleElement);
+        Promise.all(documents.map(fetchStylesheet)).then(insertStyleElement);
 
-    }
-
-    /**
-     * @method componentDidUpdate
-     * @return {void}
-     */
-    componentDidUpdate() {
-        render(this.props.component, this.state.shadowRoot);
     }
 
     /**
@@ -73,7 +84,7 @@ export default class ShadowDOM extends Component {
      * @return {XML}
      */
     render() {
-        return <main ref="container" />;
+        return <this.props.component.type ref="container" />;
     }
 
 }
