@@ -26,16 +26,6 @@ const propertyWhitelist = ['id', 'props', 'context', 'nextProps', 'prevProps', '
 const identityStore = new WeakMap();
 
 /**
- * @method shadow
- * @param {Array} cssDocuments
- * @param {Object} component
- * @return {XML}
- */
-export const shadow = curry((cssDocuments, component) => {
-    return <ShadowDOM { ...{ cssDocuments, component }} />;
-});
-
-/**
  * @method identityFor
  * @param {Object} context
  * @return {Object}
@@ -66,7 +56,7 @@ const isFunction = (x => typeof x === 'function');
  * @param {Object|Function} x
  * @return {Object}
  */
-export const ensureRenderMethod = (x => {
+const ensureRenderMethod = (x => {
     return isFunction(x) ? { render: x } : x;
 });
 
@@ -78,7 +68,7 @@ export const ensureRenderMethod = (x => {
  * @param {Object} x
  * @return {Object}
  */
-export const passArguments = (x => {
+const passArguments = (x => {
 
     const filterArgs = compose(pickBy(complement(isNil)), pick(propertyWhitelist));
 
@@ -118,7 +108,7 @@ export const passArguments = (x => {
  * @param {Object} x
  * @return {Function}
  */
-export const rejectProps = curry(((blacklist, x) => {
+const rejectProps = curry(((blacklist, x) => {
 
     return blacklist.reduce((accumulator, property) => {
         return { ...dissoc(property, accumulator) };
@@ -133,7 +123,7 @@ export const rejectProps = curry(((blacklist, x) => {
  * @param {Object} x
  * @return {Object}
  */
-export const onlyFunctions = (x => {
+const onlyFunctions = (x => {
     return pickBy(isFunction, x);
 });
 
@@ -147,7 +137,7 @@ export const onlyFunctions = (x => {
  * @param {Object} nextProps
  * @return {Function}
  */
-export const propsModified = curry(function(propTypes, args) {
+const propsModified = curry(function(propTypes, args) {
 
     return keys(propTypes).some(key => {
         return args.props[key] !== args.nextProps[key];
@@ -166,6 +156,16 @@ const applyShouldUpdate = curry(function(definition, { args }) {
     const { shouldComponentUpdate = () => true } = definition;
     return propsModified(definition.propTypes, args) && shouldComponentUpdate(args);
     
+});
+
+/**
+ * @method shadow
+ * @param {Array} cssDocuments
+ * @param {Object} component
+ * @return {XML}
+ */
+export const shadow = curry((cssDocuments, component) => {
+    return <ShadowDOM { ...{ cssDocuments, component }} />;
 });
 
 /**

@@ -2,10 +2,6 @@
     font-family: Arial, Tahoma, Helvetica, sans-serif;
 }
 
-:host {
-    border: 1px solid red;
-}
-
 h2 {
     color: rgba(0, 0, 0, .5);
     font-size: 12px;
