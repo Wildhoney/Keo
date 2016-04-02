@@ -160,13 +160,18 @@ const applyShouldUpdate = curry(function(definition, { args }) {
 
 /**
  * @method shadow
- * @param {Array} cssDocuments
- * @param {Object} component
- * @return {XML}
+ * @param {Array} [cssDocuments = []]
+ * @return {Function}
  */
-export const shadow = curry((cssDocuments, component) => {
-    return <ShadowDOM { ...{ cssDocuments, component }} />;
-});
+export const shadow = (cssDocuments = []) => {
+
+    /**
+     * @param {Object} component
+     * @return {XML}
+     */
+    return component => <ShadowDOM { ...{ cssDocuments, component }} />;
+
+};
 
 /**
  * @method stitch

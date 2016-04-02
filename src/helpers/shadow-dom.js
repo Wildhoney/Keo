@@ -53,6 +53,10 @@ export default class ShadowDOM extends Component {
         styleElement.setAttribute('type', 'text/css');
         const documents = Array.isArray(cssDocuments) ? cssDocuments : [cssDocuments];
 
+        if (!documents.length) {
+            return;
+        }
+
         /**
          * @method fetchStylesheet
          * @param {String} document

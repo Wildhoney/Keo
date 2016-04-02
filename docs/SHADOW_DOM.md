@@ -3,13 +3,13 @@
 > <sub><sup>*["Keo"](https://vi.wikipedia.org/wiki/Keo) is the Vietnamese translation for glue.*</sup></sub><br />
 > Plain functions for a more functional [Deku](https://github.com/dekujs/deku) approach to creating React components, with functional goodies such as compose, memoize, etc... for free.
 
+![Shadow DOM](../media/shadow-dom.png)
+
 ---
 
 # Shadow DOM
 
 By using function composition in Keo, you are able to add additional behaviour to your functions by using `compose` or `pipe` &ndash; in this case we are using the in-built `shadow` function to enable [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Shadow_DOM) in React.
-
-![Shadow DOM](../media/shadow-dom.png)
 
 ## Composition
 
