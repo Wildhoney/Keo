@@ -11,7 +11,7 @@
 
 By using function composition in Keo, you are able to add additional behaviour to your functions by using `compose` or `pipe` &ndash; in this case we are using the in-built `shadow` function to enable [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Shadow_DOM) in React.
 
-## Composition
+## Getting Started
 
 In order to use Shadow DOM you need to `compose` your `render` function, which means importing [`compose`](http://ramdajs.com/0.19.1/docs/#compose) &mdash; or [`pipe`](http://ramdajs.com/0.19.1/docs/#pipe) &mdash; from Ramda, along with `shadow` from Keo and then composing your `render` function.
 
@@ -41,7 +41,7 @@ You should see the following when inspecting the DOM:
 
 Any event listeners on your root `section` element will be transferred across to the `#shadow-root` element and therefore work as you would expect &mdash; the first `section` is simply a container for the shadow root.
 
-## Styling
+## CSS Documents
 
 You may have noticed that when composing your `render` function that you're invoking `shadow` instead of simply passing it in &ndash; that is because the `shadow` function is curried and accepts **two** arguments: the first being a `string` or an `array` of stylesheets, and the second being the result of your `render` function which `compose` &mdash; or `pipe` &mdash; will handle.
 
