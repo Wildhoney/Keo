@@ -148,7 +148,7 @@ const greetingIn = (language, { props }) => {
 };
 
 const render = ({ props, context, args }) => {
-    const greeting = parseName(args);
+    const greeting = greetingIn('en', args);
     // ...
     return <h1>${greeting}!</h1>
 };
