@@ -160,7 +160,7 @@ const applyShouldUpdate = curry(function(definition, { args }) {
 
 /**
  * @method shadow
- * @param {Array} [cssDocuments = []]
+ * @param {Array|String} [cssDocuments = []]
  * @return {Function}
  */
 export const shadow = (cssDocuments = []) => {
