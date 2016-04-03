@@ -121,28 +121,36 @@ For managing [pseudo-local state](https://github.com/reactjs/redux/issues/159) i
 
 ```javascript
 const render = ({ id }) => {
-    return <a onClick={dispatch(setValue('United Kingdom', id))}></a>;
+    return <a onClick={dispatch(setValueFor(id, 'United Kingdom'))}></a>;
 };
 ```
 
 You may also prevent other components from updating by using the `shouldComponentUpdate` function to determine when the action applies to the current component. It's worth noting that a custom `shouldComponentUpdate` will simply be composed with the Keo default `shouldComponentUpdate` which inspects the `propTypes` for a significant performance enhancement.
 
 ```javascript
-const shouldComponentUpdate = (({ id, props }) => {
+const shouldComponentUpdate = ({ id, props }) => {
     return props.select.id === id;
-});
+};
 ```
 
 **Note:** Will also check `propTypes` if they have been defined on the component.
 
 ### `args`
 
-In Haskell you have `all@` for accessing **all** of the arguments in a function, even after listing the arguments &mdash; with JavaScript you have the nonstandard `arguments` however with Keo `args` can be destructured to provide access to **all** of the arguments passed in, allowing you to forward these arguments to other functions.
+In Haskell you have `all@` for accessing **all** of the arguments in a function, even after listing the arguments individually &mdash; with JavaScript you have the nonstandard `arguments` however with Keo `args` can be destructured to provide access to **all** of the arguments passed in, allowing you to forward these arguments to other functions.
 
 ```javascript
-const componentDidUpdate = ({ props, context, args }) => {
-    const name = parseName(args);
+const greetingIn = (language, { props }) => {
+    switch (language) {
+        case 'en': return `Hello ${props.name}`;
+        case 'de': return `Guten Tag ${props.name}`;
+    }
+};
+
+const render = ({ props, context, args }) => {
+    const greeting = parseName(args);
     // ...
+    return <h1>${greeting}!</h1>
 };
 ```
 
