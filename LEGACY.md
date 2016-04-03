@@ -1,7 +1,7 @@
 <img src="media/logo.png" alt="Keo" width="250" />
 
 > <sub><sup>*["Keo"](https://vi.wikipedia.org/wiki/Keo) is the Vietnamese translation for glue.*</sup></sub><br />
-> Plain functions for a more functional [Deku](https://github.com/dekujs/deku) approach to creating React components, with functional goodies such as pipe, memoize, etc... for free.
+> Plain functions for a more functional [Deku](https://github.com/dekujs/deku) approach to creating stateless React components, with functional goodies such as pipe, memoize, etc... for free.
 
 ![Travis](http://img.shields.io/travis/Wildhoney/Keo.svg?style=flat-square)
 &nbsp;
