@@ -12,8 +12,8 @@ const store = createStoreWithMiddleware(reducers);
 
 ready().then(() => {
 
-    const mountNode = document.querySelector('.countries');
-
+    const mountNode = document.querySelector('.todo-app');
+    
     render((
         <Provider store={store}>
             {routes}

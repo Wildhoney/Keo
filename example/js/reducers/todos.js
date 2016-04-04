@@ -1,11 +1,10 @@
-import Immutable from 'seamless-immutable';
-import { COUNTRY } from '../config/events';
+import { ADD } from '../config/events';
 
 /**
  * @constant INITIAL_STATE
- * @type {Immutable}
+ * @type {Array}
  */
-const INITIAL_STATE = new Immutable({});
+const INITIAL_STATE = [];
 
 /**
  * @param {Object} state
@@ -16,8 +15,8 @@ export default (state = INITIAL_STATE, action) => {
 
     switch (action.type) {
 
-        case COUNTRY:
-            return new Immutable(action.model);
+        case ADD:
+            return [ ...state, { name: 'Adam' } ];
 
     }
 

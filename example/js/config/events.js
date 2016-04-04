@@ -1,3 +1,3 @@
-export const COUNTRIES = Symbol('countries');
-export const COUNTRY = Symbol('country');
-export const ANSWER = Symbol('answer');
+export const ADD = Symbol('add');
+export const REMOVE = Symbol('remove');
+export const CLEAR = Symbol('clear');

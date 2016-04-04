@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { stitch } from '../../../src/keo';
+import AddTodo from '../components/add-todo.js';
 
 /**
  * @method render
@@ -9,8 +10,12 @@ import { stitch } from '../../../src/keo';
 const render = ({ props }) => {
 
     return (
-        <section className="keo" >
+        <section className="todo-app">
+            
+            <AddTodo {...props} />
+            
             {props.children}
+            
         </section>
     );
 

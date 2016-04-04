@@ -26,20 +26,20 @@ const render = compose(shadow(), ({ props }) => {
 });
 ```
 
-Once you have the composition setup with `shadow` you should find your DOM rendering with a shadow root. Keo takes the root element's tag name &mdash; in the above case it's `section` &mdash; and appends that to the DOM tree, it then creates a shadow root and renders your component inside.
+Once you have the composition setup with `shadow` you should find your DOM rendering with a shadow root. Keo wraps your component in a `span` element and then appends that to the DOM tree; it then creates a shadow root and renders your component inside.
 
 You should see the following when inspecting the DOM:
 
 ```html
-<section>
+<span>
     #shadow-root (open)
         <section>
             <h1>Hello Adam</h1>
         </section>
-</section>
+</span>
 ```
 
-Any event listeners on your root `section` element will be transferred across to the `#shadow-root` element and therefore work as you would expect &mdash; the first `section` is simply a container for the shadow root.
+Any event listeners on your root `section` element will be transferred across to the `#shadow-root` element and therefore work as you would expect.
 
 ## CSS Documents
 

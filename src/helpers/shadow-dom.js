@@ -24,8 +24,7 @@ export default class ShadowDOM extends Component {
 
         // Create the shadow root on the rendered component, and then render the passed in
         // component to the shadow DOM.
-        const rootElement = this.refs.container;
-        const shadowRoot = rootElement.createShadowRoot();
+        const shadowRoot = this.container.attachShadow({ mode: 'open' });
         render(this.props.component, shadowRoot);
         this.setState({ shadowRoot });
 
@@ -88,7 +87,7 @@ export default class ShadowDOM extends Component {
      * @return {XML}
      */
     render() {
-        return <this.props.component.type ref="container" />;
+        return <span ref={c => this.container = c} />;
     }
 
 }
