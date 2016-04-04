@@ -17,6 +17,14 @@ export default class ShadowDOM extends Component {
     };
 
     /**
+     * @constructor
+     */
+    constructor() {
+        super();
+        this.state = { loading: true };
+    }
+
+    /**
      * @method componentDidMount
      * @return {void}
      */
@@ -24,8 +32,9 @@ export default class ShadowDOM extends Component {
 
         // Create the shadow root on the rendered component, and then render the passed in
         // component to the shadow DOM.
-        const shadowRoot = this.container.attachShadow({ mode: 'open' });
-        render(this.props.component, shadowRoot);
+        const container = findDOMNode(this);
+        const shadowRoot = container.attachShadow({ mode: 'open' });
+        render(this.props.component, container);
         this.setState({ shadowRoot });
 
         // Fetch and attach the passed in stylesheets.
@@ -78,7 +87,10 @@ export default class ShadowDOM extends Component {
 
         };
 
-        Promise.all(documents.map(fetchStylesheet)).then(insertStyleElement);
+        Promise.all(documents.map(fetchStylesheet)).then(cssDocuments => {
+            insertStyleElement(cssDocuments);
+            this.setState({ loading: false });
+        });
 
     }
 
@@ -87,7 +99,7 @@ export default class ShadowDOM extends Component {
      * @return {XML}
      */
     render() {
-        return <span ref={c => this.container = c} />;
+        return <span className={this.state.loading ? 'unresolved' : 'resolved'} />;
     }
 
 }

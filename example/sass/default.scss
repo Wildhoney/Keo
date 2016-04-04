@@ -4,6 +4,14 @@
   @include defaults();
 }
 
+.unresolved {
+  opacity: 0;
+}
+
+.resolved {
+  opacity: 1;
+}
+
 :root {
   font-size: 10px;
   position: relative;

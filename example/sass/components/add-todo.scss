@@ -1,12 +1,10 @@
 @import "../mixins.scss";
 
-add-todo {
+section {
 
   * {
     @include defaults();
   }
-
-  display: block;
 
   > input {
     width: 100%;

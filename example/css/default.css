@@ -3,6 +3,12 @@
   padding: 0;
   margin: 0; }
 
+.unresolved {
+  opacity: 0; }
+
+.resolved {
+  opacity: 1; }
+
 :root {
   font-size: 10px;
   position: relative;

@@ -9,9 +9,9 @@ import { stitch, shadow } from '../../../src/keo';
 const render = compose(shadow('css/components/add-todo.css'), () => {
 
     return (
-        <add-todo>
+        <section>
             <input placeholder="What needs to be done?" autofocus />
-        </add-todo>
+        </section>
     )
 
 });
