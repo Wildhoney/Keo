@@ -1,6 +1,9 @@
 # os
 .DS_Store
 
+# sass
+.sass-cache
+
 # npm / node
 node_modules
 *.log
