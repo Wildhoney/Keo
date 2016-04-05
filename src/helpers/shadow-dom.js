@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes, createElement } from 'react';
 import { render, findDOMNode } from 'react-dom';
+import { dissoc } from 'ramda';
 
 /**
  * @class ShadowDOM
@@ -25,26 +26,49 @@ export default class ShadowDOM extends Component {
     }
 
     /**
+     * @method componentWillMount
+     * @return {void}
+     */
+    componentWillMount() {
+
+        const container = (() => {
+
+            // Wrap children in a container if it's an array of children, otherwise
+            // simply render the single child which is a valid `ReactElement` instance.
+            const children = this.props.component.props.children;
+            return children.length ? <main>{children}</main> : children;
+
+        })();
+
+        this.setState({ container });
+
+    }
+
+    /**
      * @method componentDidMount
      * @return {void}
      */
     componentDidMount() {
 
-        // Create the shadow root on the rendered component, and then render the passed in
-        // component to the shadow DOM.
-        const container = findDOMNode(this);
-        const shadowRoot = container.attachShadow({ mode: 'open' });
-        render(this.props.component, container);
-        this.setState({ shadowRoot });
+        // Create the shadow root and take the CSS documents from props.
+        const shadowRoot = findDOMNode(this).attachShadow({ mode: 'open' });
+        const cssDocuments = this.props.cssDocuments;
+        const container = this.state.container;
 
-        if (this.props.cssDocuments.length) {
+        // Render the passed in component to the shadow root, and then `setState` if there
+        // are no CSS documents to be resolved.
+        render(container, shadowRoot);
+        !cssDocuments && this.setState({ shadowRoot, container });
 
-            // Fetch and attach the passed in stylesheets.
-            this.setState({ resolving: true });
-            this.appendCSSDocuments(this.props.cssDocuments);
+        if (cssDocuments.length) {
+
+            // Otherwise we'll fetch and attach the passed in stylesheets which need to be
+            // resolved before `state.resolved` becomes `true` again.
+            this.setState({ resolving: true, shadowRoot, container });
+            this.attachStylesheets(this.props.cssDocuments);
 
         }
-        
+
     }
 
     /**
@@ -52,15 +76,20 @@ export default class ShadowDOM extends Component {
      * @return {void}
      */
     componentDidUpdate() {
-        render(this.props.component, this.state.shadowRoot);
+
+        // Updates consist of simply rendering the container element into the shadow root
+        // again, as the `this.state.container` element contains the passed in component's
+        // children.
+        render(this.state.container, this.state.shadowRoot);
+
     }
 
     /**
-     * @method appendCSSDocuments
+     * @method attachStylesheets
      * @param cssDocuments {Array|String}
      * @return {void}
      */
-    appendCSSDocuments(cssDocuments) {
+    attachStylesheets(cssDocuments) {
 
         const styleElement = document.createElement('style');
         styleElement.setAttribute('type', 'text/css');
@@ -104,7 +133,16 @@ export default class ShadowDOM extends Component {
      * @return {XML}
      */
     render() {
-        return <span className={this.state.resolving ? 'resolving' : 'resolved'} />;
+
+        // Take all of the props from the passed in component, minus the `children` props
+        // as that's handled by `componentDidMount`.
+        const props = dissoc('children', this.props.component.props);
+        const className = this.state.resolving ? 'resolving' : 'resolved';
+
+        // Note that when we're rendering a dynamic-named element `className` is lower-cased.
+        // See: https://github.com/facebook/react/issues/4933
+        return <this.props.component.type {...dissoc('className', props)} class={`${props.className} ${className}`.trim()} />;
+
     }
 
 }
