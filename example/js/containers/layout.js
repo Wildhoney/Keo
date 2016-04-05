@@ -10,13 +10,13 @@ import AddTodo from '../components/add-todo.js';
 const render = ({ props }) => {
 
     return (
-        <section className="todo-app">
+        <main>
             
             <AddTodo {...props} />
             
             {props.children}
             
-        </section>
+        </main>
     );
 
 };

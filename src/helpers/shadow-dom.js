@@ -31,15 +31,10 @@ export default class ShadowDOM extends Component {
      */
     componentWillMount() {
 
-        const container = (() => {
-
-            // Wrap children in a container if it's an array of children, otherwise
-            // simply render the single child which is a valid `ReactElement` instance.
-            const children = this.props.component.props.children;
-            return children.length ? <main>{children}</main> : children;
-
-        })();
-
+        // Wrap children in a container if it's an array of children, otherwise
+        // simply render the single child which is a valid `ReactElement` instance.
+        const children = this.props.component.props.children;
+        const container = children.length ? <span>{children}</span> : children;
         this.setState({ container });
 
     }
@@ -95,10 +90,6 @@ export default class ShadowDOM extends Component {
         styleElement.setAttribute('type', 'text/css');
         const documents = Array.isArray(cssDocuments) ? cssDocuments : [cssDocuments];
 
-        if (!documents.length) {
-            return;
-        }
-
         /**
          * @method fetchStylesheet
          * @param {String} document
@@ -138,10 +129,7 @@ export default class ShadowDOM extends Component {
         // as that's handled by `componentDidMount`.
         const props = dissoc('children', this.props.component.props);
         const className = this.state.resolving ? 'resolving' : 'resolved';
-
-        // Note that when we're rendering a dynamic-named element `className` is lower-cased.
-        // See: https://github.com/facebook/react/issues/4933
-        return <this.props.component.type {...dissoc('className', props)} class={`${props.className} ${className}`.trim()} />;
+        return <this.props.component.type {...props} className={`${props.className} ${className}`.trim()} />;
 
     }
 
