@@ -24,7 +24,11 @@ import { stitch, shadow } from 'keo';
 // ...
 
 const render = compose(shadow(), ({ props }) => {
-    return <section className="greeting"><h1>Hello ${props.name}</h1></section>
+    return (
+        <section className="greeting">
+            <h1>Hello ${props.name}</h1>
+        </section>
+    );
 });
 ```
 
@@ -51,7 +55,11 @@ Therefore to pass in stylesheets to be used with your component, simply pass in 
 
 ```javascript
 const render = compose(shadow('/css/greeting.css'), ({ props }) => {
-    return <section className="greeting"><h1>Hello ${props.name}</h1></section>
+    return (
+        <section className="greeting">
+            <h1>Hello ${props.name}</h1>
+        </section>
+    );
 });
 ```
 
@@ -90,6 +98,10 @@ import { stitch, shadow } from 'keo';
 // ...
 
 const render = pipe(({ props }) => {
-    return <section><h1>Hello ${props.name}</h1></section>
+    return (
+        <section>
+            <h1>Hello ${props.name}</h1>
+        </section>
+    );
 }, shadow(['/css/greeting.css', '/css/headers.css']));
 ```
