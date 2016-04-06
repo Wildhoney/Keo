@@ -176,7 +176,7 @@ export default stitch({ render }, state => state);
 
 ```javascript
 import { unwrap } from 'keo';
-import Component from './component';
+import Gr from './component';
 import test from 'ava';
 
 test('We can unwrap the smart component for testing purposes', t => {
