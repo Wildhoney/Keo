@@ -158,7 +158,9 @@ Which then allows you to destructure the arguments in the `parseName` function a
 
 ## Testing Smart Components
 
-Whenever you pass the `mapStateToProps` argument to Keo's `stitch` function you create a *smart component* &mdash; due to the wrapping that `react-redux` applies these components can be problematic to test, and as such should ideally be exported as both a smart component for your application, **and** as a dumb component for unit testing. However Keo provides an `unwrap` function to resolve the smart component to a dumb component for testing purposes.
+Whenever you pass the `mapStateToProps` argument to Keo's `stitch` function you create a [smart component](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) &mdash; due to the wrapping that `react-redux` applies to these components they can be troublesome to test. As such they should ideally be exported as both a smart component for your application **and** as a dumb component for unit testing.
+
+However Keo provides a convenient `unwrap` function to resolve smart component to dumb component for testing purposes &mdash; leaving your application to handle the smart components.
 
 **Component:**
 
@@ -176,12 +178,13 @@ export default stitch({ render }, state => state);
 
 ```javascript
 import { unwrap } from 'keo';
-import Gr from './component';
+import Greet from './component';
 import test from 'ava';
 
 test('We can unwrap the smart component for testing purposes', t => {
 
-    const component = <Component name="Philomena" />;
+    const UnwrappedGreet = unwrap(Greet);
+    const component = <UnwrappedGreet name="Philomena" />;
     // ...
     t.pass();
     
