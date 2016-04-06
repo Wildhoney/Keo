@@ -22,6 +22,7 @@
 * [Destructuring](#destructuring)
 * [Shadow DOM](docs/SHADOW_DOM.md)
 * [Nonstandard Properties](#nonstandard-properties)
+* [Testing Smart Components](#testing-smart-components)
 
 At the core of Keo's philosophies is the notion that you **shouldn't** have to deal with the `this` keyword &mdash; and while in ES2015 the `this` keyword has become easier to manage, it seems wholly unnecessary in a React component. As such, Keo takes a more [Deku](https://github.com/dekujs/deku) approach in that items such as `props`, `context`, `nextProps`, etc... are passed in to [*some*](#lifecycle-functions) React [lifecycle functions](https://facebook.github.io/react/docs/component-specs.html).
 
