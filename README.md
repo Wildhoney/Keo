@@ -59,9 +59,9 @@ const render = ({ props }) => {
 export stitch({ render });
 ```
 
-In the above example the component will re-render **every time** properties are updated in your Redux state &mdash; even when the `name` property hasn't been changed. React provides the [`PureRenderMixin` mixin](https://facebook.github.io/react/docs/pure-render-mixin.html) for these instances, and Keo provides a similar solution.
+In the above example the component will re-render **every time** properties are updated in your Redux state &mdash; even when the `name` property hasn't been changed. React provides the [`PureRenderMixin` mixin](https://facebook.github.io/react/docs/pure-render-mixin.html) for these instances, and Keo provides a similar solution based on `propTypes`.
 
-Taking advantage of the `shouldComponentUpdate` improvement you **must** define `propTypes` &mdash; Keo favours this approach over checking `props` directly to encourage strictness in component definitions:
+Taking advantage of the `shouldComponentUpdate` improvement means you **must** define your `propTypes` &mdash; Keo favours this approach over checking `props` directly to encourage strictness in component definitions. It's also important to remember that you should enumerate props that are passed to your child components &mdash; see React's documentation [Advanced Performance](https://facebook.github.io/react/docs/advanced-performance.html).
 
 ```javascript
 import React, { PropTypes } from 'react';
@@ -98,8 +98,7 @@ Properties which can be destructured are as follows:
 
 Properties which are typically available in React components, but are unavailable in Keo components:
 
-* `state` as components cannot read local state;
-* `setState` forbidden to write local state;
+* `state` and `setState` as stateless components are forbidden to maintain local state;
 * `refs` use `event.target` on events instead;
 * `forceUpdate` as components are only updated via `props`;
 
@@ -107,11 +106,9 @@ Properties which are typically available in React components, but are unavailabl
 
 The entire gamut of [React's lifecycle methods](https://facebook.github.io/react/docs/component-specs.html) pass in their own associated arguments &mdash; for example the `render` method will take `props`, `context` and `dispatch`, whereas other functions such as `componentWillUpdate` would also take an additional `nextProps` argument.
 
-You may override the `shouldComponentUpdate`, however the provided function is fine in most cases assuming that your [`propTypes` are accurate](#getting-started).
-
 ## Nonstandard Properties
 
-Below are a handful of additional nonstandard properties which can be destructured in all lifecycle methods.
+Below are a handful of additional nonstandard properties which can be destructured in **all** lifecycle methods.
 
 * [`id`](#id) &mdash; for managing local state in the Redux tree structure;
 * [`args`](#args) &mdash; accessing **all** arguments for passing to other functions;
@@ -138,7 +135,7 @@ const shouldComponentUpdate = ({ id, props }) => {
 
 ### `args`
 
-In Haskell you have `all@` for accessing **all** of the arguments in a function, even after listing the arguments individually &mdash; with JavaScript you have the nonstandard `arguments` however with Keo `args` can be destructured to provide access to **all** of the arguments passed in, allowing you to forward these arguments to other functions.
+In [Haskell](https://www.haskell.org/) you have `all@` for accessing **all** of the arguments in a function, even after listing the arguments individually &mdash; with JavaScript you have the nonstandard `arguments` however with Keo `args` can be destructured to provide access to **all** of the arguments passed in, allowing you to forward these arguments to other functions.
 
 ```javascript
 const greetingIn = (language, { props }) => {
@@ -161,7 +158,7 @@ Which then allows you to destructure the arguments in the `parseName` function a
 
 Whenever you pass the `mapStateToProps` argument to Keo's `stitch` function you create a [smart component](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) &mdash; due to the wrapping that `react-redux` applies to these components they can be troublesome to test. As such they should ideally be exported as both a smart component for your application **and** as a dumb component for unit testing.
 
-However Keo provides a convenient `unwrap` function to resolve smart component to dumb component for testing purposes &mdash; leaving your application to handle the smart components.
+However Keo provides a convenient `unwrap` function to resolve smart components to dumb components for testing purposes &mdash; leaving your application to handle the smart components.
 
 **Component:**
 
@@ -178,15 +175,17 @@ export default stitch({ render }, state => state);
 **Unit Test:**
 
 ```javascript
+import test from 'ava';
 import { unwrap } from 'keo';
 import Greet from './component';
-import test from 'ava';
 
 test('We can unwrap the smart component for testing purposes', t => {
 
     const UnwrappedGreet = unwrap(Greet);
     const component = <UnwrappedGreet name="Philomena" />;
+    
     // ...
+    
     t.pass();
     
 });
