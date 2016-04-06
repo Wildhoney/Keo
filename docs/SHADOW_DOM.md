@@ -5,7 +5,7 @@
 
 ![Shadow DOM](../media/shadow-dom.png)
 
-**Polyfill:** As Shadow DOM is part of the [webcomponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components) suite, there is a [useful polyfill](https://github.com/webcomponents/webcomponentsjs) which you can use for wider browser support &mdash; please refer to their documentation for a [list of supported browsers](https://github.com/webcomponents/webcomponentsjs#browser-support).
+> As Shadow DOM is part of the [webcomponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components) suite, there is a [useful polyfill](https://github.com/webcomponents/webcomponentsjs) which you can use for wider browser support &mdash; please refer to their documentation for a [list of supported browsers](https://github.com/webcomponents/webcomponentsjs#browser-support).
 
 ---
 

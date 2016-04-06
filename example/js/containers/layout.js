@@ -11,11 +11,8 @@ const render = ({ props }) => {
 
     return (
         <main>
-            
             <AddTodo {...props} />
-            
             {props.children}
-            
         </main>
     );
 

@@ -155,3 +155,35 @@ const render = ({ props, context, args }) => {
 ```
 
 Which then allows you to destructure the arguments in the `parseName` function as though it's a typical lifecycle React method.
+
+## Testing Smart Components
+
+Whenever you pass the `mapStateToProps` argument to Keo's `stitch` function you create a *smart component* &mdash; due to the wrapping that `react-redux` applies these components can be problematic to test, and as such should ideally be exported as both a smart component for your application, **and** as a dumb component for unit testing. However Keo provides an `unwrap` function to resolve the smart component to a dumb component for testing purposes.
+
+**Component:**
+
+```javascript
+import { stitch } from 'keo';
+
+const render = ({ props }) => {
+    return <h1>Hi {props.name}</h1>;
+};
+
+export default stitch({ render }, state => state);
+```
+
+**Unit Test:**
+
+```javascript
+import { unwrap } from 'keo';
+import Component from './component';
+import test from 'ava';
+
+test('We can unwrap the smart component for testing purposes', t => {
+
+    const component = <Component name="Philomena" />;
+    // ...
+    t.pass();
+    
+});
+```

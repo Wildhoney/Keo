@@ -214,6 +214,14 @@ export const custom = component => {
 };
 
 /**
+ * @method unwrap
+ * @param {Object} smartComponent
+ */
+export const unwrap = smartComponent => {
+    return smartComponent.WrappedComponent;
+};
+
+/**
  * @method stitch
  * @param {Object|Function} definition
  * @param {Object} [mapStateToProps]

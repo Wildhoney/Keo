@@ -1,10 +1,12 @@
 import React, { PropTypes, createElement } from 'react';
 import test from 'ava';
+import configureStore from 'redux-mock-store';
 import { shallow, mount } from 'enzyme';
 import { spy } from 'sinon';
-import { stitch } from '../src/keo';
 import { compose } from 'ramda';
 import isSymbol from 'is-symbol';
+import { createRenderer } from 'react-addons-test-utils';
+import { stitch, unwrap } from '../src/keo';
 
 const createPerson = () => {
 
@@ -122,5 +124,18 @@ test('is not able to update when overriding `shouldComponentUpdate` dictates;', 
     t.is(wrapper.find('h1').text(), 'Maria');
     wrapper.setProps({ name: 'Terrence' });
     t.is(wrapper.find('h1').text(), 'Maria');
+
+});
+
+test('is able to unwrap `connect` from React Redux for testing purposes;', t => {
+
+    const mockStore = configureStore([]);
+    const store = mockStore({});
+
+    const { component } = createPerson();
+    const Component = unwrap(stitch(component, () => ({})));
+
+    const wrapper = shallow(<Component store={store} name="Adam" />);
+    t.is(wrapper.find('h1').text(), 'Adam');
 
 });
