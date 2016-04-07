@@ -7,6 +7,8 @@
 
 > As Shadow DOM is part of the [webcomponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components) suite, there is a [useful polyfill](https://github.com/webcomponents/webcomponentsjs) which you can use for wider browser support &mdash; please refer to their documentation for a [list of supported browsers](https://github.com/webcomponents/webcomponentsjs#browser-support).
 
+**Note:** Currently does not work in React `15.x` &mdash; [see issue](https://github.com/facebook/react/issues/6456).
+
 ---
 
 # Shadow DOM
