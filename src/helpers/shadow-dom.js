@@ -1,4 +1,4 @@
-import React, { Component, PropTypes, createElement } from 'react';
+import React, { Component, PropTypes, createElement, DOM } from 'react';
 import { render, findDOMNode } from 'react-dom';
 import { dissoc } from 'ramda';
 
@@ -26,16 +26,16 @@ export default class ShadowDOM extends Component {
     }
 
     /**
-     * @method componentWillMount
-     * @return {void}
+     * @method getContainer
+     * @return {Object}
      */
-    componentWillMount() {
+    getContainer() {
 
         // Wrap children in a container if it's an array of children, otherwise
         // simply render the single child which is a valid `ReactElement` instance.
         const children = this.props.component.props.children;
         const container = children.length ? <span>{children}</span> : children;
-        this.setState({ container });
+        return container;
 
     }
 
@@ -48,7 +48,7 @@ export default class ShadowDOM extends Component {
         // Create the shadow root and take the CSS documents from props.
         const shadowRoot = findDOMNode(this).attachShadow({ mode: 'open' });
         const cssDocuments = this.props.cssDocuments;
-        const container = this.state.container;
+        const container = this.getContainer();
 
         // Render the passed in component to the shadow root, and then `setState` if there
         // are no CSS documents to be resolved.
@@ -75,7 +75,7 @@ export default class ShadowDOM extends Component {
         // Updates consist of simply rendering the container element into the shadow root
         // again, as the `this.state.container` element contains the passed in component's
         // children.
-        render(this.state.container, this.state.shadowRoot);
+        render(this.getContainer(), this.state.shadowRoot);
 
     }
 
@@ -129,7 +129,14 @@ export default class ShadowDOM extends Component {
         // as that's handled by `componentDidMount`.
         const props = dissoc('children', this.props.component.props);
         const className = this.state.resolving ? 'resolving' : 'resolved';
-        return <this.props.component.type {...props} className={`${props.className} ${className}`.trim()} />;
+
+        // Determine whether to use `class` or `className`, as custom elements do not allow
+        // for `className`. See: https://github.com/facebook/react/issues/4933
+        const classNames = `${props.className ? props.className : ''} ${className}`.trim();
+        const isSupportedElement = this.props.component.type in DOM;
+        const propName = isSupportedElement ? 'className' : 'class';
+
+        return <this.props.component.type {...{ ...dissoc('className', props), [propName]: classNames }} />;
 
     }
 

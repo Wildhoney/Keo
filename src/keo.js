@@ -230,11 +230,11 @@ export const unwrap = smartComponent => {
 export const stitch = ((definition, mapStateToProps) => {
 
     // Create the component by removing forbidden or non-related functions and properties.
-    const prepareComponent = (compose(rejectProps(propertyBlacklist), ensureRenderMethod));
+    const prepareComponent = compose(rejectProps(propertyBlacklist), ensureRenderMethod);
     const component = { ...prepareComponent(definition), shouldComponentUpdate: applyShouldUpdate(definition) };
 
     // Wrap the methods in Keo-specific functions for applying properties as arguments.
-    const encompassMethods = (compose(passArguments, onlyFunctions));
+    const encompassMethods = compose(passArguments, onlyFunctions);
 
     // Determine whether or not to wrap in React Redux's `connect` and then construct
     // the React component from the prepared blueprint.
