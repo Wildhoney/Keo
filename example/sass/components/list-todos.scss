@@ -1,22 +1,35 @@
 @import "../mixins.scss";
 
 :host {
-
   * {
     @include defaults();
   }
+
+  display: block;
 
   ul {
     list-style-type: none;
 
     li {
-      padding: 1rem 2rem;
       font-family: Lato, Arial, Tahoma, Helvetica, sans-serif;
       font-size: 1.2rem;
       border-bottom: 1px solid rgba(0, 0, 0, .05);
+      overflow: hidden;
 
       &:last-of-type {
         border-bottom: 0;
+      }
+
+      a {
+        display: inline-block;
+        width: 100%;
+        cursor: pointer;
+        padding: 1rem 2rem;
+
+        &.done {
+          color: green;
+          text-decoration: line-through;
+        }
       }
     }
   }

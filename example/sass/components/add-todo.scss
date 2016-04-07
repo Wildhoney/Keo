@@ -1,10 +1,11 @@
 @import "../mixins.scss";
 
 :host {
-
   * {
     @include defaults();
   }
+
+  display: block;
 
   form {
     display: flex;

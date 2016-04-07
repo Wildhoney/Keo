@@ -31,6 +31,20 @@
       width: 100%;
       max-width: 40rem;
       box-shadow: 0 0 .5rem rgba(0, 0, 0, .05), 0 0 100px rgba(0, 0, 0, .2);
+
+      > main {
+
+        > .resolving {
+          visibility: hidden;
+        }
+
+        > footer {
+          font-family: Lato, Arial, Tahoma, Helvetica, sans-serif;
+          color: rgba(0, 0, 0, .25);
+          padding: .5rem 2rem;
+          background-color: rgba(0, 0, 0, .05);
+        }
+      }
     }
   }
 }

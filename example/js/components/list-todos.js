@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { compose } from 'ramda';
 import { stitch, shadow } from '../../../src/keo';
+import { setTodo, DONE, PROGRESS } from '../actions';
 
 /**
  * @constant propTypes
@@ -13,16 +14,22 @@ const propTypes = {
 /**
  * @method getTodos
  * @param {Array} collection
+ * @param {Function} setAs
  * @return {XML[]}
  */
-const getTodos = collection => {
+const getTodos = (collection, setAs) => {
 
     return collection.map(model => {
+
         return (
-            <li key={model.id} className={model.done ? 'done' : ''}>
-                {model.text}
+            <li key={model.id}>
+                <a className={model.status === DONE ? 'done' : ''}
+                   onClick={() => setAs(model, model.status === DONE ? PROGRESS : DONE)}>
+                    {model.text}
+                </a>
             </li>
         );
+
     });
 
 };
@@ -30,14 +37,23 @@ const getTodos = collection => {
 /**
  * @method render
  * @param {Object} props
+ * @param {Function} dispatch
  * @return {XML}
  */
-const render = compose(shadow('css/components/list-todos.css'), ({ props }) => {
+const render = compose(shadow('css/components/list-todos.css'), ({ props, dispatch }) => {
+
+    /**
+     * @method setAs
+     * @param {Object} model
+     * @param {Symbol} status
+     * @return {void}
+     */
+    const setAs = (model, status) => dispatch(setTodo(model.id, status));
 
     return (
         <list-todos>
             <ul>
-                {getTodos(props.todos)}
+                {getTodos(props.todos, setAs)}
             </ul>
         </list-todos>
     )

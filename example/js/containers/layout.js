@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { stitch } from '../../../src/keo';
 import AddTodo from '../components/add-todo.js';
 import ListTodos from '../components/list-todos.js';
+import { DONE } from '../actions';
 
 /**
  * @constant propTypes
@@ -23,8 +24,14 @@ const render = ({ props }) => {
 
     return (
         <main>
+
             <AddTodo {...props} />
             <ListTodos {...props} />
+
+            <footer>
+                {props.todos.filter(x => x.status === DONE).length}/{props.todos.length}
+            </footer>
+
         </main>
     );
 

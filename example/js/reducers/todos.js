@@ -1,5 +1,6 @@
 import 'babel-polyfill';
-import { ADD_TODO } from '../config/events';
+import { ADD_TODO, SET_TODO } from '../config/events';
+import { PROGRESS } from '../actions';
 import Bicycle from 'bi-cycle';
 
 /**
@@ -24,7 +25,21 @@ export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
 
         case ADD_TODO:
-            return [ ...state, { id: next(), text: action.value, done: false }];
+            
+            return [
+                ...state,
+                { id: next(), text: action.value, status: PROGRESS }
+            ];
+
+        case SET_TODO:
+
+            const index = state.findIndex(x => x.id === action.id);
+
+            return [
+                ...state.slice(0, index),
+                { ...state[index], status: action.status },
+                ...state.slice(index + 1)
+            ];
 
     }
 
