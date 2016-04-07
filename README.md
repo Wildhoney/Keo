@@ -86,7 +86,7 @@ In keeping with one of Keo's philosophies that the `this` keyword should be avoi
 
 ```javascript
 const componentDidMount = ({ props }) => {
-    setState({ lifeRemaining: Math.floor(Math.random() * 10) + 1 });
+    dispatch(fetch(`/user/${props.user.id}`));
 };
 ```
 
@@ -94,7 +94,7 @@ Properties which can be destructured are as follows:
 
 * `props` which are passed down via Redux;
 * `dispatch` which is an alias for `props.dispatch`;
-* `context` allowing access to such modules are `router`;
+* `context` allowing access to such modules as `router`;
 
 Properties which are typically available in React components, but are unavailable in Keo components:
 
