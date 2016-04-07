@@ -1,0 +1,23 @@
+@import "../mixins.scss";
+
+:host {
+
+  * {
+    @include defaults();
+  }
+
+  ul {
+    list-style-type: none;
+
+    li {
+      padding: 1rem 2rem;
+      font-family: Lato, Arial, Tahoma, Helvetica, sans-serif;
+      font-size: 1.2rem;
+      border-bottom: 1px solid rgba(0, 0, 0, .05);
+
+      &:last-of-type {
+        border-bottom: 0;
+      }
+    }
+  }
+}

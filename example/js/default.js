@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import reducers from './reducers';
-import routes from './routes';
+import Layout from './containers/layout';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
@@ -16,7 +16,7 @@ ready().then(() => {
     
     render((
         <Provider store={store}>
-            {routes}
+            <Layout />
         </Provider>
     ), mountNode);
 
