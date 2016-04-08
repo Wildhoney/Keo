@@ -2,6 +2,7 @@ filter-todos {
   display: block;
   width: 50%;
   float: right;
+  font-size: 1.2rem;
   overflow: hidden;
   color: rgba(0, 0, 0, 0.5); }
   filter-todos * {
@@ -33,6 +34,7 @@ filter-todos {
   display: block;
   width: 50%;
   float: right;
+  font-size: 1.2rem;
   overflow: hidden;
   color: rgba(0, 0, 0, 0.5); }
   :host * {
