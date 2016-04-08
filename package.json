@@ -1,6 +1,6 @@
 {
   "name": "keo",
-  "version": "4.1.3",
+  "version": "4.1.4",
   "description": "Plain functions for a more functional Deku approach to creating stateless React components, with functional goodies such as compose, memoize, etc... for free.",
   "scripts": {
     "test": "ava tests/*.test.js --tap | tap-nyan",

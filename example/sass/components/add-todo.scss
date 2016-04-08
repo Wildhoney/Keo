@@ -1,6 +1,6 @@
 @import "../mixins.scss";
 
-:host {
+add-todo {
   * {
     @include defaults();
   }

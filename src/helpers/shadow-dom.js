@@ -46,7 +46,8 @@ export default class ShadowDOM extends Component {
     componentDidMount() {
 
         // Create the shadow root and take the CSS documents from props.
-        const shadowRoot = findDOMNode(this).attachShadow({ mode: 'open' });
+        // todo: Prefer `attachShadow` if supported by the current browser.
+        const shadowRoot = findDOMNode(this).createShadowRoot({ mode: 'open' });
         const cssDocuments = this.props.cssDocuments;
         const container = this.getContainer();
 

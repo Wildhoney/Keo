@@ -1,30 +1,30 @@
-:host {
+filter-todos {
   display: block;
   width: 50%;
   float: right;
   overflow: hidden;
   color: rgba(0, 0, 0, 0.5); }
-  :host * {
+  filter-todos * {
     box-sizing: border-box;
     padding: 0;
     margin: 0; }
-  :host ul {
+  filter-todos ul {
     list-style-type: none;
     font-family: Lato, Arial, Tahoma, Helvetica, sans-serif;
     text-align: right; }
-    :host ul li {
+    filter-todos ul li {
       display: inline-block;
       padding: 0 .5rem; }
-      :host ul li:not(.title) {
+      filter-todos ul li:not(.title) {
         border-left: 1px solid rgba(0, 0, 0, 0.05); }
-      :host ul li:nth-of-type(1) {
+      filter-todos ul li:nth-of-type(1) {
         border-left: 0; }
-      :host ul li a {
+      filter-todos ul li a {
         color: rgba(0, 0, 0, 0.3);
         text-decoration: none;
         cursor: pointer;
         transition: color .25s; }
-        :host ul li a.active {
+        filter-todos ul li a.active {
           color: #ff1907; }
-        :host ul li a:hover {
+        filter-todos ul li a:hover {
           color: black; }

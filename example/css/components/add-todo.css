@@ -1,16 +1,16 @@
-:host {
+add-todo {
   display: block; }
-  :host * {
+  add-todo * {
     box-sizing: border-box;
     padding: 0;
     margin: 0; }
-  :host form {
+  add-todo form {
     display: flex; }
-    :host form input {
+    add-todo form input {
       font-family: Lato, Arial, Tahoma, Helvetica, sans-serif;
       font-weight: 400;
       vertical-align: bottom; }
-      :host form input[type="text"] {
+      add-todo form input[type="text"] {
         flex: 1;
         border: 0;
         height: 5rem;
@@ -19,7 +19,7 @@
         font-size: 15px;
         width: 85%;
         display: inline-block; }
-      :host form input[type="button"] {
+      add-todo form input[type="button"] {
         width: 5rem;
         height: 5rem;
         color: black;
@@ -33,6 +33,6 @@
         transition: opacity .25s;
         background: white url("/images/icons/plus-sign-in-a-black-circle.svg") no-repeat center center;
         background-size: 1.8rem; }
-        :host form input[type="button"].active {
+        add-todo form input[type="button"].active {
           opacity: 1;
           pointer-events: all; }
