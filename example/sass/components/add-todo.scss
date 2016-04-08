@@ -1,6 +1,7 @@
 @import "../mixins.scss";
 
-add-todo {
+@mixin styles {
+
   * {
     @include defaults();
   }
@@ -48,4 +49,12 @@ add-todo {
       }
     }
   }
+}
+
+add-todo {
+  @include styles();
+}
+
+:host {
+  @include styles();
 }

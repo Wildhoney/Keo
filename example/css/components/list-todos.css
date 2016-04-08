@@ -24,3 +24,30 @@ list-todos {
         list-todos ul li a.done {
           color: green;
           text-decoration: line-through; }
+
+:host {
+  display: block; }
+  :host * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0; }
+  :host ul {
+    list-style-type: none;
+    max-height: 50vh;
+    overflow-y: auto; }
+    :host ul li {
+      font-family: Lato, Arial, Tahoma, Helvetica, sans-serif;
+      font-size: 1.2rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      overflow: hidden; }
+      :host ul li:last-of-type {
+        border-bottom: 0; }
+      :host ul li a {
+        display: inline-block;
+        width: 100%;
+        cursor: pointer;
+        padding: 1rem 2rem;
+        word-break: break-all; }
+        :host ul li a.done {
+          color: green;
+          text-decoration: line-through; }

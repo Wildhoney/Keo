@@ -1,6 +1,7 @@
 @import "../mixins.scss";
 
-list-todos {
+@mixin styles {
+
   * {
     @include defaults();
   }
@@ -36,4 +37,13 @@ list-todos {
       }
     }
   }
+
+}
+
+list-todos {
+  @include styles();
+}
+
+:host {
+  @include styles();
 }

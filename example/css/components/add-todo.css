@@ -36,3 +36,42 @@ add-todo {
         add-todo form input[type="button"].active {
           opacity: 1;
           pointer-events: all; }
+
+:host {
+  display: block; }
+  :host * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0; }
+  :host form {
+    display: flex; }
+    :host form input {
+      font-family: Lato, Arial, Tahoma, Helvetica, sans-serif;
+      font-weight: 400;
+      vertical-align: bottom; }
+      :host form input[type="text"] {
+        flex: 1;
+        border: 0;
+        height: 5rem;
+        padding: 0 2rem;
+        outline: none;
+        font-size: 15px;
+        width: 85%;
+        display: inline-block; }
+      :host form input[type="button"] {
+        width: 5rem;
+        height: 5rem;
+        color: black;
+        display: inline-block;
+        outline: none;
+        font-size: 15px;
+        cursor: pointer;
+        border: 0;
+        opacity: .25;
+        pointer-events: none;
+        transition: opacity .25s;
+        background: white url("/images/icons/plus-sign-in-a-black-circle.svg") no-repeat center center;
+        background-size: 1.8rem; }
+        :host form input[type="button"].active {
+          opacity: 1;
+          pointer-events: all; }

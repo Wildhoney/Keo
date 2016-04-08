@@ -1,6 +1,7 @@
 @import "../mixins.scss";
 
-filter-todos {
+@mixin styles {
+
   * {
     @include defaults();
   }
@@ -44,4 +45,12 @@ filter-todos {
       }
     }
   }
+}
+
+filter-todos {
+  @include styles();
+}
+
+:host {
+  @include styles();
 }
