@@ -7,7 +7,7 @@
   }
 
   display: block;
-  width: 50%;
+  width: 75%;
   float: right;
   font-size: 1.2rem;
   overflow: hidden;
@@ -20,7 +20,7 @@
 
     li {
       display: inline-block;
-      padding: 0 .5rem;
+      padding: 0 .75rem;
 
       &:not(.title) {
         border-left: 1px solid rgba(0, 0, 0, .05);

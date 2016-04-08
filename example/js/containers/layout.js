@@ -33,7 +33,7 @@ const render = ({ props }) => {
             <ListTodos {...props} />
 
             <footer>
-                <span>{props.todos.filter(x => x.status === DONE).length}/{props.todos.length}</span>
+                <span>{props.todos.filter(x => x.status === DONE).length}/{props.todos.length} Done</span>
                 <FilterTodos {...props} />
             </footer>
 
