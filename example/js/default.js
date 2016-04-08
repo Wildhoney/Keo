@@ -1,4 +1,3 @@
-import 'whatwg-fetch';
 import ready from 'document-ready-promise';
 import React from 'react';
 import { render } from 'react-dom';

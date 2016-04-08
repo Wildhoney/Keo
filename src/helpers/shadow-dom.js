@@ -1,3 +1,4 @@
+import 'whatwg-fetch';
 import React, { Component, PropTypes, createElement, DOM } from 'react';
 import { render, findDOMNode } from 'react-dom';
 import { dissoc } from 'ramda';
