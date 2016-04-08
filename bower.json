@@ -1,0 +1,37 @@
+{
+  "name": "keo",
+  "description": "Plain functions for a more functional Deku approach to creating stateless React components, with functional goodies such as compose, memoize, etc... for free.",
+  "main": "dist/keo.js",
+  "authors": [
+    "Adam Timberlake <adam.timberlake@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "functional",
+    "react",
+    "promises",
+    "state",
+    "components",
+    "functions",
+    "compose",
+    "pipe",
+    "identity",
+    "memoize",
+    "curry"
+  ],
+  "homepage": "https://github.com/Wildhoney/Keo",
+  "moduleType": [
+    "amd",
+    "es6"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "webcomponentsjs": "webcomponents.js#^0.7.21"
+  }
+}

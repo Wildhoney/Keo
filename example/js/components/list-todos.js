@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { compose } from 'ramda';
+import { emojify } from 'react-emoji';
 import { stitch, shadow } from '../../../src/keo';
 import { setTodo, DONE, PROGRESS } from '../actions';
 
@@ -8,24 +9,43 @@ import { setTodo, DONE, PROGRESS } from '../actions';
  * @type {Object}
  */
 const propTypes = {
-    todos: PropTypes.array.isRequired
+    todos: PropTypes.array.isRequired,
+    params: PropTypes.shape({
+        status: PropTypes.string
+    })
 };
 
 /**
  * @method getTodos
  * @param {Array} collection
+ * @param {String} filterBy
  * @param {Function} setAs
  * @return {XML[]}
  */
-const getTodos = (collection, setAs) => {
+const getTodos = (collection, filterBy, setAs) => {
 
-    return collection.map(model => {
+    /**
+     * @method byStatus
+     * @param {Object} model
+     * @return {Boolean}
+     */
+    const byStatus = model => {
+
+        switch (filterBy) {
+            case 'done': return model.status === DONE;
+            case 'progress': return model.status === PROGRESS;
+            default: return true;
+        }
+
+    };
+
+    return collection.filter(byStatus).map(model => {
 
         return (
             <li key={model.id}>
                 <a className={model.status === DONE ? 'done' : ''}
                    onClick={() => setAs(model, model.status === DONE ? PROGRESS : DONE)}>
-                    {model.text}
+                    {emojify(model.text)}
                 </a>
             </li>
         );
@@ -53,7 +73,7 @@ const render = compose(shadow('css/components/list-todos.css'), ({ props, dispat
     return (
         <list-todos>
             <ul>
-                {getTodos(props.todos, setAs)}
+                {getTodos(props.todos, props.params.status, setAs)}
             </ul>
         </list-todos>
     )

@@ -9,6 +9,8 @@
 
   ul {
     list-style-type: none;
+    max-height: 50vh;
+    overflow-y: auto;
 
     li {
       font-family: Lato, Arial, Tahoma, Helvetica, sans-serif;
@@ -25,6 +27,7 @@
         width: 100%;
         cursor: pointer;
         padding: 1rem 2rem;
+        word-break: break-all;
 
         &.done {
           color: green;

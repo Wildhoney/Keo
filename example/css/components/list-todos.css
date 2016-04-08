@@ -5,7 +5,9 @@
     padding: 0;
     margin: 0; }
   :host ul {
-    list-style-type: none; }
+    list-style-type: none;
+    max-height: 50vh;
+    overflow-y: auto; }
     :host ul li {
       font-family: Lato, Arial, Tahoma, Helvetica, sans-serif;
       font-size: 1.2rem;
@@ -17,7 +19,8 @@
         display: inline-block;
         width: 100%;
         cursor: pointer;
-        padding: 1rem 2rem; }
+        padding: 1rem 2rem;
+        word-break: break-all; }
         :host ul li a.done {
           color: green;
           text-decoration: line-through; }

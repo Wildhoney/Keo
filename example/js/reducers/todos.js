@@ -1,19 +1,23 @@
 import 'babel-polyfill';
 import { ADD_TODO, SET_TODO } from '../config/events';
-import { PROGRESS } from '../actions';
+import { DONE, PROGRESS } from '../actions';
 import Bicycle from 'bi-cycle';
-
-/**
- * @constant INITIAL_STATE
- * @type {Array}
- */
-const INITIAL_STATE = [];
 
 /**
  * @constant next
  * @type {Function}
  */
 const { next } = Bicycle();
+
+/**
+ * @constant INITIAL_STATE
+ * @type {Array}
+ */
+const INITIAL_STATE = [
+    { id: next(), text: 'Post application for the Monster Raving Loony Party.', status: PROGRESS },
+    { id: next(), text: 'Take Dougal the demanding :cat: for a walk-around the block.', status: PROGRESS },
+    { id: next(), text: 'Refactor the decoupled clothes into one large cohesive pile!', status: DONE }
+];
 
 /**
  * @param {Object} state

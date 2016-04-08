@@ -1,0 +1,47 @@
+@import "../mixins.scss";
+
+:host {
+  * {
+    @include defaults();
+  }
+
+  display: block;
+  width: 50%;
+  float: right;
+  overflow: hidden;
+  color: rgba(0, 0, 0, .5);
+
+  ul {
+    list-style-type: none;
+    font-family: Lato, Arial, Tahoma, Helvetica, sans-serif;
+    text-align: right;
+
+    li {
+      display: inline-block;
+      padding: 0 .5rem;
+
+      &:not(.title) {
+        border-left: 1px solid rgba(0, 0, 0, .05);
+      }
+
+      &:nth-of-type(1) {
+        border-left: 0;
+      }
+
+      a {
+        color: rgba(0, 0, 0, .3);
+        text-decoration: none;
+        cursor: pointer;
+        transition: color .25s;
+
+        &.active {
+          color: #ff1907;
+        }
+
+        &:hover {
+          color: black;
+        }
+      }
+    }
+  }
+}

@@ -59,7 +59,7 @@ export default class ShadowDOM extends Component {
 
             // Otherwise we'll fetch and attach the passed in stylesheets which need to be
             // resolved before `state.resolved` becomes `true` again.
-            this.setState({ resolving: true, shadowRoot, container });
+            this.setState({ resolving: true, shadowRoot });
             this.attachStylesheets(this.props.cssDocuments);
 
         }
@@ -73,7 +73,7 @@ export default class ShadowDOM extends Component {
     componentDidUpdate() {
 
         // Updates consist of simply rendering the container element into the shadow root
-        // again, as the `this.state.container` element contains the passed in component's
+        // again, as the `this.getContainer()` element contains the passed in component's
         // children.
         render(this.getContainer(), this.state.shadowRoot);
 

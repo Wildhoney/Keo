@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { stitch } from '../../../src/keo';
 import AddTodo from '../components/add-todo.js';
 import ListTodos from '../components/list-todos.js';
+import FilterTodos from '../components/filter-todos.js';
 import { DONE } from '../actions';
 
 /**
@@ -12,6 +13,9 @@ const propTypes = {
     todos: PropTypes.array.isRequired,
     form: PropTypes.shape({
         text: PropTypes.string.isRequired
+    }),
+    params: PropTypes.shape({
+        status: PropTypes.string
     })
 };
 
@@ -29,7 +33,8 @@ const render = ({ props }) => {
             <ListTodos {...props} />
 
             <footer>
-                {props.todos.filter(x => x.status === DONE).length}/{props.todos.length}
+                <span>{props.todos.filter(x => x.status === DONE).length}/{props.todos.length}</span>
+                <FilterTodos {...props} />
             </footer>
 
         </main>
