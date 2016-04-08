@@ -78,7 +78,7 @@
     "es6-weak-map": "^2.0.1",
     "ramda": "^0.19.1",
     "react": "^0.14.8",
-    "react-dom": "^15.0.0",
+    "react-dom": "^0.14.8",
     "react-redux": "^4.4.0",
     "redux": "^3.0.5"
   },
