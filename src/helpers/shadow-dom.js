@@ -34,8 +34,7 @@ export default class ShadowDOM extends Component {
         // Wrap children in a container if it's an array of children, otherwise
         // simply render the single child which is a valid `ReactElement` instance.
         const children = this.props.component.props.children;
-        const container = children.length ? <span>{children}</span> : children;
-        return container;
+        return children.length ? <span>{children}</span> : children;
 
     }
 
