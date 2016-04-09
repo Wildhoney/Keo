@@ -8,6 +8,9 @@
 node_modules
 *.log
 
+# bower
+example/vendor/*
+
 # ide
 .idea
 
