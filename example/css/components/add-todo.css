@@ -19,7 +19,7 @@ add-todo {
         font-size: 15px;
         width: 85%;
         display: inline-block; }
-      add-todo form input[type="button"] {
+      add-todo form input[type="submit"] {
         width: 5rem;
         height: 5rem;
         color: black;
@@ -33,7 +33,7 @@ add-todo {
         transition: opacity .25s;
         background: white url("/images/icons/plus-sign-in-a-black-circle.svg") no-repeat center center;
         background-size: 1.8rem; }
-        add-todo form input[type="button"].active {
+        add-todo form input[type="submit"].active {
           opacity: 1;
           pointer-events: all; }
 
@@ -58,7 +58,7 @@ add-todo {
         font-size: 15px;
         width: 85%;
         display: inline-block; }
-      :host form input[type="button"] {
+      :host form input[type="submit"] {
         width: 5rem;
         height: 5rem;
         color: black;
@@ -72,6 +72,6 @@ add-todo {
         transition: opacity .25s;
         background: white url("/images/icons/plus-sign-in-a-black-circle.svg") no-repeat center center;
         background-size: 1.8rem; }
-        :host form input[type="button"].active {
+        :host form input[type="submit"].active {
           opacity: 1;
           pointer-events: all; }

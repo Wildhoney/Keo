@@ -21,11 +21,11 @@ const propTypes = {
 const render = compose(shadow('css/components/add-todo.css'), ({ props, dispatch }) => {
 
     /**
-     * @method addItem
+     * @method submitTodo
      * @param {Object} event
      * @return {void}
      */
-    const addItem = event => {
+    const submitTodo = event => {
 
         event && event.preventDefault();
 
@@ -38,10 +38,10 @@ const render = compose(shadow('css/components/add-todo.css'), ({ props, dispatch
 
     return (
         <add-todo>
-            <form onSubmit={addItem}>
+            <form onSubmit={submitTodo}>
                 <input type="text" placeholder="What needs to be done?" value={props.form.text}
                        onChange={event => dispatch(setText(event.target.value))} />
-                <input type="button" className={props.form.text.length ? 'active' : ''} onClick={addItem} />
+                <input type="submit" value="" className={props.form.text.length ? 'active' : ''} />
             </form>
         </add-todo>
     )
