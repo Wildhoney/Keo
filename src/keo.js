@@ -203,9 +203,7 @@ export const custom = component => {
         }
 
         // Register each child of the current component.
-        childComponent.props.children.forEach(child => {
-            register(child);
-        });
+        childComponent.props.children.forEach(register);
 
     };
 
