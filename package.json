@@ -6,9 +6,10 @@
     "test": "ava tests/*.test.js --tap | tap-nyan",
     "start": "node example/server/default.js",
     "build": "webpack && npm run dev && bower i",
+    "clean": "mv keo.js redux.js dist/",
     "dev": "browserify example/js/default.js -o example/js/build.js -t [ babelify --presets [ es2015 react stage-0 ] ] && node-sass example/sass/default.scss example/css/default.css && node-sass example/sass/components/add-todo.scss example/css/components/add-todo.css && node-sass example/sass/components/list-todos.scss example/css/components/list-todos.css && node-sass example/sass/components/filter-todos.scss example/css/components/filter-todos.css",
     "prepublish": "npm run build && mv dist/* .",
-    "postpublish": "mv keo.js redux.js dist/"
+    "postpublish": "npm run clean"
   },
   "main": "keo.js",
   "files": [
