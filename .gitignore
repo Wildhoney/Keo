@@ -6,7 +6,7 @@
 
 # npm / node
 node_modules
-*.log
+npm-debug.log
 
 # bower
 example/vendor/*
