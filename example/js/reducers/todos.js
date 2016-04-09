@@ -1,5 +1,5 @@
 import 'babel-polyfill';
-import { ADD_TODO, SET_TODO } from '../config/events';
+import { ADD_TODO, REMOVE_TODO, SET_TODO } from '../config/events';
 import { DONE, PROGRESS } from '../actions';
 import Bicycle from 'bi-cycle';
 
@@ -34,6 +34,10 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 { id: next(), text: action.value, status: PROGRESS }
             ];
+
+        case REMOVE_TODO:
+            return state.filter(todo => todo.id !== action.id);
+
 
         case SET_TODO:
 

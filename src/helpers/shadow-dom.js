@@ -47,20 +47,20 @@ export default class ShadowDOM extends Component {
 
         // Create the shadow root and take the CSS documents from props.
         // todo: Prefer `attachShadow` if supported by the current browser.
-        const shadowRoot = findDOMNode(this).createShadowRoot({ mode: 'open' });
+        const root = findDOMNode(this).createShadowRoot({ mode: 'open' });
         const cssDocuments = this.props.cssDocuments;
         const container = this.getContainer();
 
         // Render the passed in component to the shadow root, and then `setState` if there
         // are no CSS documents to be resolved.
-        render(container, shadowRoot);
-        !cssDocuments && this.setState({ shadowRoot, container });
+        render(container, root);
+        !cssDocuments && this.setState({ root });
 
         if (cssDocuments.length) {
 
             // Otherwise we'll fetch and attach the passed in stylesheets which need to be
             // resolved before `state.resolved` becomes `true` again.
-            this.setState({ resolving: true, shadowRoot });
+            this.setState({ resolving: true, root });
             this.attachStylesheets(this.props.cssDocuments);
 
         }
@@ -76,7 +76,7 @@ export default class ShadowDOM extends Component {
         // Updates consist of simply rendering the container element into the shadow root
         // again, as the `this.getContainer()` element contains the passed in component's
         // children.
-        render(this.getContainer(), this.state.shadowRoot);
+        render(this.getContainer(), this.state.root);
 
     }
 
@@ -109,7 +109,7 @@ export default class ShadowDOM extends Component {
                 return `${accumulator} ${document}`;
             });
 
-            this.state.shadowRoot.appendChild(styleElement);
+            this.state.root.appendChild(styleElement);
 
         };
 

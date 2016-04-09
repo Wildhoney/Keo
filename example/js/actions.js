@@ -1,4 +1,4 @@
-import { SET_TEXT, ADD_TODO, SET_TODO } from './config/events';
+import { SET_TEXT, ADD_TODO, REMOVE_TODO, SET_TODO } from './config/events';
 
 /**
  * @constant DONE
@@ -31,6 +31,17 @@ export const setText = value => {
 export const addTodo = value => {
     return dispatch => {
         dispatch({ type: ADD_TODO, value });
+    }  
+};
+
+/**
+ * @method removeTodo
+ * @param {Number} id
+ * @return {Function}
+ */
+export const removeTodo = id => {
+    return dispatch => {
+        dispatch({ type: REMOVE_TODO, id });
     }  
 };
 

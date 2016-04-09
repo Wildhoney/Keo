@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
-import { compose } from 'ramda';
+import { compose, curry } from 'ramda';
 import { emojify } from 'react-emoji';
-import { stitch, shadow } from '../../../src/keo';
-import { setTodo, DONE, PROGRESS } from '../actions';
+import { stitch, shadow, custom } from '../../../src/keo';
+import { setTodo, removeTodo, DONE, PROGRESS } from '../actions';
 
 /**
  * @constant propTypes
@@ -19,10 +19,9 @@ const propTypes = {
  * @method getTodos
  * @param {Array} collection
  * @param {String} filterBy
- * @param {Function} setAs
  * @return {XML[]}
  */
-const getTodos = (collection, filterBy, setAs) => {
+const getTodos = curry((dispatch, collection, filterBy) => {
 
     /**
      * @method byStatus
@@ -44,15 +43,16 @@ const getTodos = (collection, filterBy, setAs) => {
         return (
             <li key={model.id}>
                 <a className={model.status === DONE ? 'done' : ''}
-                   onClick={() => setAs(model, model.status === DONE ? PROGRESS : DONE)}>
+                   onClick={() => dispatch(setTodo(model.id, model.status === DONE ? PROGRESS : DONE))}>
                     {emojify(model.text)}
                 </a>
+                <a onClick={() => dispatch(removeTodo(model.id))}>Delete</a>
             </li>
         );
 
     });
 
-};
+});
 
 /**
  * @method render
@@ -60,20 +60,12 @@ const getTodos = (collection, filterBy, setAs) => {
  * @param {Function} dispatch
  * @return {XML}
  */
-const render = compose(shadow('css/components/list-todos.css'), ({ props, dispatch }) => {
-
-    /**
-     * @method setAs
-     * @param {Object} model
-     * @param {Symbol} status
-     * @return {void}
-     */
-    const setAs = (model, status) => dispatch(setTodo(model.id, status));
+const render = compose(shadow('css/components/list-todos.css'), custom, ({ props, dispatch }) => {
 
     return (
         <list-todos>
             <ul>
-                {getTodos(props.todos, props.params.status, setAs)}
+                {getTodos(dispatch)(props.todos, props.params.status)}
             </ul>
         </list-todos>
     )
