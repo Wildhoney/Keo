@@ -11,6 +11,9 @@
     "prepublish": "npm run build && mv dist/* .",
     "postpublish": "npm run clean"
   },
+  "engines": {
+    "node": "5.10.1"
+  },
   "main": "keo.js",
   "files": [
     "keo.js",
