@@ -96,7 +96,7 @@ export default class ShadowDOM extends Component {
          * @param {String} document
          * @return {Promise}
          */
-        const fetchStylesheet = document => fetch(document).then(response => response.text());
+        const fetchStylesheet = document => fetch(document).then(response => response.data);
 
         /**
          * @method insertStyleElement
@@ -114,6 +114,7 @@ export default class ShadowDOM extends Component {
         };
 
         Promise.all(documents.map(fetchStylesheet)).then(cssDocuments => {
+            console.log(cssDocuments);
             insertStyleElement(cssDocuments);
             this.setState({ resolving: false });
         });
