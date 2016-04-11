@@ -1,6 +1,6 @@
 {
   "name": "keo",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Plain functions for a more functional Deku approach to creating stateless React components, with functional goodies such as compose, memoize, etc... for free.",
   "scripts": {
     "test": "ava tests/*.test.js --tap | tap-nyan",
@@ -11,9 +11,9 @@
   "engines": {
     "node": "5.10.1"
   },
-  "main": "keo.js",
+  "main": "dist/keo.js",
   "files": [
-    "keo.js"
+    "dist/keo.js"
   ],
   "repository": {
     "type": "git",
