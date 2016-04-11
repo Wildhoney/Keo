@@ -1,6 +1,6 @@
 {
   "name": "keo",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Plain functions for a more functional Deku approach to creating stateless React components, with functional goodies such as compose, memoize, etc... for free.",
   "main": "dist/keo.js",
   "authors": [
