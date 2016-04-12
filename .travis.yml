@@ -5,7 +5,7 @@ node_js:
   - 5.9
   - 5.10
 
-before_deploy:
+after_deploy:
   - bower i
   - npm run build
 
