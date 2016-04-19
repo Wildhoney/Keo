@@ -7,7 +7,7 @@ import { dissoc } from 'ramda';
  * @class ShadowDOM
  * @extends Component
  */
-export default class ShadowDOM extends Component {
+class ShadowDOM extends Component {
 
     /**
      * @constant propTypes
@@ -114,7 +114,6 @@ export default class ShadowDOM extends Component {
         };
 
         Promise.all(documents.map(fetchStylesheet)).then(cssDocuments => {
-            console.log(cssDocuments);
             insertStyleElement(cssDocuments);
             this.setState({ resolving: false });
         });
@@ -143,3 +142,17 @@ export default class ShadowDOM extends Component {
     }
 
 }
+
+/**
+ * @param {Array|String} [cssDocuments = []]
+ * @return {Function}
+ */
+export default (cssDocuments = []) => {
+
+    /**
+     * @param {Object} component
+     * @return {XML}
+     */
+    return component => <ShadowDOM { ...{ cssDocuments, component }} />;
+
+};

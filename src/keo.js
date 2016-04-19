@@ -2,7 +2,8 @@ import React, { createClass } from 'react';
 import { compose, dissoc, isNil, complement, pick, curry, identity, pickBy, keys } from 'ramda';
 import WeakMap from 'es6-weak-map';
 import { connect } from 'react-redux';
-import ShadowDOM from './helpers/shadow-dom';
+export { default as shadow } from './mixins/shadow';
+export { default as custom } from './mixins/custom';
 
 // Will be used in the future for benchmarking purposes when in dev mode.
 // import Perf from 'react-addons-perf';
@@ -152,64 +153,11 @@ const propsModified = curry(function(propTypes, args) {
  * @return {Boolean}
  */
 const applyShouldUpdate = curry(function(definition, { args }) {
-    
+
     const { shouldComponentUpdate = () => true } = definition;
     return propsModified(definition.propTypes, args) && shouldComponentUpdate(args);
-    
+
 });
-
-/**
- * @method shadow
- * @param {Array|String} [cssDocuments = []]
- * @return {Function}
- */
-export const shadow = (cssDocuments = []) => {
-
-    /**
-     * @param {Object} component
-     * @return {XML}
-     */
-    return component => <ShadowDOM { ...{ cssDocuments, component }} />;
-
-};
-
-/**
- * @method custom
- * @param {Object} component
- * @return {Object}
- */
-export const custom = component => {
-
-    /**
-     * @method isValid
-     * @param {String} name
-     * @return {Boolean}
-     */
-    const isValid = name => /[a-z]\-[a-z]/i.test(name);
-
-    /**
-     * @method register
-     * @param {Object} childComponent
-     * @return {Object}
-     */
-    const register = childComponent => {
-
-        // Attempt to register the custom element if it's considered a valid tag.
-        const isRegistered = document.createElement(childComponent.type).constructor !== HTMLElement;
-        isValid(component.type) && !isRegistered && document.registerElement(component.type);
-
-        if (!childComponent.props.children || !Array.isArray(childComponent.props.children)) {
-            return component;
-        }
-
-        // Register each child of the current component.
-        childComponent.props.children.forEach(register);
-
-    };
-
-    return register(component);
-
-};
 
 /**
  * @method unwrap
