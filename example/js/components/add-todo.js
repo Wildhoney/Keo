@@ -41,7 +41,7 @@ const render = compose(shadow('css/components/add-todo.css'), ({ props, dispatch
             <form onSubmit={submitTodo}>
                 <input type="text" placeholder="What needs to be done?" value={props.form.text}
                        onChange={event => dispatch(setText(event.target.value))} />
-                <input type="submit" value="" className={props.form.text.length ? 'active' : ''} />
+                <input type="submit" value="&nbsp;" className={props.form.text.length ? 'active' : ''} />
             </form>
         </add-todo>
     )
