@@ -170,10 +170,12 @@ export const unwrap = smartComponent => {
 /**
  * @method stitch
  * @param {Object|Function} definition
- * @param {Object} [mapStateToProps]
+ * @param {Function} [mapStateToProps]
+ * @param {Object|Function} [mapDispatchToProps]
+ * @param {Function} [mergeProps]
  * @return {createClass}
  */
-export const stitch = ((definition, mapStateToProps) => {
+export const stitch = ((definition, mapStateToProps, mapDispatchToProps, mergeProps) => {
 
     // Create the component by removing forbidden or non-related functions and properties.
     const prepareComponent = compose(rejectProps(propertyBlacklist), ensureRenderMethod);
@@ -184,7 +186,9 @@ export const stitch = ((definition, mapStateToProps) => {
 
     // Determine whether or not to wrap in React Redux's `connect` and then construct
     // the React component from the prepared blueprint.
-    const reduxConnect = mapStateToProps ? connect : _ => x => x;
-    return reduxConnect(mapStateToProps)(createClass({ ...component, ...encompassMethods(component) }));
+    const reduxConnect = mapStateToProps || mapDispatchToProps || mergeProps ? connect : _ => x => x;
+    return reduxConnect(mapStateToProps, mapDispatchToProps, mergeProps)(
+        createClass({ ...component, ...encompassMethods(component) })
+    );
 
 });
