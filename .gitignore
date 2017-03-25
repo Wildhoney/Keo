@@ -14,9 +14,5 @@ example/vendor/*
 # ide
 .idea
 
-# publish
-keo.js
-redux.js
-
 # example
 example/js/build.js
