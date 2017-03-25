@@ -3,14 +3,20 @@ require('babel-loader');
 require('json-loader');
 
 module.exports = {
-    entry: {
-        keo: ['./src/keo.js']
-    },
+    entry: './src/keo.js',
     output: {
         path: __dirname + '/dist',
-        filename: '[name].js',
+        filename: 'keo.js',
 	    library: 'keo',
         libraryTarget: 'commonjs2'
+    },
+    externals: {
+        'axios': true,
+        'react-dom': true,
+        'ramda': true,
+        'react': true,
+        'redux': true,
+        'react-redux': true
     },
     module: {
         loaders: [
