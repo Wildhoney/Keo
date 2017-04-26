@@ -10,7 +10,7 @@
     "dev": "browserify example/js/default.js -o example/js/build.js -t [ babelify --presets [ es2015 react stage-0 ] ] && node-sass example/sass/default.scss example/css/default.css && node-sass example/sass/components/add-todo.scss example/css/components/add-todo.css && node-sass example/sass/components/list-todos.scss example/css/components/list-todos.css && node-sass example/sass/components/filter-todos.scss example/css/components/filter-todos.css"
   },
   "engines": {
-    "node": "5.10.1"
+    "node": ">=5.10.1"
   },
   "main": "dist/keo.js",
   "files": [
