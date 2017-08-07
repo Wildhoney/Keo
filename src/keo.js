@@ -1,5 +1,6 @@
-import React, { createClass } from 'react';
+import React from 'react';
 import { compose, dissoc, isNil, complement, pick, curry, identity, pickBy, keys } from 'ramda';
+import createReactClass from 'create-react-class';
 import WeakMap from 'es6-weak-map';
 import { connect } from 'react-redux';
 export { default as shadow } from './mixins/shadow';
@@ -173,7 +174,7 @@ export const unwrap = smartComponent => {
  * @param {Function} [mapStateToProps]
  * @param {Object|Function} [mapDispatchToProps]
  * @param {Function} [mergeProps]
- * @return {createClass}
+ * @return {createReactClass}
  */
 export const stitch = ((definition, mapStateToProps, mapDispatchToProps, mergeProps) => {
 
@@ -188,7 +189,7 @@ export const stitch = ((definition, mapStateToProps, mapDispatchToProps, mergePr
     // the React component from the prepared blueprint.
     const reduxConnect = mapStateToProps || mapDispatchToProps || mergeProps ? connect : _ => x => x;
     return reduxConnect(mapStateToProps, mapDispatchToProps, mergeProps)(
-        createClass({ ...component, ...encompassMethods(component) })
+        createReactClass({ ...component, ...encompassMethods(component) })
     );
 
 });
