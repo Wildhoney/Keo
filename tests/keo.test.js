@@ -1,4 +1,6 @@
-import React, { PropTypes, createElement } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 import test from 'ava';
 import configureStore from 'redux-mock-store';
 import { shallow, mount } from 'enzyme';
