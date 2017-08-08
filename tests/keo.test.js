@@ -1,11 +1,10 @@
-import React, { PropTypes, createElement } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import test from 'ava';
 import configureStore from 'redux-mock-store';
 import { shallow, mount } from 'enzyme';
 import { spy } from 'sinon';
-import { compose } from 'ramda';
 import isSymbol from 'is-symbol';
-import { createRenderer } from 'react-addons-test-utils';
 import { stitch, unwrap } from '../src/keo';
 
 const createPerson = () => {
